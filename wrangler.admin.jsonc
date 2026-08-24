@@ -1,20 +1,22 @@
 {
-  "name": "layover-cube",
+  "name": "layover-admin",
   "compatibility_date": "2025-01-01",
   "main": "worker.js",
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
     "run_worker_first": [
-      "/api/admin/*"
+      "/*"
     ]
   },
   "vars": {
     "GITHUB_OWNER": "progen-ai-kr",
     "GITHUB_REPO": "layover-cube",
-    "GITHUB_BRANCH": "main",
     "GITHUB_REPOS": "layover-cube,layover-weave",
-    "ADMIN_ENABLED": "false",
-    "ADMIN_URL": "https://layover-admin.progen-web.workers.dev/admin"
+    "GITHUB_BRANCH": "main",
+    "ADMIN_ENABLED": "true",
+    "ADMIN_STANDALONE": "true",
+    "ADMIN_URL": "https://layover-admin.progen-web.workers.dev/admin",
+    "PUBLIC_SITE_URL": "https://layover-cube.progen-web.workers.dev"
   }
 }
