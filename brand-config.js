@@ -3,4 +3,8 @@ window.BRAND_SITE = Object.freeze({
   name: "레이오버",
   adminUrl: "https://layover-admin.progen-web.workers.dev/admin",
   siteUrl: "https://layover-cube.progen-web.workers.dev",
+  sites: [
+    { team: "cube", url: "https://layover-cube.progen-web.workers.dev" },
+    { team: "위브", url: "https://layover-weave.progen-web.workers.dev" },
+  ],
 });
