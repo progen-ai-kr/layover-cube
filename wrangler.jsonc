@@ -5,11 +5,15 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/admin/*"]
+    "run_worker_first": [
+      "/api/admin/*"
+    ]
   },
   "vars": {
     "GITHUB_OWNER": "progen-ai-kr",
     "GITHUB_REPO": "layover-cube",
-    "GITHUB_BRANCH": "main"
+    "GITHUB_BRANCH": "main",
+    "GITHUB_REPOS": "layover-cube,layover-weave",
+    "ADMIN_ENABLED": "true"
   }
 }
