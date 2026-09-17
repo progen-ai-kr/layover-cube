@@ -1,65 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>문의 — 브랜드 이름</title>
-  <meta name="description" content="브랜드에 문의하는 방법을 안내합니다." />
-  <link rel="icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문의 — Layover</title><meta name="description" content="Layover 드레스 대여와 협업을 문의해 주세요." />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html">브랜드 소개</a>
-        <a href="products.html">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
-        <a href="contact.html" class="active">문의</a>
-      </nav>
-    </div>
-  </header>
-
-  <section class="page-head">
-    <h1>문의</h1>
-    <p>편한 방법으로 연락 주세요.</p>
-  </section>
-
-  <!-- [작성서 07: 연락 수단·운영 시간] 노출 원치 않는 항목은 블록째 지우세요 -->
-  <section class="section">
-    <div class="contact-list">
-      <div class="contact-item">
-        <p class="label">Instagram</p>
-        <p class="value"><a href="https://instagram.com/계정" target="_blank">@계정이름</a></p>
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
+  <header class="nav"><div class="nav-inner"><a href="index.html" class="logo" aria-label="Layover 홈"><img src="images/layover-logo.png" alt="Layover" /></a><button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button><nav class="nav-menu" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="about.html">레이오버 이야기</a><a href="products.html">드레스</a><a href="portfolio.html">룩북</a><a href="contact.html" class="active">문의</a></nav></div></header>
+  <main id="main">
+    <section class="contact-hero"><div class="contact-copy"><p class="eyebrow">LET'S MAKE A SCENE</p><h1>당신의 특별한 하루를<br />함께 준비해요.</h1><p>드레스 대여, 굿즈, 협업에 대한 이야기를 남겨주세요.<br />운영 시간 안에 차분히 확인하고 답변할게요.</p><a class="btn" href="mailto:eugenekseoul@gmail.com?subject=Layover%20문의">이메일로 문의하기 →</a></div><div class="contact-dress"><img src="images/layover-pink-front.jpg" alt="레이오버 핑크 드레스" /><span class="orbit one" aria-hidden="true">★</span><span class="orbit two" aria-hidden="true">♥</span></div></section>
+    <section class="section contact-section reveal">
+      <header class="section-heading"><div><p class="eyebrow">CONTACT DESK</p><h2>편한 방법으로<br />이야기해 주세요.</h2></div></header>
+      <div class="contact-list">
+        <a class="contact-item" href="mailto:eugenekseoul@gmail.com"><span class="contact-icon" aria-hidden="true">@</span><div><p class="label">EMAIL</p><p class="value">eugenekseoul@gmail.com</p></div><b aria-hidden="true">↗</b></a>
+        <a class="contact-item" href="https://www.instagram.com/eugene_k_seoul/" target="_blank" rel="noopener noreferrer"><span class="contact-icon" aria-hidden="true">♡</span><div><p class="label">INSTAGRAM</p><p class="value">@eugene_k_seoul</p></div><b aria-hidden="true">↗</b></a>
+        <div class="contact-item"><span class="contact-icon" aria-hidden="true">⌚</span><div><p class="label">OPENING HOURS</p><p class="value">평일 10:00–18:00</p></div></div>
+        <a class="contact-item" href="tel:07089842192"><span class="contact-icon" aria-hidden="true">☎</span><div><p class="label">PHONE</p><p class="value">070-8984-2192</p></div><b aria-hidden="true">↗</b></a>
       </div>
-      <div class="contact-item">
-        <p class="label">Email</p>
-        <p class="value"><a href="mailto:hello@brand.com">hello@brand.com</a></p>
-      </div>
-      <div class="contact-item">
-        <p class="label">KakaoTalk</p>
-        <p class="value"><a href="#" target="_blank">카카오채널 바로가기</a></p>
-      </div>
-      <div class="contact-item">
-        <p class="label">Hours</p>
-        <p class="value">평일 10:00 – 18:00</p>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
-  </footer>
-
+      <p class="contact-note">※ 운영 시간 외에 남겨주신 문의는 다음 영업일에 확인합니다.</p>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-inner"><div><img class="footer-logo" src="images/layover-logo.png" alt="Layover" /><p>일상과 로맨스 판타지 사이,<br />잠시 머무르는 귀여운 라운지.</p></div><p class="biz">상호 오늘바른 · 대표 이유현<br />사업자등록번호 365-70-00574<br />충남 금산군 추부면 태봉길 30 · 070-8984-2192</p><div class="footer-links"><a href="mailto:eugenekseoul@gmail.com">Email</a><a href="https://www.instagram.com/eugene_k_seoul/" target="_blank" rel="noopener noreferrer">Instagram</a><small>© LAYOVER. All rights reserved.</small></div></div></footer>
   <script src="script.js"></script>
 </body>
 </html>

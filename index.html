@@ -3,111 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- [작성서 01] 브랜드명으로 바꾸세요 -->
-  <title>브랜드 이름</title>
-  <!-- [작성서 02] 한 줄 소개 → 검색·공유 미리보기에 나오는 설명 -->
-  <meta name="description" content="브랜드 한 줄 소개를 여기에 적으세요." />
-
-  <!-- 카톡/인스타 공유 미리보기 (OG 태그) — 브랜드명·소개·대표이미지로 바꾸세요 -->
-  <meta property="og:title" content="브랜드 이름" />
-  <meta property="og:description" content="브랜드 한 줄 소개" />
+  <title>Layover — 잠시 머무르는 로맨스 판타지</title>
+  <meta name="description" content="일상과 로맨스 판타지 사이, 귀여운 것을 맘껏 자랑할 수 있는 드레스 라운지 Layover입니다." />
+  <meta property="og:title" content="Layover" />
+  <meta property="og:description" content="여기선 귀여운 거 맘껏 자랑해도 돼요." />
   <meta property="og:image" content="images/og.jpg" />
   <meta property="og:type" content="website" />
-
-  <!-- 탭 아이콘 (images/favicon.png 넣으면 표시됨) -->
-  <link rel="icon" href="images/favicon.png" />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- ===== 상단 메뉴 (5페이지 공통 — 수정하면 모든 페이지에 똑같이 반영하세요) ===== -->
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
-        <a href="index.html" class="active">홈</a>
-        <a href="about.html">브랜드 소개</a>
-        <a href="products.html">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
-        <a href="contact.html">문의</a>
+      <a href="index.html" class="logo" aria-label="Layover 홈"><img src="images/layover-logo.png" alt="Layover" /></a>
+      <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      <nav class="nav-menu" aria-label="주요 메뉴">
+        <a href="index.html" class="active">홈</a><a href="about.html">레이오버 이야기</a><a href="products.html">드레스</a><a href="portfolio.html">룩북</a><a href="contact.html">문의</a>
       </nav>
     </div>
   </header>
 
-  <!-- ===== 히어로 [작성서 04 홈: 메인 카피·서브 카피] ===== -->
-  <section class="hero">
-    <p class="eyebrow">BRAND KEYWORD · KEYWORD</p>
-    <h1>메인 카피 (20자 내)</h1>
-    <p>서브 카피 (40자 내) — 브랜드를 소개하는 짧은 문장을 적으세요.</p>
-    <a href="products.html" class="btn">컬렉션 보기</a>
-  </section>
-
-  <!-- ===== 강점 3가지 [작성서 04 홈: 강점3가지] ===== -->
-  <section class="section">
-    <p class="eyebrow">WHY US</p>
-    <h2>우리 브랜드의 강점</h2>
-    <div class="features">
-      <div class="feature">
-        <p class="num">01</p>
-        <h3>강점 제목</h3>
-        <p>강점 설명을 적으세요.</p>
+  <main id="main">
+    <section class="hero home-hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span>♥</span> WELCOME TO LAYOVER</p>
+        <h1>여기선 귀여운 거<br /><em>맘껏 자랑해도 돼요</em></h1>
+        <p class="hero-lead">일상과 로맨스 판타지 사이, 잠시 여행하듯 머물다 가는 포근한 드레스 라운지.</p>
+        <div class="hero-actions"><a href="products.html" class="btn">드레스 보기 <span aria-hidden="true">→</span></a><a href="about.html" class="text-link">레이오버 이야기</a></div>
+        <ul class="mini-tags" aria-label="브랜드 키워드"><li>Romantic</li><li>Kawaii</li><li>Safe Lounge</li></ul>
       </div>
-      <div class="feature">
-        <p class="num">02</p>
-        <h3>강점 제목</h3>
-        <p>강점 설명을 적으세요.</p>
+      <div class="hero-visual">
+        <div class="hero-photo-frame"><img src="images/layover-hero-generated.webp" alt="파스텔 드레스와 리본, 여행 트렁크가 있는 레이오버 라운지" /></div>
+        <div class="floating-card boarding-card" aria-hidden="true"><span>NOW BOARDING</span><strong>ROMANCE</strong><small>Gate 08 · Layover</small></div>
+        <div class="floating-sticker sticker-heart" aria-hidden="true">♥</div><div class="floating-sticker sticker-star" aria-hidden="true">✦</div>
       </div>
-      <div class="feature">
-        <p class="num">03</p>
-        <h3>강점 제목</h3>
-        <p>강점 설명을 적으세요.</p>
+    </section>
+
+    <section class="ticker" aria-label="레이오버 메시지"><div>PLAY DRESS UP <span>♡</span> SHARE YOUR LOVE <span>♡</span> STAY A LITTLE LONGER <span>♡</span> LAYOVER</div></section>
+
+    <section class="section intro-split reveal">
+      <div><p class="eyebrow">A LITTLE ESCAPE</p><h2>평소에는 망설였던 우리를 위한<br />짧고 선명한 여행</h2></div>
+      <div class="intro-copy"><p>레이오버는 다음 목적지로 가기 전, 잠시 멈추어 오늘의 나를 더 사랑하는 시간을 만듭니다. 귀여운 옷을 입고, 소중한 취향을 자랑하고, 안전하게 호들갑을 떨어도 괜찮은 곳.</p><a class="text-link" href="about.html">브랜드 스토리 읽기 →</a></div>
+    </section>
+
+    <section class="section mood-section reveal">
+      <header class="section-heading"><div><p class="eyebrow">TODAY'S MOOD</p><h2>오늘은 어떤 로맨스에<br />머물고 싶나요?</h2></div><a class="btn small ghost" href="products.html">전체 드레스</a></header>
+      <div class="mood-grid">
+        <figure class="mood-card pink"><img src="images/layover-pink-front.jpg" alt="핑크 프릴 드레스" /><figcaption><span>01</span><strong>Pink Daydream</strong><small>오늘의 주인공을 위한 핑크</small></figcaption></figure>
+        <figure class="mood-card lavender"><img src="images/layover-lavender.jpg" alt="라벤더 레이스 드레스" /><figcaption><span>02</span><strong>Lavender Wish</strong><small>별빛처럼 은은한 보라</small></figcaption></figure>
+        <figure class="mood-card yellow"><img src="images/layover-yellow.png" alt="옐로 프릴 드레스" /><figcaption><span>03</span><strong>Sunny Picnic</strong><small>햇살과 함께하는 노란 하루</small></figcaption></figure>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== 대표 제품 미리보기 — products.json에서 자동으로 채워짐 ===== -->
-  <section class="section">
-    <p class="eyebrow">COLLECTION</p>
-    <h2>대표 룩</h2>
-    <div class="grid" id="home-looks"></div>
-  </section>
+    <section class="section value-section reveal">
+      <header class="section-heading centered"><p class="eyebrow">WHY LAYOVER</p><h2>특별한 하루를 위한<br />레이오버의 세 가지 약속</h2></header>
+      <div class="features">
+        <article class="feature"><span class="feature-icon" aria-hidden="true">★</span><p class="num">PROMISE 01</p><h3>특별한 날의 선물</h3><p>일상을 잠시 벗어나 오늘을 오래 기억하게 하는 옷을 제안해요.</p></article>
+        <article class="feature"><span class="feature-icon" aria-hidden="true">♡</span><p class="num">PROMISE 02</p><h3>기분 좋은 소재</h3><p>보기에도, 입었을 때도 설레는 고급스러운 소재를 세심하게 고릅니다.</p></article>
+        <article class="feature"><span class="feature-icon" aria-hidden="true">✦</span><p class="num">PROMISE 03</p><h3>손끝의 디테일</h3><p>프릴과 리본, 레이스 하나까지 숙련된 손길로 정성을 더합니다.</p></article>
+      </div>
+    </section>
 
-  <!-- ===== 푸터 (5페이지 공통) [작성서 01: 푸터 표기 정보] ===== -->
+    <section class="section lounge-banner reveal">
+      <div><p class="eyebrow">COME AS YOU ARE</p><h2>당신의 귀여움을<br />더 크게 자랑해요</h2><p>드레스 대여부터 굿즈까지, 레이오버에서 다음 장면을 준비해보세요.</p><a class="btn" href="contact.html">우리의 레이오버 준비하기</a></div>
+      <img src="images/layover-pink-back.jpg" alt="뒷모습에도 디테일이 돋보이는 핑크 드레스" />
+    </section>
+  </main>
+
   <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
+    <div class="footer-inner">
+      <div><img class="footer-logo" src="images/layover-logo.png" alt="Layover" /><p>일상과 로맨스 판타지 사이,<br />잠시 머무르는 귀여운 라운지.</p></div>
+      <p class="biz">상호 오늘바른 · 대표 이유현<br />사업자등록번호 365-70-00574<br />충남 금산군 추부면 태봉길 30 · 070-8984-2192</p>
+      <div class="footer-links"><a href="mailto:eugenekseoul@gmail.com">Email</a><a href="https://www.instagram.com/eugene_k_seoul/" target="_blank" rel="noopener noreferrer">Instagram</a><small>© LAYOVER. All rights reserved.</small></div>
+    </div>
   </footer>
-
   <script src="script.js"></script>
-  <script src="catalog.js?v=20260826-rich-editor-1"></script>
-  <script>
-    // 공개 제품 중 '홈 대표 제품'을 최대 4개 보여줍니다.
-    ProductCatalog.loadVisibleProducts()
-      .then((products) => {
-        const featured = products.filter((product) => product.featured);
-        const homeProducts = (featured.length ? featured : products).slice(0, 4);
-        document.getElementById("home-looks").innerHTML = homeProducts
-          .map((p) => {
-            const image = ProductCatalog.safeImageUrl(p.images && p.images[0]);
-            const img = image
-              ? '<img src="' + ProductCatalog.escapeHtml(image) + '" alt="' + ProductCatalog.escapeHtml(p.name) + '" onerror="this.remove()" />'
-              : "";
-            return (
-              '<a class="card" href="product.html?id=' + encodeURIComponent(p.id) + '">' +
-              '<div class="card-img">' + img + "</div>" +
-              '<p class="k">' + ProductCatalog.escapeHtml(p.label || p.category || "") + "</p>" +
-              "<h3>" + ProductCatalog.escapeHtml(p.name) + "</h3></a>"
-            );
-          })
-          .join("");
-      })
-      .catch(() => {});
-  </script>
 </body>
 </html>

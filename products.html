@@ -1,82 +1,34 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>제품 — 브랜드 이름</title>
-  <meta name="description" content="브랜드의 제품(컬렉션)을 소개합니다." />
-  <link rel="icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>드레스 — Layover</title><meta name="description" content="Layover의 드레스 대여와 굿즈 컬렉션을 만나보세요." />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html">브랜드 소개</a>
-        <a href="products.html" class="active">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
-        <a href="contact.html">문의</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- [작성서 05: 취급 품목] -->
-  <section class="page-head">
-    <h1>제품</h1>
-    <p>취급 품목을 여기에 적으세요. (예: Dress / Jacket / Shirt / Skirt)</p>
-  </section>
-
-  <!-- ===== 제품 목록 =====
-       ★ 제품은 여기 HTML이 아니라 products.json 파일에서 관리합니다.
-       products.json에 제품을 추가하면 이 목록과 상세 페이지에 자동으로 나타납니다. -->
-  <section class="section">
-    <div class="grid" id="product-list">
-      <!-- products.json 내용이 자동으로 채워집니다 -->
-    </div>
-  </section>
-
-  <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
-  <script src="catalog.js?v=20260826-rich-editor-1"></script>
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
+  <header class="nav"><div class="nav-inner"><a href="index.html" class="logo" aria-label="Layover 홈"><img src="images/layover-logo.png" alt="Layover" /></a><button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button><nav class="nav-menu" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="about.html">레이오버 이야기</a><a href="products.html" class="active">드레스</a><a href="portfolio.html">룩북</a><a href="contact.html">문의</a></nav></div></header>
+  <main id="main">
+    <section class="page-head products-head"><div><p class="eyebrow">THE DRESS LOUNGE</p><h1>입는 순간,<br />오늘이 이야기가 되는 드레스.</h1><p>드레스 대여 · 굿즈 판매</p></div><div class="dress-fan"><img src="images/layover-pink-front.jpg" alt="핑크 드레스" /><img src="images/layover-lavender.jpg" alt="라벤더 드레스" /></div></section>
+    <section class="collection-note"><span aria-hidden="true">♡</span><p>레이오버의 온라인 클로젯입니다. 제품을 누르면 자세한 소개와 문의 방법을 확인할 수 있어요.</p><span aria-hidden="true">♡</span></section>
+    <section class="section product-list-section">
+      <header class="section-heading"><div><p class="eyebrow">ONLINE CLOSET</p><h2>오늘의 옷장</h2></div><p class="section-aside">좋아하는 컬러와 디테일로<br />당신만의 장면을 만들어보세요.</p></header>
+      <div class="grid" id="product-list" aria-live="polite"><p class="portfolio-status">드레스를 불러오는 중입니다.</p></div>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-inner"><div><img class="footer-logo" src="images/layover-logo.png" alt="Layover" /><p>일상과 로맨스 판타지 사이,<br />잠시 머무르는 귀여운 라운지.</p></div><p class="biz">상호 오늘바른 · 대표 이유현<br />사업자등록번호 365-70-00574<br />충남 금산군 추부면 태봉길 30 · 070-8984-2192</p><div class="footer-links"><a href="mailto:eugenekseoul@gmail.com">Email</a><a href="https://www.instagram.com/eugene_k_seoul/" target="_blank" rel="noopener noreferrer">Instagram</a><small>© LAYOVER. All rights reserved.</small></div></div></footer>
+  <script src="script.js"></script><script src="catalog.js?v=20260826-rich-editor-1"></script>
   <script>
-    // 공개된 products.json 제품을 카드로 그립니다. 학생은 CSS로 자유롭게 디자인할 수 있습니다.
-    ProductCatalog.loadVisibleProducts()
-      .then((products) => {
-        const box = document.getElementById("product-list");
-        box.innerHTML = products
-          .map((p) => {
-            const image = ProductCatalog.safeImageUrl(p.images && p.images[0]);
-            const img = image
-              ? '<img src="' + ProductCatalog.escapeHtml(image) + '" alt="' + ProductCatalog.escapeHtml(p.name) + '" onerror="this.remove()" />'
-              : "";
-            const price = p.price ? '<p class="price">' + ProductCatalog.escapeHtml(p.price) + "</p>" : "";
-            return (
-              '<a class="card" href="product.html?id=' + encodeURIComponent(p.id) + '">' +
-              '<div class="card-img">' + img + "</div>" +
-              '<p class="k">' + ProductCatalog.escapeHtml(p.label || p.category || "") + "</p>" +
-              "<h3>" + ProductCatalog.escapeHtml(p.name) + "</h3>" +
-              "<p>" + ProductCatalog.escapeHtml(p.summary || "") + "</p>" + price +
-              "</a>"
-            );
-          })
-          .join("");
-      })
-      .catch(() => {
-        document.getElementById("product-list").innerHTML =
-          "<p>제품을 불러오지 못했습니다. 로컬에서는 npx serve 로 미리보기 하세요.</p>";
-      });
+    ProductCatalog.loadVisibleProducts().then((products) => {
+      const box = document.getElementById("product-list");
+      if (!products.length) { box.innerHTML = '<p class="portfolio-status">아직 공개된 드레스가 없어요. 곧 만나요!</p>'; return; }
+      box.innerHTML = products.map((p) => {
+        const image = ProductCatalog.safeImageUrl(p.images && p.images[0]);
+        const img = image ? '<img src="' + ProductCatalog.escapeHtml(image) + '" alt="' + ProductCatalog.escapeHtml(p.name) + '" loading="lazy" onerror="this.remove()" />' : '';
+        const price = p.price ? '<p class="price">' + ProductCatalog.escapeHtml(p.price) + '</p>' : '';
+        return '<a class="card" href="product.html?id=' + encodeURIComponent(p.id) + '"><div class="card-img">' + img + '</div><p class="k">' + ProductCatalog.escapeHtml(p.label || p.category || '') + '</p><h3>' + ProductCatalog.escapeHtml(p.name) + '</h3><p>' + ProductCatalog.escapeHtml(p.summary || '') + '</p>' + price + '</a>';
+      }).join('');
+    }).catch(() => { document.getElementById("product-list").innerHTML = '<p class="portfolio-status">드레스를 불러오지 못했어요. 잠시 후 다시 확인해 주세요.</p>'; });
   </script>
 </body>
 </html>
