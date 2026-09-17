@@ -938,6 +938,17 @@ body {
   background-size: 24px 24px;
   box-shadow: none;
 }
+.footer-logo {
+  display: block;
+  width: 188px;
+  height: auto;
+  margin-bottom: 16px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-strong);
+  box-shadow: 0 5px 14px color-mix(in srgb, var(--ink) 7%, transparent);
+}
 
 @media (min-width: 720px) {
   .nav-menu a { color: var(--ink); text-shadow: none; }
