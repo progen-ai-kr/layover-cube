@@ -44,7 +44,8 @@
         "M–4XL"
       ],
       "images": [
-        "images/products/look-02/1787721875951-30515286.webp"
+        "images/products/look-02/1789635309072-d53d51fd.jpg",
+        "images/products/look-02/1789635314790-dad8b74b.png"
       ],
       "buyLabel": "구매하기",
       "buyLink": "",
@@ -52,7 +53,7 @@
       "sections": [
         {
           "type": "rich_text",
-          "body": "<p><img src=\"images/products/look-02/1787721878184-c17aee33.png\" alt=\"J nd O 브랜드 소개\"></p><p><img src=\"images/products/look-02/1787721879918-f9597545.jpg\" alt=\"남성 트임넥 니트 원단 디테일\"></p><p><img src=\"images/products/look-02/1787721881841-68833463.jpg\" alt=\"남성 트임넥 니트 컬러 구성\"></p><p><img src=\"images/products/look-02/1787721883940-f8521541.png\" alt=\"남성 트임넥 니트 사이즈 표\"></p><p><img src=\"images/products/look-02/1787721885287-19652e08.png\" alt=\"남성 트임넥 니트 측정 안내\"></p>"
+          "body": "<p><img src=\"images/products/look-02/1787721878184-c17aee33.png\" alt=\"J nd O 브랜드 소개\"><br></p><p><img src=\"images/products/look-02/1787721879918-f9597545.jpg\" alt=\"남성 트임넥 니트 원단 디테일\"><br></p><p><img src=\"images/products/look-02/1787721881841-68833463.jpg\" alt=\"남성 트임넥 니트 컬러 구성\"><br></p><p><img src=\"images/products/look-02/1787721883940-f8521541.png\" alt=\"남성 트임넥 니트 사이즈 표\"><br></p><p><img src=\"images/products/look-02/1787721885287-19652e08.png\" alt=\"남성 트임넥 니트 측정 안내\"><br></p>"
         }
       ]
     },
