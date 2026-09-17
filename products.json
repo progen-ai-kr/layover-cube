@@ -72,7 +72,7 @@
         "크롭 기장"
       ],
       "images": [
-        "images/products/look-03/1787721886985-b456d1fb.webp"
+        "images/products/look-03/1789635337079-488bca72.jpg"
       ],
       "buyLabel": "구매하기",
       "buyLink": "",
@@ -80,7 +80,7 @@
       "sections": [
         {
           "type": "rich_text",
-          "body": "<p><img src=\"images/products/look-03/1787721889907-d94e9719.jpg\" alt=\"Peilit 브랜드와 배송 안내\"></p><p><img src=\"images/products/look-03/1787721892506-4210ede3.jpg\" alt=\"린넨 크롭 반팔 자켓 상품 설명과 디테일\"></p><p><img src=\"images/products/look-03/1787721896090-1f05ca9b.jpg\" alt=\"연베이지 린넨 크롭 반팔 자켓 착용 이미지\"></p><p><img src=\"images/products/look-03/1787721899623-cb77fedc.jpg\" alt=\"블랙 린넨 크롭 반팔 자켓 착용 이미지\"></p><p><img src=\"images/products/look-03/1787721902234-b79d7bbf.jpg\" alt=\"린넨 크롭 반팔 자켓 상품과 사이즈 정보\"></p>"
+          "body": "<p><img src=\"images/products/look-03/1787721889907-d94e9719.jpg\" alt=\"Peilit 브랜드와 배송 안내\"><br></p><p><img src=\"images/products/look-03/1787721892506-4210ede3.jpg\" alt=\"린넨 크롭 반팔 자켓 상품 설명과 디테일\"><br></p><p><img src=\"images/products/look-03/1787721896090-1f05ca9b.jpg\" alt=\"연베이지 린넨 크롭 반팔 자켓 착용 이미지\"><br></p><p><img src=\"images/products/look-03/1787721899623-cb77fedc.jpg\" alt=\"블랙 린넨 크롭 반팔 자켓 착용 이미지\"><br></p><p><img src=\"images/products/look-03/1787721902234-b79d7bbf.jpg\" alt=\"린넨 크롭 반팔 자켓 상품과 사이즈 정보\"><br></p>"
         }
       ]
     }
