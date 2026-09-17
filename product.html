@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>제품 상세 — 브랜드 이름</title>
-  <meta name="description" content="제품 상세 정보" />
-  <link rel="icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="style.css?v=20260826-buy-popup-2" />
+  <title>드레스 상세 — Layover</title>
+  <meta name="description" content="Layover 드레스 상세 정보" />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css?v=20260917-layover-1" />
   <link rel="stylesheet" href="rich-content.css?v=20260826-rich-editor-1" />
 </head>
 <body>
 
   <header class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
+      <a href="index.html" class="logo" aria-label="Layover 홈"><img src="images/layover-logo.png" alt="Layover" /></a>
+      <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      <nav class="nav-menu" aria-label="주요 메뉴">
         <a href="index.html">홈</a>
-        <a href="about.html">브랜드 소개</a>
-        <a href="products.html" class="active">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
+        <a href="about.html">레이오버 이야기</a>
+        <a href="products.html" class="active">드레스</a>
+        <a href="portfolio.html">룩북</a>
         <a href="contact.html">문의</a>
       </nav>
     </div>
@@ -54,12 +54,11 @@
   </section>
 
   <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
+    <div class="footer-inner">
+      <div><img class="footer-logo" src="images/layover-logo.png" alt="Layover" /><p>일상과 로맨스 판타지 사이,<br />잠시 머무르는 귀여운 라운지.</p></div>
+      <p class="biz">상호 오늘바른 · 대표 이유현<br />사업자등록번호 365-70-00574<br />충남 금산군 추부면 태봉길 30 · 070-8984-2192</p>
+      <div class="footer-links"><a href="mailto:eugenekseoul@gmail.com">Email</a><a href="https://www.instagram.com/eugene_k_seoul/" target="_blank" rel="noopener noreferrer">Instagram</a><small>© LAYOVER. All rights reserved.</small></div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
@@ -222,7 +221,7 @@
         const product = products.find((item) => item.id === productId);
         if (!product) throw new Error("제품을 찾을 수 없습니다.");
 
-        document.title = product.name + " — 제품 상세";
+        document.title = product.name + " — Layover";
         const descriptionMeta = document.querySelector('meta[name="description"]');
         if (descriptionMeta) descriptionMeta.content = product.summary || product.name;
 

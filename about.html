@@ -1,83 +1,45 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>브랜드 소개 — 브랜드 이름</title>
-  <meta name="description" content="브랜드 스토리와 철학을 소개합니다." />
-  <link rel="icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>레이오버 이야기 — Layover</title>
+  <meta name="description" content="잠시 머무르는 여행에서 시작된 레이오버의 이야기를 소개합니다." />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
+  <header class="nav"><div class="nav-inner"><a href="index.html" class="logo" aria-label="Layover 홈"><img src="images/layover-logo.png" alt="Layover" /></a><button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button><nav class="nav-menu" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="about.html" class="active">레이오버 이야기</a><a href="products.html">드레스</a><a href="portfolio.html">룩북</a><a href="contact.html">문의</a></nav></div></header>
 
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="logo">BRAND</a>
-      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
-      <nav class="nav-menu">
-        <a href="index.html">홈</a>
-        <a href="about.html" class="active">브랜드 소개</a>
-        <a href="products.html">제품</a>
-        <a href="portfolio.html">포트폴리오</a>
-        <a href="contact.html">문의</a>
-      </nav>
-    </div>
-  </header>
+  <main id="main">
+    <section class="page-head about-head">
+      <div><p class="eyebrow">OUR LITTLE JOURNEY</p><h1>우리는 잠시 멈춘 곳에서<br />더 선명한 취향을 만나요.</h1><p>일상과 로맨스 판타지 사이, 안전하게 쉬어가는 포근한 클로젯.</p></div>
+      <img src="images/layover-pink-front.jpg" alt="레이오버 핑크 프릴 드레스" />
+    </section>
+    <div class="cloud-divider" aria-hidden="true"></div>
 
-  <!-- [작성서 02: 한 줄 소개] -->
-  <section class="page-head">
-    <h1>브랜드 소개</h1>
-    <p>브랜드 한 줄 소개를 여기에 적으세요.</p>
-  </section>
+    <section class="section story-layout reveal">
+      <div class="story-media"><img src="images/layover-craft-generated.webp" alt="레이스 드레스에 핑크 리본을 달고 있는 장인의 손" /><div class="story-stamp"><span>HONG KONG</span><strong>→</strong><span>CANADA</span><small>THE FIRST LAYOVER</small></div></div>
+      <div class="story-copy"><p class="eyebrow">THE BEGINNING</p><h2>여행의 중간에서<br />발견한 여유</h2><p>난생처음 캐나다로 향하던 날, 홍콩을 거쳐가는 레이오버 여정이 있었습니다. 예전에 가봤던 도시였지만 레이오버로 들르니 전혀 다르게 다가왔죠.</p><p>짧은 시간 안에 어디를 갈지 비행기에서 계획하고, 다음 목적지에 닿기 전에 무엇을 할지 궁리했습니다. 숙박비를 아낀 만큼 더 맛있는 것을 먹고, 평소라면 망설였을 체험에도 선뜻 도전했습니다.</p><p>짧지만 오히려 더 밀도 있던 그 여행의 기억이 레이오버의 시작이 되었습니다.</p></div>
+    </section>
 
-  <!-- [작성서 02: 브랜드 스토리] 문단째 붙여넣으면 됩니다 -->
-  <section class="section">
-    <p class="eyebrow">OUR STORY</p>
-    <h2>브랜드 스토리</h2>
-    <p class="lead">
-      브랜드 스토리를 여기에 붙여넣으세요. 문단이 여러 개면
-      &lt;p&gt; 태그를 복사해서 나눠 넣으면 됩니다.
-    </p>
-    <p class="lead" style="margin-top:14px;">
-      두 번째 문단 예시입니다.
-    </p>
-  </section>
+    <section class="section philosophy reveal"><p class="eyebrow">OUR PHILOSOPHY</p><blockquote>“여행이 평소에 못 하던 것을 하게 해주듯,<br />레이오버는 자기다움을 더 크게 꺼내는 곳이고 싶어요.”</blockquote></section>
 
-  <!-- [작성서 02: 브랜드 키워드] -->
-  <section class="section">
-    <p class="eyebrow">KEYWORDS</p>
-    <h2>브랜드 키워드</h2>
-    <div class="tags">
-      <span>키워드1</span><span>키워드2</span><span>키워드3</span><span>키워드4</span><span>키워드5</span>
-    </div>
-  </section>
+    <section class="section audience-section reveal">
+      <header class="section-heading"><div><p class="eyebrow">FOR OUR TRAVELERS</p><h2>레이오버에서<br />만나고 싶은 사람들</h2></div></header>
+      <div class="audience-grid">
+        <article><span>01</span><h3>컬러로 나를 표현하는 사람</h3><p>하라주쿠 카와이·로리타 문화와 아이돌 ‘멤버 컬러’를 즐기는 10대 후반부터 20대까지.</p></article>
+        <article><span>02</span><h3>취향을 함께 나누는 사람</h3><p>인스타그램 릴스와 유튜브 숏폼으로 패션을 만나고, 좋아하는 것을 맘껏 자랑하고 싶은 사람.</p></article>
+        <article><span>03</span><h3>또 다른 나를 꾸미는 사람</h3><p>로리타·서브컬처 패션, 아바타 꾸미기와 역할놀이를 즐기는 사람.</p></article>
+      </div>
+    </section>
 
-  <!-- [작성서 02: 브랜드 철학] -->
-  <section class="section">
-    <p class="eyebrow">PHILOSOPHY</p>
-    <h2>브랜드 철학</h2>
-    <p class="lead">브랜드 철학 문구를 여기에 적으세요.</p>
-  </section>
+    <section class="section color-closet reveal">
+      <div class="closet-copy"><p class="eyebrow">COLOR CLOSET</p><h2>오늘의 기분을<br />컬러로 골라봐요.</h2><div class="tags"><span>MAIN PINK</span><span>LAVENDER</span><span>SKY BLUE</span><span>SUNNY YELLOW</span></div></div>
+      <div class="closet-gallery"><img src="images/layover-pink-front.jpg" alt="핑크 드레스" /><img src="images/layover-lavender.jpg" alt="라벤더 드레스" /><img src="images/layover-yellow.png" alt="옐로 드레스" /></div>
+    </section>
+  </main>
 
-  <!-- [작성서 02: 사람·공간 사진] 대표·작업실·작업 과정 컷 -->
-  <section class="section">
-    <p class="eyebrow">PEOPLE & SPACE</p>
-    <h2>만드는 사람들</h2>
-    <div class="grid">
-      <div class="card"><div class="card-img"></div><p>사진 설명</p></div>
-      <div class="card"><div class="card-img"></div><p>사진 설명</p></div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <p class="logo">BRAND</p>
-    <p class="biz">
-      상호: ○○○ · 대표자: ○○○<br />
-      사업자등록번호: 000-00-00000 · 주소: ○○○
-    </p>
-    <p>© 브랜드 이름. All rights reserved.</p>
-  </footer>
-
+  <footer class="footer"><div class="footer-inner"><div><img class="footer-logo" src="images/layover-logo.png" alt="Layover" /><p>일상과 로맨스 판타지 사이,<br />잠시 머무르는 귀여운 라운지.</p></div><p class="biz">상호 오늘바른 · 대표 이유현<br />사업자등록번호 365-70-00574<br />충남 금산군 추부면 태봉길 30 · 070-8984-2192</p><div class="footer-links"><a href="mailto:eugenekseoul@gmail.com">Email</a><a href="https://www.instagram.com/eugene_k_seoul/" target="_blank" rel="noopener noreferrer">Instagram</a><small>© LAYOVER. All rights reserved.</small></div></div></footer>
   <script src="script.js"></script>
 </body>
 </html>
