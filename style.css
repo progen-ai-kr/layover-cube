@@ -1,8 +1,29 @@
 /* ==========================================================
-   LAYOVER 디자인 토큰
+   LUMINO 디자인 토큰
    브랜드 컬러와 폰트는 이 영역에서 한 번에 관리합니다.
    ========================================================== */
 :root {
+  --pink: #F8DCE5;
+  --rose: #D95F8D;
+  --cream: #FFF9F5;
+  --burgundy: #913D57;
+  --gold: #D9B77A;
+  --blue: #C8DDF4;
+  --logo-rose: #B92F5D;
+  --deep-ink: #57283A;
+  --muted-rose: #815563;
+  --blue-ink: #5879B1;
+  --gold-ink: #947139;
+  --rose-line: #E8BDCC;
+  --pink-paper: #F8E8EB;
+  --paper: #FFF9EF;
+  --muted-stamp: #9C8A8D;
+  --cream-glow: #fff9f5bd;
+  --shadow-tint: #913d571c;
+  --modal-shadow: #39182280;
+  --tape: #d9b77a59;
+  --font-serif: 'Lumino Serif', 'Baskerville', 'Times New Roman', serif;
+  --font-script: 'Lumino Script', 'Brush Script MT', cursive;
   --bg: #fff3f6;
   --surface: #fff9fa;
   --surface-strong: #ffffff;

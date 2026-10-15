@@ -1,6 +1,6 @@
-# 레이오버 웹사이트 — cube팀
+# 루미노 웹사이트 — cube팀
 
-이 저장소는 **레이오버** 브랜드 웹사이트를 만드는 **cube팀** 작업 공간입니다.
+이 저장소는 **루미노** 브랜드 웹사이트를 만드는 **cube팀** 작업 공간입니다.
 
 배포 주소: https://layover-cube.progen-web.workers.dev
 
@@ -63,3 +63,6 @@
 - 제품을 저장하면 같은 브랜드의 연결된 팀 저장소에 기록되고 자동 배포 후 모든 시안에 함께 반영됩니다.
 - 상단 **포트폴리오** 탭에서 블로그 글처럼 한 페이지를 작성할 수 있고, 저장하면 연결된 모든 시안에 함께 반영됩니다.
 - 학생은 `admin.html`, `admin.css`, `admin.js`, `admin-config.json`, `brand-config.js`, `worker.js`, `products.json`, `portfolio.json`, `portfolio.js`, `wrangler.jsonc`, `wrangler.admin.jsonc`를 수정하지 않습니다.
+
+
+LUMINO 리뉴얼 기능·콘텐츠 교체·DB 없는 저장 방식·검사 결과는 [LUMINO 구현 안내](LUMINO_README.md)를 참고하세요.
