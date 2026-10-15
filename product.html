@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="lumino.css">
 </head>
 <body class="lumino-site legacy-page">
+  <a class="skip-link" href="#product-detail">본문으로 바로가기</a>
 
   <header class="lumino-header" data-shared-header></header>
 
@@ -245,12 +246,16 @@
               price +
               (tags ? '<div class="tags">' + tags + "</div>" : "") +
               buyButton +
+              '<button type="button" class="l-btn product-favorite" data-action="favorite-product" data-product-id="' + esc(product.id) + '" aria-pressed="false">♡ MY FAVORITE</button>' +
+              '<p class="product-mission-note">마음에 담으면 ROMANCE 스탬프를 받고 여행 카드에 이 상품이 담겨요.</p>' +
+              '<a class="quiet-link" href="contact.html">상품 · 대여 문의하기 ↗</a>' +
             "</div>" +
           "</section>" +
           (sections ? '<div class="product-story">' + sections + "</div>" : "");
 
         setupProductCarousels();
         setupPurchaseDialog(product);
+        document.dispatchEvent(new CustomEvent("lumino:product-ready"));
       })
       .catch(() => {
         document.getElementById("product-detail").innerHTML =

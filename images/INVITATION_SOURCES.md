@@ -1,0 +1,22 @@
+## 초대장 오프닝 재작업 · 2026-10-15
+
+내장 `image_gen` 도구를 사용했습니다. 사용자가 제공한 초대장 참고 이미지의 소재·구도를 참고해 생성했습니다. 이미지에는 글자나 UI를 넣지 않았으며, 로고·문구·버튼은 실제 HTML입니다. 원본 PNG를 WebP로 포맷 변환해 사용하며 세 장을 합쳐 약 940 KB입니다.
+
+### images/lumino-invitation-closed.webp
+
+Use case: product-mockup. Asset type: photographic background for a working LUMINO website invitation opening, square 1536 x 1536.
+Input image is a visual style/composition reference only: recreate the exquisite pink invitation in the FIRST PANEL, not the screenshot or infographic.
+Create a single full-frame luxury romantic stationery still-life, exquisitely photorealistic. An upright blush-pink textured envelope centered, straight-on camera, surrounded by abundant soft pink roses, tiny blossoms, pearls, blush satin drapery, and warm sparkling chandelier bokeh. Close framing: envelope occupies x=19%..81%, y=14%..85%. Envelope front faces camera flat, horizontal top and bottom, so HTML text can later be overlaid. Large sumptuous glossy pink silk satin bow tied horizontally across the center, flowing ribbon tails, a real rose-pink wax seal with fine gold crown embossing at its knot. Reference level of tactile embroidered paper, creased silk, rich highlights, beautiful soft shadows, dreamy soft luxury, warm rose-pink and cream palette.
+Upper triangular envelope flap: leave a large clean pink blank surface ABOVE the bow (roughly x35..65%, y21..35%) for a real HTML logo later. Lower portion: an ornate ivory stationery panel partially revealed underneath the ribbon, with delicate embossed champagne-pink floral border, flat front facing camera, clean BLANK center roughly x29..71%, y62..81% for HTML invitation text and real button.
+NO text, NO letters, NO logos, NO typography, NO buttons, NO UI, NO collage/panels, NO screenshot borders. Crown on wax seal is the only emblem. Make a beautiful believable photo, not an illustration or flat vector. Keep generous scene surroundings outside the envelope for responsive cropping.
+
+### images/lumino-invitation-untied.webp
+
+Use case: precise-object-edit. Asset type: middle animation frame for website invitation opening.
+Input 1 is the edit target: closed invitation photo. Input 2 shows the eventual open state for continuity only.
+Keep EXACT camera, envelope location, roses, pearls, table, background and warm pink photographic lighting from Input 1. This is the moment the bow comes undone BEFORE the envelope opens: upper pink triangular flap remains closed in same location, lower small ivory decorated address panel remains in its original position, no tall card yet. ONLY change the large satin bow: its knot has loosened and two large satin loops flow out toward left and right, a long silk tail curls downward. The crown wax seal has detached and is moving downward toward bottom-right, near x68% y67%. No central knot covering the closed envelope. Preserve exquisite glossy realistic satin. Tiny subtle sparkling stars around the loose ribbon. The shot must align perfectly with input 1 for a dissolve. NO text, letters, logos, buttons, UI. Single square photorealistic image.
+
+### images/lumino-invitation-open.webp
+
+Use case: precise-object-edit. Asset type: second frame of a photographic invitation-opening website animation.
+Edit target: supplied pink invitation photo. Keep the EXACT same square camera, roses, satin table, pearl necklace, bokeh chandeliers, lighting, pink palette, envelope horizontal position and size. Change ONLY the envelope's opening state: untie its large central bow, silk tails now drape loosely to either side and along the lower corners, wax crown seal rests at bottom right near the envelope. The pink flap has opened backward. A tall ornate ivory invitation card now rises out of the pink envelope, front-facing and perfectly upright, from x=28% to72%, y=13% to73%; lower part remains inside the pocket. Card is flat creamy paper with an exquisitely thin pink/champagne embossed rococo floral border all around, leave its central region completely BLANK, unobstructed, generous space for HTML text. Pink envelope pocket fills roughly y=64..82%, with loosened satin tails around its bottom. Keep other scene geometry and flowers as close to original as possible for an aligned crossfade. Photoreal fine paper embossing, silk gloss, tiny magical sparkles. NO text, NO letters, NO logos, NO typography, NO buttons, NO UI. Crown embossed on the displaced wax seal can remain. Output single square photo at same dimensions.

@@ -38,7 +38,7 @@ function polaroid(ctx, image, x, y, w, h, rotation, caption, colors) {
 // Canvas export avoids browser screenshot/CSS rendering dependencies and produces a real PNG.
 export async function renderTravelCard(canvas, state) {
   if (earnedIds(state).length !== 5) throw new Error('다섯 스탬프를 먼저 모아주세요.');
-  const look = collection.find(c => c.id === state.favoriteId);
+  const look = [...collection, ...(state.productLooks || [])].find(c => c.id === state.favoriteId);
   const photo = gallery.find(g => g.id === state.photoId);
   const destination = questions[0].options.find(o => o.value === state.answers.destination);
   const mood = questions[1].options.find(o => o.value === state.answers.mood);

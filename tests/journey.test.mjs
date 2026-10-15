@@ -35,3 +35,21 @@ test('저장 데이터에는 안전한 정규화 값과 마지막 카드 선택�
   const storage=memory(),store=createStore(storage);store.update({favorites:['pink-daydream','pink-daydream','bad'],favoriteId:'pink-daydream',traveler:'a'.repeat(100)});
   store.update({favorites:[]});assert.equal(store.get().favoriteId,'pink-daydream');assert.equal(store.get().traveler.length,24);assert.equal(JSON.parse(storage.getItem(STORAGE_KEY)).version,1);
 });
+
+test('운영 상품을 고르면 페이지 이동 후에도 해당 상품과 ROMANCE 기록을 유지한다',()=>{
+  const storage=memory(),store=createStore(storage);
+  const product={id:'product:real-01',productId:'real-01',title:'운영 상품',image:'images/layover-pink-front.jpg',description:'상품 설명',category:'DRESS'};
+  assert.deepEqual(store.update({productLooks:[product],favorites:[product.id],favoriteId:product.id}),['romance']);
+  const reloaded=createStore(storage);
+  assert.equal(reloaded.get().favoriteId,product.id);
+  assert.equal(reloaded.get().productLooks[0].title,'운영 상품');
+  assert.equal(reloaded.get().productLooks[0].href,'product.html?id=real-01');
+  assert.deepEqual(reloaded.update({favoriteId:product.id}),[]);
+  reloaded.update({favorites:[]});
+  assert.equal(reloaded.get().favoriteId,product.id);
+});
+test('저장된 상품의 실행 주소나 잘못된 ID는 카드와 즐겨찾기로 복원하지 않는다',()=>{
+  const invalid={id:'product:fake',productId:'fake',title:'잘못된 상품',image:'javascript:alert(1)'};
+  const state=normalizeState({...freshState(),productLooks:[invalid],favoriteId:invalid.id,favorites:[invalid.id]});
+  assert.equal(state.favoriteId,null);assert.deepEqual(state.productLooks,[]);assert.deepEqual(earnedIds(state),[]);
+});

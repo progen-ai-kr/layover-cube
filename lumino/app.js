@@ -6,6 +6,9 @@ import { questions } from '../data/taste.js';
 import { icon, stampMarkup } from './icons.js';
 import { createStore, earnedIds, STORAGE_KEY } from './state.js';
 import { renderChrome } from './chrome.js';
+import { pageHref } from '../data/pages.js';
+import { createInvitation } from './invitation.js';
+import { loadProductLooks } from './shop.js';
 import { renderTravelCard, downloadBlob } from './card.js';
 
 const $ = (selector, root=document) => root.querySelector(selector);
@@ -20,11 +23,13 @@ let storageFailed=false;
 let storage;
 try { storage=window.localStorage; } catch { storage={getItem:()=>null,setItem:()=>{throw new Error('unavailable');}};storageFailed=true; }
 const store=createStore(storage,()=>{ storageFailed=true; });
-let toastTimer, completionTimer, introTimer, introOpening=false, activeDetail=null, galleryFilter='ALL', tasteStep=0, cardBlob=null, cardRendering=false, cardGeneration=0;
+let toastTimer, completionTimer, activeDetail=null, galleryFilter='ALL', tasteStep=0, cardBlob=null, cardRendering=false, cardGeneration=0;
 let selectedStamp=null, focusReturn=null, passportViewKey='';
 const awardQueue=[];
 let awarding=false;
-renderChrome(isHome);
+renderChrome();
+let productLooks = store.get().productLooks;
+const allLooks = () => [...collection, ...store.get().productLooks];
 $$('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon);});
 document.body.insertAdjacentHTML('beforeend',`<button class="passport-fab" data-action="passport" aria-label="MY PASSPORT 열기"><span class="mini-passport">${icon('crown')}<small>LUMINO</small></span><span>MY PASSPORT<strong id="fab-progress">0 / 5</strong></span></button><div id="lumino-toast" class="toast" popover="manual" role="status" aria-live="polite"></div><dialog id="intro-dialog" class="l-dialog intro-dialog" aria-label="루미노 초대장"></dialog><dialog id="detail-dialog" class="l-dialog detail-dialog" aria-labelledby="detail-title"></dialog><dialog id="passport-dialog" class="l-dialog passport-dialog" aria-label="나의 루미노 여행 여권"></dialog><dialog id="search-dialog" class="l-dialog" aria-labelledby="search-title"></dialog><dialog id="favorites-dialog" class="l-dialog" aria-labelledby="favorites-title"></dialog><dialog id="completion-dialog" class="l-dialog completion-dialog" aria-labelledby="completion-title"></dialog><dialog id="card-dialog" class="l-dialog card-dialog" aria-labelledby="card-title"></dialog>`);
 const closeButton = label => `<button type="button" class="icon-button dialog-close" data-action="close" aria-label="${label} 닫기">${icon('close')}</button>`;
@@ -49,15 +54,27 @@ $$('.l-dialog').forEach(dialog=>{
   dialog.addEventListener('click',e=>{if(e.target!==dialog||dialog.id==='intro-dialog')return;const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeDialog(dialog);});
 });
 function menuClose(){const nav=$('#main-navigation');nav?.classList.remove('is-open');const b=$('[data-action="menu"]');b?.setAttribute('aria-expanded','false');b?.setAttribute('aria-label','메뉴 열기');}
-function goChapter(id){$$('.l-dialog[open]').forEach(d=>d.close());menuClose();if(isHome){location.hash=id;const target=$('#'+id);target?.scrollIntoView({behavior:reducedMotion.matches||lowPower?'instant':'smooth'});if(target){target.setAttribute('tabindex','-1');target.focus({preventScroll:true});}}else location.href=`index.html#${id}`;}
+function goChapter(id) {
+  $$('.l-dialog[open]').forEach(dialog => dialog.close());
+  menuClose();
+  if ((location.pathname.split('/').pop().replace(/\.html$/, '') || 'index') === pageHref(id).replace('.html', '')) {
+    window.scrollTo({top: 0, behavior: reducedMotion.matches ? 'instant' : 'smooth'});
+    const main = $('main'); main?.setAttribute('tabindex', '-1'); main?.focus({preventScroll: true});
+  } else location.href = pageHref(id);
+}
+// 예전에 공유된 홈의 해시 주소도 해당 독립 페이지로 연결합니다.
+const oldChapter = location.hash.slice(1);
+if (isHome && ['collection', 'gallery', 'journey', 'story'].includes(oldChapter)) location.replace(pageHref(oldChapter));
+
 function renderProgress(){
   const state=store.get(), ids=earnedIds(state);$('#fab-progress').textContent=`${ids.length} / 5`;
   $('.passport-fab').setAttribute('aria-label',`MY PASSPORT 열기, 스탬프 ${ids.length}/5개 수집`);
   const badge=$('.favorite-count');if(badge){badge.hidden=!state.favorites.length;badge.textContent=state.favorites.length;}
-  const map=$('#chapter-map');if(map)map.innerHTML=stamps.map((s,i)=>`<a href="#${s.chapter}" class="chapter-stop" aria-label="${s.name}: ${esc(s.condition)}${ids.includes(s.id)?', 수집 완료':''}">${stampMarkup(s,ids.includes(s.id))}<span>${['여행의 시작','컬렉션 탐험','스크랩북 갤러리','브랜드 이야기','나만의 여행 완성'][i]}</span><small>${ids.includes(s.id)?'COLLECTED ✓':`CHAPTER 0${i+1}`}</small></a>`).join('');
+  const map=$('#chapter-map');if(map)map.innerHTML=stamps.map((s,i)=>`<a href="${pageHref(s.chapter)}" class="chapter-stop" aria-label="${s.name}: ${esc(s.condition)}${ids.includes(s.id)?', 수집 완료':''}">${stampMarkup(s,ids.includes(s.id))}<span>${['여행의 시작','컬렉션 탐험','스크랩북 갤러리','브랜드 이야기','나만의 여행 완성'][i]}</span><small>${ids.includes(s.id)?'COLLECTED ✓':`CHAPTER 0${i+1}`}</small></a>`).join('');
   $$('.favorite-indicator').forEach(el=>el.classList.toggle('visible',state.favorites.includes(el.dataset.id)));
   if($('#passport-dialog').open) renderPassport();
   if($('#favorites-dialog').open) renderFavorites();
+  updateProductFavorite();
 }
 function renderCollection(){const root=$('#collection-grid');if(!root)return;root.innerHTML=collection.map((c,i)=>`<article class="collection-item"><button class="look-open" data-action="look" data-id="${c.id}" aria-label="${esc(c.title)} 화보 자세히 보기"><div class="look-photo"><div class="look-image-clip"><img src="${c.image}" alt="${esc(c.title+' · '+c.subtitle)}" loading="lazy" width="700" height="1000"></div><span class="look-index">0${i+1}</span><span class="favorite-indicator" data-id="${c.id}">${icon('heart')}</span></div><div class="look-caption"><div><span class="look-category">${c.category} COLLECTION</span><h3>${esc(c.title)}</h3><p>${esc(c.subtitle)}</p></div><span class="look-arrow" aria-hidden="true">↗</span></div></button></article>`).join('');}
 function renderGallery(){
@@ -104,19 +121,55 @@ function renderPassport(){
   if(wasName){const input=$('#traveler-name');input.focus({preventScroll:true});input.setSelectionRange(caret,caret);}
 }
 function openPassport(){selectedStamp=null;renderPassport();openDialog('passport-dialog');}
-function renderFavorites(){const state=store.get(),items=collection.filter(c=>state.favorites.includes(c.id));$('#favorites-dialog').innerHTML=`${closeButton('즐겨찾기')}<header class="dialog-heading"><p class="eyebrow">LITTLE THINGS YOU LOVE</p><h2 id="favorites-title">My favorites.</h2><p>마음에 담은 로맨스, ${items.length}벌</p></header><div class="favorites-list">${items.length?items.map(c=>`<div class="favorites-row"><button class="search-result" data-action="look" data-id="${c.id}"><img src="${c.image}" alt=""><span><strong>${esc(c.title)}</strong><small>${esc(c.subtitle)}${state.favoriteId===c.id?' · 여행 카드에 담긴 옷':''}</small></span></button><button class="icon-button" data-action="unfavorite" data-id="${c.id}" aria-label="${esc(c.title)} 즐겨찾기 해제">${icon('close')}</button></div>`).join(''):'<div class="empty-state"><p>아직 마음에 담은 옷이 없어요.</p><button class="quiet-link" data-action="chapter" data-chapter="collection">컬렉션 만나러 가기 →</button></div>'}</div>`;}
+function renderFavorites(){const state=store.get(),items=allLooks().filter(c=>state.favorites.includes(c.id));$('#favorites-dialog').innerHTML=`${closeButton('즐겨찾기')}<header class="dialog-heading"><p class="eyebrow">LITTLE THINGS YOU LOVE</p><h2 id="favorites-title">My favorites.</h2><p>마음에 담은 로맨스, ${items.length}벌</p></header><div class="favorites-list">${items.length?items.map(c=>`<div class="favorites-row">${c.productId?`<a class="search-result" href="${esc(c.href)}">`:`<button class="search-result" data-action="look" data-id="${esc(c.id)}">`}<img src="${esc(c.image)}" alt=""><span><strong>${esc(c.title)}</strong><small>${esc(c.subtitle || c.category)}${state.favoriteId===c.id?' · 여행 카드에 담긴 옷':''}</small></span>${c.productId?'</a>':'</button>'}<button class="icon-button" data-action="unfavorite" data-id="${esc(c.id)}" aria-label="${esc(c.title)} 즐겨찾기 해제">${icon('close')}</button></div>`).join(''):'<div class="empty-state"><p>아직 마음에 담은 옷이 없어요.</p><button class="quiet-link" data-action="chapter" data-chapter="collection">컬렉션 만나러 가기 →</button></div>'}</div>`;}
 function openSearch(){
-  $('#search-dialog').innerHTML=`${closeButton('검색')}<header class="dialog-heading"><p class="eyebrow">FIND YOUR LITTLE SPARKLE</p><h2 id="search-title">What do you love?</h2></header><label for="lumino-search" class="eyebrow">컬렉션 · 갤러리 검색</label><input class="search-input" id="lumino-search" type="search" placeholder="핑크, 리본, 파리…" autocomplete="off"><div class="search-results" id="search-results" aria-live="polite"></div>`;openDialog('search-dialog');renderSearch('');$('#lumino-search').focus();
+  $('#search-dialog').innerHTML=`${closeButton('검색')}<header class="dialog-heading"><p class="eyebrow">FIND YOUR LITTLE SPARKLE</p><h2 id="search-title">What do you love?</h2></header><label for="lumino-search" class="eyebrow">상품 · 컬렉션 · 갤러리 검색</label><input class="search-input" id="lumino-search" type="search" placeholder="핑크, 리본, 파리…" autocomplete="off"><div class="search-results" id="search-results" aria-live="polite"></div>`;openDialog('search-dialog');renderSearch('');$('#lumino-search').focus();
+  loadProductLooks().then(items=>{productLooks=items;if($('#search-dialog').open)renderSearch($('#lumino-search').value);}).catch(()=>toast('상품 검색을 불러오지 못했어요. 잠시 후 다시 검색해주세요.'));
 }
-function renderSearch(query){const term=query.trim().toLocaleLowerCase();const list=[...collection.map(x=>({...x,type:'look'})),...gallery.map(x=>({...x,type:'photo'}))].filter(x=>`${x.title} ${x.description} ${x.category} ${x.subtitle||''}`.toLocaleLowerCase().includes(term));$('#search-results').innerHTML=list.length?list.map(x=>`<button class="search-result" data-action="${x.type}" data-id="${x.id}"><img src="${x.image}" alt="" loading="lazy"><span><strong>${esc(x.title)}</strong><small>${x.category}</small></span></button>`).join(''):'<p class="empty-state">검색 결과가 없어요. 다른 단어로 찾아보세요.</p>';}
-function showIntro(){
-  clearTimeout(introTimer);clearTimeout(completionTimer);
-  const d=$('#intro-dialog');d.classList.remove('intro-opening');introOpening=false;
-  const particles=Array.from({length:14},(_,i)=>`<i style="--burst-x:${Math.cos(i*.9)*220}px;--burst-y:${Math.sin(i*.9)*230-60}px">${i%2?'✦':'♡'}</i>`).join('');
-  d.innerHTML=`<div class="intro-scene"><p class="intro-eyebrow">A LITTLE INVITATION, JUST FOR YOU.</p><div class="envelope"><div class="envelope-back"></div><div class="invitation-letter">${icon('crown')}<p>YOU ARE INVITED TO</p><h2>LUMINO</h2><p class="script">A Sparkling Little Journey,<br>A Cozy and Lovely World.</p></div><div class="envelope-flap"></div><div class="envelope-front"></div><div class="envelope-brand">LUMINO</div><div class="envelope-address">YOU ARE INVITED TO LUMINO</div><div class="ribbon-band"></div><div class="envelope-bow">${icon('bow')}</div><div class="envelope-seal">${icon('crown')}</div><button class="envelope-hit" data-action="open-intro" aria-label="리본을 풀고 초대장 열기"></button></div><button class="l-btn" data-action="open-intro">OPEN YOUR INVITATION ↗</button><p class="intro-note">Your lovely little journey starts here.</p><button class="skip-intro" data-action="skip-intro">SKIP INTRO →</button><div class="intro-particles" aria-hidden="true">${particles}</div></div>`;openDialog('intro-dialog');
+function renderSearch(query) {
+  const term = query.trim().toLocaleLowerCase();
+  const list = [...productLooks.map(x=>({...x,type:'product'})), ...collection.map(x=>({...x,type:'look'})), ...gallery.map(x=>({...x,type:'photo'}))].filter(x=>`${x.title} ${x.description} ${x.category} ${x.subtitle || ''}`.toLocaleLowerCase().includes(term));
+  $('#search-results').innerHTML = list.length ? list.map(item => {
+    const content = `<img src="${esc(item.image)}" alt="" loading="lazy"><span><strong>${esc(item.title)}</strong><small>${esc(item.category)}${item.type==='product'?' · 상품 상세 보기':''}</small></span>`;
+    return item.type === 'product' ? `<a class="search-result" href="${esc(item.href)}">${content}</a>` : `<button class="search-result" data-action="${item.type}" data-id="${item.id}">${content}</button>`;
+  }).join('') : '<p class="empty-state">검색 결과가 없어요. 다른 단어로 찾아보세요.</p>';
 }
-function openIntro(){if(introOpening)return;introOpening=true;$('#intro-dialog').classList.add('intro-opening');$$('[data-action="open-intro"]').forEach(b=>b.disabled=true);introTimer=setTimeout(finishIntro,reducedMotion.matches||lowPower?100:4500);}
-function finishIntro(){clearTimeout(introTimer);const d=$('#intro-dialog');d.close();d.classList.remove('intro-opening');introOpening=false;store.update({started:true});maybeComplete();if(isHome){$('#hero-title').setAttribute('tabindex','-1');$('#hero-title').focus({preventScroll:true});}if(storageFailed)setTimeout(()=>toast('브라우저 저장이 차단되어 현재 방문에서만 여행 기록이 유지돼요.'),4500);}
+function updateProductFavorite() {
+  const state = store.get();
+  $$('[data-action="favorite-product"]').forEach(button => {
+    const saved = state.favorites.includes(`product:${button.dataset.productId}`);
+    button.setAttribute('aria-pressed', String(saved));
+    button.textContent = saved ? '♡ MY FAVORITE · SAVED' : '♡ MY FAVORITE';
+  });
+}
+async function favoriteProduct(button) {
+  button.disabled = true;
+  try {
+    const looks = await loadProductLooks();
+    const look = looks.find(item => item.productId === button.dataset.productId);
+    if (!look) throw new Error('지금은 이 상품을 선택할 수 없어요. 상품 목록을 다시 확인해주세요.');
+    const state = store.get();
+    store.update({ productLooks: [...state.productLooks.filter(item=>item.id!==look.id), look], favorites: [...new Set([...state.favorites,look.id])], favoriteId:look.id });
+    if (earnedIds(state).includes('romance')) toast('이 상품을 즐겨찾기와 여행 카드에 담았어요.');
+  } catch (error) { toast(error.message || '상품을 불러오지 못했어요. 다시 눌러주세요.'); }
+  finally { button.disabled = false; updateProductFavorite(); }
+}
+document.addEventListener('lumino:product-ready', updateProductFavorite);
+
+const invitation = createInvitation($('#intro-dialog'), {
+  openDialog, reducedMotion, lowPower,
+  onFinish() {
+    store.update({started:true});
+    maybeComplete();
+    const target = isHome ? $('#hero-title') : $('main');
+    target?.setAttribute('tabindex','-1'); target?.focus({preventScroll:true});
+    if(storageFailed) setTimeout(()=>toast('브라우저 저장이 차단되어 현재 방문에서만 여행 기록이 유지돼요.'),4500);
+  }
+});
+function showIntro(){ clearTimeout(completionTimer); invitation.show(); }
+function openIntro(){ invitation.open(); }
+function finishIntro(){ invitation.finish(); }
+
 async function showAward(id){
   const stamp=stamps.find(s=>s.id===id);if(!stamp)return;
   const div=document.createElement('div');div.className='stamp-flight';div.setAttribute('popover','manual');div.setAttribute('aria-hidden','true');div.innerHTML=stampMarkup(stamp,true);document.body.append(div);div.showPopover?.();
@@ -161,6 +214,7 @@ document.addEventListener('click',event=>{
   else if(action==='favorites'){renderFavorites();openDialog('favorites-dialog');}
   else if(action==='look'||action==='photo')openDetail(action,id);
   else if(action==='detail-image')$('#detail-image').src=button.dataset.image;
+  else if(action==='favorite-product')favoriteProduct(button);
   else if(action==='favorite'){const state=store.get();const isExisting=state.favorites.includes(id);store.update({favorites:[...new Set([...state.favorites,id])],favoriteId:id});renderDetail();$('[data-action="favorite"]')?.focus({preventScroll:true});if(isExisting)toast('이 옷을 여행 카드에 담았어요.');}
   else if(action==='unfavorite'){store.update({favorites:store.get().favorites.filter(x=>x!==id)});toast('즐겨찾기를 해제했어요. 수집한 스탬프와 여행 카드의 마지막 선택은 유지돼요.');}
   else if(action==='save-photo'){const already=store.get().photoId===id;store.update({photoId:id});renderDetail();renderGallery();$('[data-action="save-photo"]')?.focus({preventScroll:true});if(already)toast('이미 스크랩북에 담긴 장면이에요.');else if(earnedIds(store.get()).includes('fantasy')&&!awarding)toast('이 장면을 여행 카드에 담았어요.');}
@@ -197,7 +251,7 @@ if('IntersectionObserver' in window){
   const reveal=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');reveal.unobserve(entry.target);}}),{threshold:.08});
   $$('.reveal').forEach(el=>{if(!reducedMotion.matches&&!lowPower)el.classList.add('observed');reveal.observe(el);});
   const storyEnd=$('#story-end');if(storyEnd){const read=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!$('#intro-dialog').open){store.update({storyRead:true});read.disconnect();}},{threshold:.5});read.observe(storyEnd);}
-  if(isHome){const navObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){$$('[data-nav]').forEach(a=>{const active=a.dataset.nav===entry.target.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}});},{rootMargin:'-15% 0px -50% 0px',threshold:0});['home','collection','gallery','journey','story'].forEach(id=>navObserver.observe($('#'+id)));}
+
 }else {$$('.reveal').forEach(el=>el.classList.add('is-visible'));const end=$('#story-end');if(end)window.addEventListener('scroll',()=>{const r=end.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)store.update({storyRead:true});},{passive:true});}
 if(isHome&&!reducedMotion.matches&&!lowPower&&matchMedia('(min-width: 1024px) and (pointer: fine)').matches){let pending=false;window.addEventListener('scroll',()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{const y=Math.min(scrollY,800)*.12;$('.dream-scenery').style.transform=`translateY(${y}px) scale(1.06)`;pending=false;});},{passive:true});}
-if(!store.get().started)showIntro();else maybeComplete();
+if(isHome&&!store.get().started)showIntro();else maybeComplete();

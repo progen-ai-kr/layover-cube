@@ -3,14 +3,22 @@ import { gallery } from '../data/gallery.js';
 import { questions } from '../data/taste.js';
 import { stamps } from '../data/stamps.js';
 export const STORAGE_KEY = 'lumino.journey.v1';
-export const freshState = () => ({ version: 1, started: false, favorites: [], favoriteId: null, photoId: null, storyRead: false, ribbonFound: false, answers: {}, tasteComplete: false, traveler: '', earnedAt: {}, completionSeen: false });
+export const freshState = () => ({ version: 1, started: false, favorites: [], productLooks: [], favoriteId: null, photoId: null, storyRead: false, ribbonFound: false, answers: {}, tasteComplete: false, traveler: '', earnedAt: {}, completionSeen: false });
 const validAnswers = (answers) => Object.fromEntries(questions.filter(q => q.options.some(o => o.value === answers?.[q.id])).map(q => [q.id, answers[q.id]]));
+// 선택한 운영 상품은 카드에 쓸 최소 메타데이터만 보관합니다. HTML은 저장하지 않습니다.
+function normalizeProductLook(look) {
+  if (!look || typeof look.productId !== 'string' || !look.productId || look.productId.length > 160 || look.id !== `product:${look.productId}` || typeof look.title !== 'string' || typeof look.image !== 'string') return null;
+  try { if (!['http:', 'https:'].includes(new URL(look.image, 'https://lumino.local/').protocol)) return null; } catch { return null; }
+  return { id: look.id, productId: look.productId, title: look.title.slice(0,160), image: look.image.slice(0,2000), description: String(look.description || '').slice(0,1000), category: String(look.category || 'COLLECTION').slice(0,100), href: `product.html?id=${encodeURIComponent(look.productId)}` };
+}
 export function normalizeState(value) {
   if (!value || typeof value !== 'object' || value.version !== 1) return freshState();
   const next = freshState();
   next.started = value.started === true;
-  next.favorites = [...new Set(Array.isArray(value.favorites) ? value.favorites.filter(id => collection.some(c => c.id === id)) : [])];
-  next.favoriteId = collection.some(c => c.id === value.favoriteId) ? value.favoriteId : null;
+  next.productLooks = [...new Map((Array.isArray(value.productLooks) ? value.productLooks : []).slice(-100).map(normalizeProductLook).filter(Boolean).map(look => [look.id, look])).values()];
+  const looks = [...collection, ...next.productLooks];
+  next.favorites = [...new Set(Array.isArray(value.favorites) ? value.favorites.filter(id => looks.some(c => c.id === id)) : [])];
+  next.favoriteId = looks.some(c => c.id === value.favoriteId) ? value.favoriteId : null;
   next.photoId = gallery.some(g => g.id === value.photoId) ? value.photoId : null;
   next.storyRead = value.storyRead === true;
   next.ribbonFound = next.storyRead && value.ribbonFound === true;
