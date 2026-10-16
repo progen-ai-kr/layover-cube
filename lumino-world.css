@@ -183,10 +183,56 @@
 .detail-copy h2 { font-size:40px; }.detail-copy p { font-size:13px; }
 .detail-hint { font-size:11px!important; }
 .search-result,.favorites-row { background:var(--cream); }
-.passport-guide-sheet { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; }
-.passport-guide-sheet .mission-row { background:color-mix(in srgb,var(--cream) 86%,transparent); padding-inline:12px; }
+/* 안내지는 문양과 회전을 빼서 작은 화면에서도 글씨가 선명하게 읽히도록 합니다. */
+.passport-guide-sheet {
+  background:var(--cream);
+  color:var(--deep-ink);
+  transform:none;
+  padding:26px 18px;
+  font-size:15px;
+  line-height:1.8;
+}
+.passport-guide-sheet>header { background:none; padding:0 0 12px; }
+.passport-guide-sheet>header>.eyebrow { color:var(--burgundy); font-size:11px; letter-spacing:.1em; line-height:1.6; }
+.passport-guide-sheet h3 { color:var(--deep-ink); font-size:22px; font-weight:600; letter-spacing:-.035em; }
+.passport-guide-sheet .passport-guide-intro { color:var(--deep-ink); font-size:15px; line-height:1.85; }
+.passport-guide-sheet .mission-row { background:none; padding:18px 10px 12px; }
 .passport-guide-sheet .mission-row.is-current { background:var(--pink-paper); }
-.passport-guide-sheet>header { background:var(--world-glass); padding:12px; }
+.passport-guide-sheet .mission-number { color:var(--burgundy); font-size:14px; }
+.passport-guide-sheet .mission-location { color:var(--muted-rose); font-size:12px; line-height:1.6; letter-spacing:.02em; }
+.passport-guide-sheet .mission-row h4 { color:var(--burgundy); font-size:24px; flex-wrap:wrap; gap:2px 10px; }
+.passport-guide-sheet .mission-row h4>span { color:var(--deep-ink); font-size:12px; font-weight:500; white-space:nowrap; }
+.passport-guide-sheet .mission-row>p { font-size:15px; line-height:1.85; margin:10px 0 4px; }
+.passport-guide-sheet .quiet-link,
+.passport-guide-sheet .mission-row>.quiet-link { color:var(--logo-rose); font-size:14px; font-weight:600; min-height:44px; white-space:normal; }
+.passport-guide-sheet .passport-memories,
+.passport-guide-sheet .passport-personalize { margin-top:22px; padding-top:8px; }
+.passport-guide-sheet summary { color:var(--deep-ink); font-size:14px; font-weight:600; line-height:1.8; }
+.passport-guide-sheet summary>span { color:var(--muted-rose); font-size:12px; font-weight:400; }
+.passport-guide-sheet .passport-memories>div { gap:14px; }
+.passport-guide-sheet .passport-memories figure { transform:none; min-width:0; padding:6px; border:1px solid var(--rose-line); box-shadow:none; }
+.passport-guide-sheet .passport-memories img { height:auto; aspect-ratio:1; }
+.passport-guide-sheet .passport-memories figcaption { font-size:13px; line-height:1.65; margin:8px 2px 4px; overflow-wrap:anywhere; }
+.passport-guide-sheet .passport-memories p { font-size:14px; }
+.passport-guide-sheet .traveler-label { color:var(--deep-ink); font-size:14px; margin:12px 0 8px; }
+.passport-guide-sheet .traveler-input {
+  background:var(--surface-strong);
+  color:var(--deep-ink);
+  border:1px solid var(--muted-rose);
+  border-radius:4px;
+  min-height:48px;
+  padding:12px;
+  font-size:16px;
+}
+.passport-guide-sheet .traveler-input::placeholder { color:var(--muted-rose); opacity:1; }
+.passport-guide-sheet .traveler-input:focus-visible { outline:2px solid var(--burgundy); outline-offset:3px; }
+.passport-guide-sheet .passport-reward { margin-top:24px; padding-top:20px; color:var(--deep-ink); }
+.passport-guide-sheet .passport-reward strong { font-size:15px; font-weight:600; }
+.passport-guide-sheet .passport-reward p>span { color:var(--deep-ink); font-size:15px; line-height:1.85; margin-top:6px; }
+.passport-guide-sheet .passport-small { color:var(--muted-rose); font-size:13px; line-height:1.8; margin:18px 0 6px; }
+@media(min-width:720px) {
+  .passport-guide-sheet { padding:30px 26px; }
+}
 .passport-dialog::backdrop,.completion-dialog::backdrop { background:color-mix(in srgb,var(--burgundy) 35%,transparent); backdrop-filter:blur(8px); }
 .passport-fab { right:12px; bottom:14px; }
 .passport-fab>span:last-child { background:var(--cream); }
