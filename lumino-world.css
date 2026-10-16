@@ -1,7 +1,19 @@
 /* LUMINO의 공통 시각 구성. 색·폰트는 style.css의 브랜드 토큰을 사용합니다. */
 .lumino-site {
-  background: linear-gradient(var(--world-glass),var(--world-glass)), url('images/lumino-world-paper.webp') center top / 1600px auto repeat-y;
+  background: var(--cream);
   color: var(--burgundy);
+  position:relative;
+  isolation:isolate;
+}
+/* 테두리가 있는 사진을 타일로 반복하면 이음선이 생깁니다.
+   배경은 화면 크기에 맞춘 한 장으로 유지하고, 콘텐츠만 그 위로 스크롤합니다. */
+.lumino-site::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(var(--world-glass),var(--world-glass)),url('images/lumino-world-paper.webp') center/cover no-repeat;
 }
 .lumino-site .eyebrow { background:none; border:0; border-radius:0; box-shadow:none; padding:0; color:var(--world-ink); }
 .lumino-site .section { max-width:1280px; padding-block:65px; }
@@ -112,7 +124,7 @@
 .collection-item:nth-child(2) .look-photo { transform:rotate(3deg); }.collection-item:nth-child(3) .look-photo { transform:rotate(-3deg); }
 
 /* 갤러리: 첫 화면에서 사진이 보이는 크림색 스크랩북. */
-.chapter-page:has(#gallery) { background:var(--world-pink) url('images/lumino-world-paper.webp') center top/1700px auto repeat-y; }
+.chapter-page:has(#gallery)::before { background:linear-gradient(var(--cream-glow),var(--cream-glow)),url('images/lumino-world-paper.webp') center/cover no-repeat; }
 .gallery-chapter { background:transparent; border:0; }
 .gallery-chapter::before { display:none; }
 .gallery-chapter>.chapter { padding-top:25px; }
