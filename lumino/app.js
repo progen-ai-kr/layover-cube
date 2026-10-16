@@ -1,6 +1,7 @@
 import { collection } from '../data/collection.js';
 import { gallery, galleryCategories } from '../data/gallery.js';
 import { stamps } from '../data/stamps.js';
+import { journeyArt } from '../data/journey-art.js';
 import { brand } from '../data/story.js';
 import { questions } from '../data/taste.js';
 import { icon, stampMarkup } from './icons.js';
@@ -8,6 +9,7 @@ import { createStore, earnedIds, STORAGE_KEY } from './state.js';
 import { renderChrome } from './chrome.js';
 import { pageHref } from '../data/pages.js';
 import { createInvitation } from './invitation.js';
+import { missionMapMarkup, passportMarkup, missionNoticeMarkup, missionHref, completionMarkup } from './journey-ui.js';
 import { loadProductLooks } from './shop.js';
 import { renderTravelCard, downloadBlob } from './card.js';
 
@@ -31,10 +33,10 @@ renderChrome();
 let productLooks = store.get().productLooks;
 const allLooks = () => [...collection, ...store.get().productLooks];
 $$('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon);});
-document.body.insertAdjacentHTML('beforeend',`<button class="passport-fab" data-action="passport" aria-label="MY PASSPORT 열기"><span class="mini-passport">${icon('crown')}<small>LUMINO</small></span><span>MY PASSPORT<strong id="fab-progress">0 / 5</strong></span></button><div id="lumino-toast" class="toast" popover="manual" role="status" aria-live="polite"></div><dialog id="intro-dialog" class="l-dialog intro-dialog" aria-label="루미노 초대장"></dialog><dialog id="detail-dialog" class="l-dialog detail-dialog" aria-labelledby="detail-title"></dialog><dialog id="passport-dialog" class="l-dialog passport-dialog" aria-label="나의 루미노 여행 여권"></dialog><dialog id="search-dialog" class="l-dialog" aria-labelledby="search-title"></dialog><dialog id="favorites-dialog" class="l-dialog" aria-labelledby="favorites-title"></dialog><dialog id="completion-dialog" class="l-dialog completion-dialog" aria-labelledby="completion-title"></dialog><dialog id="card-dialog" class="l-dialog card-dialog" aria-labelledby="card-title"></dialog>`);
+document.body.insertAdjacentHTML('beforeend',`<button class="passport-fab" data-action="passport" aria-label="MY PASSPORT 열기"><span class="mini-passport"><img src="${journeyArt.cover}" alt="" width="72" height="87"><small>PASSPORT</small><b>LUMINO</b></span><span>나의 여행 여권<strong id="fab-progress">0 / 5</strong><small>스탬프 모으는 법 ↗</small></span></button><div id="lumino-toast" class="toast" popover="manual" role="status" aria-live="polite"></div><dialog id="intro-dialog" class="l-dialog intro-dialog" aria-label="루미노 초대장"></dialog><dialog id="detail-dialog" class="l-dialog detail-dialog" aria-labelledby="detail-title"></dialog><dialog id="passport-dialog" class="l-dialog passport-dialog" aria-label="나의 루미노 여행 여권"></dialog><dialog id="search-dialog" class="l-dialog" aria-labelledby="search-title"></dialog><dialog id="favorites-dialog" class="l-dialog" aria-labelledby="favorites-title"></dialog><dialog id="completion-dialog" class="l-dialog completion-dialog" aria-labelledby="completion-title"></dialog><dialog id="card-dialog" class="l-dialog card-dialog" aria-labelledby="card-title"></dialog>`);
 const closeButton = label => `<button type="button" class="icon-button dialog-close" data-action="close" aria-label="${label} 닫기">${icon('close')}</button>`;
-function toast(message) {
-  clearTimeout(toastTimer);const box=$('#lumino-toast');box.innerHTML=icon('sparkle')+`<span>${esc(message)}</span>`;box.showPopover?.();box.classList.add('visible');toastTimer=setTimeout(()=>{box.classList.remove('visible');box.hidePopover?.();},4200);
+function toast(message, passportLink = false) {
+  clearTimeout(toastTimer);const box=$('#lumino-toast');box.innerHTML=icon('sparkle')+`<span>${esc(message)}</span>${passportLink?'<button class="quiet-link" data-action="passport">여권 보기 ↗</button>':''}`;box.showPopover?.();box.classList.add('visible');toastTimer=setTimeout(()=>{box.classList.remove('visible');box.hidePopover?.();},4200);
 }
 function openDialog(id) {
   const current=$('.l-dialog[open]');
@@ -62,6 +64,16 @@ function goChapter(id) {
     const main = $('main'); main?.setAttribute('tabindex', '-1'); main?.focus({preventScroll: true});
   } else location.href = pageHref(id);
 }
+// 여권의 미션 버튼은 해당 활동이 있는 위치까지 안내합니다. 이동만으로 스탬프를 주지 않습니다.
+function goMission(stamp) {
+  if(stamp.id==='travel'){showIntro();return;}
+  $$('.l-dialog[open]').forEach(dialog=>dialog.close());menuClose();
+  const current=(location.pathname.split('/').pop().replace(/\.html$/,'')||'index');
+  if(current===pageHref(stamp.chapter).replace('.html','')){
+    const target=$(stamp.target)||$('main');target?.scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
+    target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});
+  }else location.href=missionHref(stamp);
+}
 // 예전에 공유된 홈의 해시 주소도 해당 독립 페이지로 연결합니다.
 const oldChapter = location.hash.slice(1);
 if (isHome && ['collection', 'gallery', 'journey', 'story'].includes(oldChapter)) location.replace(pageHref(oldChapter));
@@ -70,7 +82,8 @@ function renderProgress(){
   const state=store.get(), ids=earnedIds(state);$('#fab-progress').textContent=`${ids.length} / 5`;
   $('.passport-fab').setAttribute('aria-label',`MY PASSPORT 열기, 스탬프 ${ids.length}/5개 수집`);
   const badge=$('.favorite-count');if(badge){badge.hidden=!state.favorites.length;badge.textContent=state.favorites.length;}
-  const map=$('#chapter-map');if(map)map.innerHTML=stamps.map((s,i)=>`<a href="${pageHref(s.chapter)}" class="chapter-stop" aria-label="${s.name}: ${esc(s.condition)}${ids.includes(s.id)?', 수집 완료':''}">${stampMarkup(s,ids.includes(s.id))}<span>${['여행의 시작','컬렉션 탐험','스크랩북 갤러리','브랜드 이야기','나만의 여행 완성'][i]}</span><small>${ids.includes(s.id)?'COLLECTED ✓':`CHAPTER 0${i+1}`}</small></a>`).join('');
+  const map=$('#chapter-map');if(map)map.innerHTML=missionMapMarkup(ids);
+  $$('.chapter-mission').forEach(notice=>{const stamp=stamps.find(item=>item.id===notice.dataset.mission);if(stamp)notice.innerHTML=missionNoticeMarkup(stamp,ids.includes(stamp.id));});
   $$('.favorite-indicator').forEach(el=>el.classList.toggle('visible',state.favorites.includes(el.dataset.id)));
   if($('#passport-dialog').open) renderPassport();
   if($('#favorites-dialog').open) renderFavorites();
@@ -108,16 +121,16 @@ function renderStory(){const box=$('#story-copy');if(box)box.innerHTML=brand.sto
 function updateRibbon(){const b=$('.secret-ribbon');if(!b)return;const found=store.get().ribbonFound;b.classList.toggle('found',found);b.setAttribute('aria-label',found?'발견한 루미노의 리본 다시 보기':'편지의 숨겨진 리본 풀기');if(found)$('#ribbon-message').textContent='사랑스러운 비밀을 발견했어요. CUTE 스탬프가 여권에 담겼어요!';}
 function renderPassport(){
   const dialog=$('#passport-dialog');const focused=document.activeElement;const wasName=focused?.id==='traveler-name';const caret=wasName?focused.selectionStart:null;
-  const state=store.get(), ids=earnedIds(state), selected=stamps.find(s=>s.id===selectedStamp);
+  const state=store.get(), ids=earnedIds(state);
   // 이름 저장(change)은 mousedown과 click 사이에도 발생합니다.
   // 이때 버튼 DOM을 교체하면 첫 클릭이 사라지므로 여권 내용이 바뀔 때만 다시 그립니다.
-  const viewKey=JSON.stringify([ids, selectedStamp, storageFailed]);
+  const viewKey=JSON.stringify([ids, selectedStamp, storageFailed, state.favoriteId, state.photoId, state.productLooks]);
   if(passportViewKey===viewKey && dialog.firstElementChild){
     if(!wasName) $('#traveler-name').value=state.traveler;
     return;
   }
   passportViewKey=viewKey;
-  dialog.innerHTML=`${closeButton('여권')}<div class="passport-book"><div class="passport-page passport-left">${icon('crown','passport-crest')}<p class="eyebrow">LUMINO REPUBLIC OF DREAMS</p><h2>LUMINO <br>PASSPORT</h2><p class="script">My little journey</p><label for="traveler-name" class="traveler-label">THIS PASSPORT BELONGS TO</label><input id="traveler-name" class="traveler-input" placeholder="여행자의 이름 (선택)" value="${esc(state.traveler)}" maxlength="24" autocomplete="nickname"><p class="passport-small">좋아하는 순간들이 모여<br>당신만의 이야기가 됩니다.</p><button type="button" class="quiet-link invitation-replay" data-action="replay-intro">초대장 다시 보기 ↗</button></div><div class="passport-page passport-right"><p class="eyebrow">COLLECT YOUR SPARKLING MOMENTS</p><div class="passport-stamps">${stamps.map(s=>`<button class="passport-stamp-button" data-action="stamp-guide" data-id="${s.id}" aria-label="${s.name} ${ids.includes(s.id)?'수집 완료':'획득 방법 보기'}">${stampMarkup(s,ids.includes(s.id))}<small>${ids.includes(s.id)?'COLLECTED ✓':'HOW TO COLLECT ↗'}</small></button>`).join('')}</div>${selected?`<div class="passport-guide"><p><strong>${selected.name}</strong> · ${ids.includes(selected.id)?'이미 모은 추억이에요. 언제든 다시 탐험해보세요.':esc(selected.condition)}</p><button class="quiet-link" data-action="chapter" data-chapter="${selected.chapter}">이 챕터로 이동 →</button></div>`:''}<div class="passport-progress-label"><span>MY JOURNEY PROGRESS</span><strong>${ids.length} / 5 STAMPS COLLECTED</strong></div><progress class="journey-progress" max="5" value="${ids.length}" aria-label="스탬프 수집 진행률">${ids.length}/5</progress><p class="remaining-copy">${ids.length===5?'모든 반짝이는 순간을 모았어요!':`완성까지 ${5-ids.length}개의 추억이 남았어요.`}</p>${ids.length===5?'<button class="l-btn" data-action="card">나의 여행 카드 발급하기 ↗</button>':'<button class="quiet-link" data-action="next-chapter">다음 여행지로 떠나기 →</button>'}<p class="passport-small card-notice">${storageFailed?'브라우저 저장이 차단되어 현재 방문에서만 기록이 유지돼요.':'여행 기록은 이 브라우저에 저장돼요.'}</p></div></div>`;
+  dialog.innerHTML=passportMarkup({state,ids,selectedStamp,storageFailed,esc,closeButton});
   if(wasName){const input=$('#traveler-name');input.focus({preventScroll:true});input.setSelectionRange(caret,caret);}
 }
 function openPassport(){selectedStamp=null;renderPassport();openDialog('passport-dialog');}
@@ -173,7 +186,7 @@ function finishIntro(){ invitation.finish(); }
 async function showAward(id){
   const stamp=stamps.find(s=>s.id===id);if(!stamp)return;
   const div=document.createElement('div');div.className='stamp-flight';div.setAttribute('popover','manual');div.setAttribute('aria-hidden','true');div.innerHTML=stampMarkup(stamp,true);document.body.append(div);div.showPopover?.();
-  toast(stamp.message);$('.passport-fab').classList.add('new-stamp');
+  toast(stamp.message, true);$('.passport-fab').classList.add('new-stamp');
   if(!reducedMotion.matches&&!lowPower&&navigator.vibrate)navigator.vibrate(30);
   await new Promise(resolve=>setTimeout(resolve,reducedMotion.matches||lowPower?500:1800));div.remove();$('.passport-fab').classList.remove('new-stamp');
 }
@@ -182,7 +195,7 @@ function maybeComplete(){
   clearTimeout(completionTimer);const state=store.get();if(earnedIds(state).length!==5||state.completionSeen||awarding||$('#intro-dialog').open)return;
   completionTimer=setTimeout(()=>{
     if(earnedIds(store.get()).length!==5||store.get().completionSeen)return;
-    $('#completion-dialog').innerHTML=`${closeButton('여행 완료')}<p class="eyebrow">FIVE LITTLE MOMENTS. ONE BEAUTIFUL JOURNEY.</p><p class="script">Congratulations!</p><h2 id="completion-title">You completed your<br>LUMINO journey!</h2><p>당신만의 반짝이는 여행이 완성되었습니다.</p><div class="completion-book">${stamps.map((s,i)=>`<span style="animation-delay:${i*.12}s">${stampMarkup(s,true,true)}</span>`).join('')}</div><p>좋아하는 옷, 소중한 장면, 당신만의 취향을<br>한 장의 특별한 여행 카드에 담아드릴게요.</p><button class="l-btn" data-action="card">REVEAL MY TRAVEL CARD ↗</button>`;openDialog('completion-dialog');store.update({completionSeen:true});
+    $('#completion-dialog').innerHTML=completionMarkup(closeButton);openDialog('completion-dialog');store.update({completionSeen:true});
   },900);
 }
 async function openCard(){
@@ -223,9 +236,19 @@ document.addEventListener('click',event=>{
   else if(action==='taste-back'){tasteStep=Math.max(0,tasteStep-1);renderTaste();$('#taste-form input')?.focus({preventScroll:true});}
   else if(action==='taste-edit'){tasteStep=0;renderTaste();}
   else if(action==='ribbon'){const r=$('#story-end')?.getBoundingClientRect();if(!store.get().storyRead&&r&&r.top<innerHeight&&r.bottom>0)store.update({storyRead:true});if(!store.get().storyRead){toast('브랜드 편지를 읽고 마지막 리본을 풀어주세요.');return;}const found=store.get().ribbonFound;store.update({ribbonFound:true});if(found)toast('이미 발견한 사랑스러운 비밀이에요!');}
-  else if(action==='stamp-guide'){selectedStamp=id;renderPassport();$('.passport-guide button')?.focus({preventScroll:true});}
+  else if(action==='stamp-guide'){selectedStamp=id;renderPassport();const row=$('#mission-'+id);row?.scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'nearest'});$('button',row)?.focus({preventScroll:true});}
+  else if(action==='mission'){const stamp=stamps.find(item=>item.id===id);if(stamp)goMission(stamp);}
+  else if(action==='passport-section'){
+    const section=button.dataset.section;
+    const target=$(section==='guide'?'#passport-guide-title':section==='stamps'?'#passport-stamps':'#passport-'+section);
+    if(target?.tagName==='DETAILS')target.open=true;
+    target?.scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
+    if(section==='note')$('#traveler-name').focus({preventScroll:true});
+    else {target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}
+  }
+
   else if(action==='chapter'){if(button.dataset.chapter==='home'&&!store.get().started)showIntro();else goChapter(button.dataset.chapter);}
-  else if(action==='next-chapter'){const next=stamps.find(s=>!earnedIds(store.get()).includes(s.id));if(next?.id==='travel')showIntro();else if(next)goChapter(next.chapter);}
+  else if(action==='next-chapter'){const next=stamps.find(s=>!earnedIds(store.get()).includes(s.id));if(next)goMission(next);}
   else if(action==='replay-intro')showIntro();
   else if(action==='open-intro')openIntro();
   else if(action==='skip-intro')finishIntro();

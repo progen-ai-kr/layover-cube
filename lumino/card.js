@@ -4,6 +4,7 @@ import { questions } from '../data/taste.js';
 import { stamps } from '../data/stamps.js';
 import { earnedIds } from './state.js';
 import { icon } from './icons.js';
+import { invitation } from '../data/invitation.js';
 const imageCache = new Map();
 function loadImage(src) {
   if (!imageCache.has(src)) imageCache.set(src, new Promise((resolve, reject) => {
@@ -50,45 +51,70 @@ export async function renderTravelCard(canvas, state) {
   const colors = { cream:get('--cream'), burgundy:get('--burgundy'), rose:get('--rose'), pink:get('--pink'), gold:get('--gold'), blue:get('--blue-ink'), goldInk:get('--gold-ink'), shadow:get('--shadow-tint') };
   const stampImages = stamps.map(s => {
     const color = s.color === 'blue' ? colors.blue : s.color === 'gold' ? colors.goldInk : colors.rose;
-    const svg = icon(s.icon).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" ').replace('currentColor', color);
+    const svg = icon(s.icon).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" ').replaceAll('currentColor', color);
     return loadImage('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg));
   });
-  const [background, outfitImage, galleryImage, ...symbols] = await Promise.all([loadImage(destination.image), loadImage(look.image), loadImage(photo.image), ...stampImages]);
+  const [background, outfitImage, galleryImage, paper, ...symbols] = await Promise.all([loadImage(destination.image), loadImage(look.image), loadImage(photo.image), loadImage(invitation.paper), ...stampImages]);
   canvas.width = 1600;canvas.height = 1000;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle=colors.cream;ctx.fillRect(0,0,1600,1000);
-  cover(ctx,background,18,18,1564,964);
-  const fade=ctx.createLinearGradient(550,0,1500,0);fade.addColorStop(0,'transparent');fade.addColorStop(.45,colors.cream+'ee');fade.addColorStop(1,colors.cream);ctx.fillStyle=fade;ctx.fillRect(18,18,1564,964);
-  ctx.strokeStyle=colors.cream;ctx.lineWidth=5;ctx.strokeRect(28,28,1544,944);
-  ctx.strokeStyle=colors.burgundy;ctx.lineWidth=1;ctx.strokeRect(43,43,1514,914);ctx.strokeRect(51,51,1498,898);
-  ctx.fillStyle=colors.cream+'ed';ctx.fillRect(70,65,720,122);ctx.strokeStyle=colors.gold;ctx.lineWidth=1;ctx.strokeRect(75,70,710,112);
-  ctx.textAlign='left';drawLabel(ctx,'LUMINO',92,132,500,72,colors.burgundy,'"Lumino Serif", serif');
-  drawLabel(ctx,'A Sparkling Little Journey — A Cozy and Lovely World.',92,166,680,26,colors.burgundy,'"Lumino Script", cursive');
-  polaroid(ctx,outfitImage,100,245,370,510,-.075,look.title,colors);
-  polaroid(ctx,galleryImage,430,355,400,310,.09,photo.title,colors);
-  ctx.fillStyle=colors.pink;ctx.save();ctx.translate(250,224);ctx.rotate(-.16);ctx.globalAlpha=.7;ctx.fillRect(0,0,125,34);ctx.restore();
-  ctx.textAlign='left';drawLabel(ctx,'TO MY LUMINO TRAVELER',900,260,580,17,colors.burgundy,'sans-serif');
-  drawLabel(ctx,state.traveler || 'My lovely traveler',898,330,570,58,colors.burgundy,'"Lumino Serif", serif');
-  ctx.strokeStyle=colors.rose;ctx.beginPath();ctx.moveTo(900,359);ctx.lineTo(1470,359);ctx.stroke();
-  drawLabel(ctx,destination.label,900,412,550,31,colors.burgundy,'sans-serif');
-  drawLabel(ctx,`${mood.label} soul · ${item.label}`,900,457,550,24,colors.burgundy,'sans-serif');
-  drawLabel(ctx,'당신의 반짝이는 여행이',900,523,550,24,colors.burgundy,'sans-serif');
-  drawLabel(ctx,'언제나 이어지길, LUMINO와 함께.',900,566,550,24,colors.burgundy,'sans-serif');
-  drawLabel(ctx,'With love, always.',900,634,550,45,colors.rose,'"Lumino Script", cursive');
-  ctx.fillStyle=colors.cream+'df';ctx.fillRect(75,798,1450,133);
+  // 큰 화보 엽서 + 손편지 + 선택한 의상의 폴라로이드. 모든 사진은 방문자의 선택입니다.
+  ctx.drawImage(paper,0,0,1600,1000);
+  ctx.save();ctx.globalAlpha=.48;ctx.fillStyle=colors.cream;ctx.fillRect(0,0,1600,1000);ctx.restore();
+  ctx.save();ctx.globalAlpha=.25;cover(ctx,background,20,20,1560,960);ctx.restore();
+  ctx.strokeStyle=colors.gold;ctx.lineWidth=2;ctx.strokeRect(26,26,1548,948);
+  ctx.strokeStyle=colors.burgundy;ctx.lineWidth=1;ctx.strokeRect(34,34,1532,932);
+  ctx.textAlign='left';drawLabel(ctx,'LUMINO',70,94,450,59,colors.burgundy,'"Lumino Serif", serif');
+  drawLabel(ctx,'A Sparkling Little Journey — A Cozy and Lovely World.',390,82,1050,31,colors.burgundy,'"Lumino Script", cursive');
+
+  // 여행지 사진은 엽서 가장자리에, 저장한 갤러리 사진은 가장 넓은 영역에 담습니다.
+  ctx.save();ctx.translate(100,156);ctx.rotate(-.035);
+  ctx.shadowColor=colors.shadow;ctx.shadowBlur=24;ctx.shadowOffsetY=14;
+  ctx.fillStyle=colors.cream;ctx.fillRect(0,0,1410,710);ctx.shadowColor='transparent';
+  cover(ctx,background,12,12,1386,686);
+  ctx.save();ctx.globalAlpha=.18;ctx.drawImage(paper,12,12,1386,686);ctx.restore();
+  cover(ctx,galleryImage,28,28,906,628);
+  ctx.strokeStyle=colors.cream;ctx.lineWidth=9;ctx.strokeRect(28,28,906,628);
+  ctx.fillStyle=colors.cream+'eb';ctx.fillRect(420,590,496,58);
+  ctx.textAlign='right';drawLabel(ctx,photo.title,898,628,460,29,colors.burgundy,'"Lumino Script", cursive');
+  ctx.drawImage(paper,934,20,453,672);
+  ctx.textAlign='center';
+  drawLabel(ctx,'To my LUMINO traveler',1160,105,360,38,colors.burgundy,'"Lumino Script", cursive');
+  ctx.strokeStyle=colors.rose;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(1000,129);ctx.lineTo(1320,129);ctx.stroke();
+  drawLabel(ctx,state.traveler || 'My lovely traveler',1160,205,330,43,colors.burgundy,'"Lumino Serif", serif');
+  drawLabel(ctx,'당신의 반짝이는 여행이',1160,278,330,23,colors.burgundy,'sans-serif');
+  drawLabel(ctx,'언제나 이어지길,',1160,319,330,23,colors.burgundy,'sans-serif');
+  drawLabel(ctx,'LUMINO와 함께.',1160,360,330,24,colors.burgundy,'sans-serif');
+  drawLabel(ctx,destination.label,1160,437,330,22,colors.burgundy,'sans-serif');
+  drawLabel(ctx,`${mood.label} · ${item.label}`,1160,474,330,20,colors.burgundy,'sans-serif');
+  drawLabel(ctx,'With love, always.',1160,550,330,44,colors.rose,'"Lumino Script", cursive');
+  ctx.restore();
+
+  // 의상은 별도의 종이 사진으로 겹쳐서, 선택한 상품 전체가 기억에 남게 합니다.
+  polaroid(ctx,outfitImage,65,365,358,514,-.10,look.title,colors);
+  ctx.save();ctx.translate(185,353);ctx.rotate(-.2);ctx.fillStyle=colors.pink;ctx.globalAlpha=.8;ctx.fillRect(0,0,118,34);ctx.restore();
+
+  // 잉크 도장은 여행 카드 하단의 종이 띠에 모아 인쇄합니다.
+  ctx.save();ctx.translate(440,817);ctx.rotate(-.012);
+  ctx.shadowColor=colors.shadow;ctx.shadowBlur=12;ctx.shadowOffsetY=4;
+  ctx.fillStyle=colors.cream;ctx.fillRect(0,0,965,134);ctx.shadowColor='transparent';
+  ctx.strokeStyle=colors.gold;ctx.lineWidth=1;ctx.strokeRect(7,7,951,120);
   stamps.forEach((stamp,i) => {
-    const x = 280 + i*255, y = 862;
-    const color = stamp.color==='blue'?colors.blue:stamp.color==='gold'?colors.goldInk:colors.rose;
-    ctx.save();ctx.translate(x,y);ctx.rotate((i%2?1:-1)*.13);ctx.strokeStyle=color;ctx.lineWidth=2.2;ctx.beginPath();ctx.arc(0,0,53,0,Math.PI*2);ctx.stroke();ctx.setLineDash([2,3]);ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,46,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
-    ctx.drawImage(symbols[i],-23,-31,46,46);ctx.fillStyle=color;ctx.font='14px "Lumino Serif", serif';ctx.textAlign='center';ctx.fillText(stamp.name,0,30);ctx.font='6px sans-serif';ctx.fillText('LUMINO · LITTLE JOURNEY',0,-37);ctx.restore();
+    const color=stamp.color==='blue'?colors.blue:stamp.color==='gold'?colors.goldInk:colors.rose;
+    ctx.save();ctx.translate(105+i*185,65);ctx.rotate((i%2?1:-1)*.12);
+    ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,49,0,Math.PI*2);ctx.stroke();
+    ctx.setLineDash([2,3]);ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,43,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+    ctx.drawImage(symbols[i],-22,-29,44,44);ctx.fillStyle=color;ctx.font='13px "Lumino Serif", serif';ctx.textAlign='center';ctx.fillText(stamp.name,0,28);ctx.font='6px sans-serif';ctx.fillText('LUMINO · LITTLE JOURNEY',0,-34);ctx.restore();
   });
-  ctx.fillStyle=colors.cream+'ed';ctx.fillRect(85,740,650,42);
-  ctx.textAlign='left';drawLabel(ctx,`YOUR FAVORITE · ${look.title}`,98,765,700,18,colors.burgundy,'sans-serif');
-  ctx.textAlign='right';drawLabel(ctx,'5 / 5 MOMENTS, FOREVER YOURS.',1485,765,600,15,colors.burgundy,'sans-serif');
-  // 3번째 선택도 카드 장식에 반영합니다.
-  const itemSymbol = item.value==='crown'?'crown':item.value==='ribbon'?'bow':item.value==='pearls'?'diamond':'heart';
-  const svg=icon(itemSymbol).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" ').replace('currentColor',colors.rose);
-  const ornament=await loadImage('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg));ctx.drawImage(ornament,1380,70,100,100);
+  ctx.restore();
+
+  const itemSymbol=item.value==='crown'?'crown':item.value==='ribbon'?'bow':item.value==='pearls'?'diamond':'heart';
+  const svgImage=name=>loadImage('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(icon(name).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" ').replaceAll('currentColor',colors.rose)));
+  const [ornament,plane,bow]=await Promise.all([svgImage(itemSymbol),svgImage('plane'),loadImage(invitation.ribbon)]);
+  ctx.save();ctx.translate(1450,108);ctx.rotate(.2);ctx.drawImage(plane,-40,-40,80,80);ctx.restore();
+  ctx.save();ctx.strokeStyle=colors.rose;ctx.lineWidth=2;ctx.setLineDash([8,9]);ctx.beginPath();ctx.moveTo(1250,115);ctx.bezierCurveTo(1300,180,1380,170,1420,125);ctx.stroke();ctx.restore();
+  ctx.save();ctx.translate(73,200);ctx.rotate(-.2);ctx.strokeStyle=colors.rose;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,50,0,Math.PI*2);ctx.stroke();ctx.drawImage(ornament,-30,-33,60,60);ctx.restore();
+  ctx.drawImage(bow,1350,794,210,140);
+  ctx.textAlign='right';drawLabel(ctx,'5 / 5 SPARKLING MOMENTS · FOREVER YOURS',1500,968,1000,13,colors.burgundy,'sans-serif');
   return new Promise((resolve,reject) => { try { canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG 생성에 실패했어요. 다시 시도해주세요.')), 'image/png'); } catch { reject(new Error('외부 이미지의 다운로드 권한을 확인해주세요. 로컬 images/ 이미지를 사용하면 저장할 수 있어요.')); } });
 }
 export function downloadBlob(blob, filename) {

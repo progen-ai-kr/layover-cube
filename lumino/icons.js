@@ -1,7 +1,7 @@
 const paths = {
   crown: '<path d="m4 8 4 5 4-8 4 8 4-5-2 12H6L4 8Z"/><path d="M6 17h12"/><circle cx="4" cy="6" r="1"/><circle cx="12" cy="3" r="1"/><circle cx="20" cy="6" r="1"/>',
   heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
-  plane: '<path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="m22 2-11 11"/>',
+  plane: '<path d="M21.5 2.5c-.8-.8-2.2-.5-3 .3l-4 4-10-2-2 2 8 4-4 4-3-1-2 2 4 2 2 4 2-2-1-3 4-4 4 8 2-2-2-10 4-4c.8-.8 1.1-2.2.3-3Z" fill="currentColor" stroke-width=".5"/>',
   castle: '<path d="M3 21V10h5v11m8 0V10h5v11M8 21V8h8v13M2 10l3.5-5L9 10m6 0 3.5-5 3.5 5M8 8l4-7 4 7M2 21h20M10 21v-5a2 2 0 0 1 4 0v5"/>',
   bow: '<path d="M10 10C0-1 0 19 10 13m4-3C24-1 24 19 14 13"/><rect x="10" y="9" width="4" height="5" rx="1"/><path d="m10 14-5 8 4-1 2 2 1-9m2 0 5 8-4-1-2 2-1-9"/>',
   diamond: '<path d="m3 3 18 0 3 6-12 14L0 9 3 3Z" transform="translate(2 1) scale(.83)"/><path d="M2 8h20M8 4 6 8l6 14 6-14-2-4"/>',
