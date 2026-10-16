@@ -1,7 +1,8 @@
+import { worldArt } from './world.js';
 export const questions = [
   { id: 'destination', title: '당신이 꿈꾸는 여행지는?', english: 'Where does your heart want to go?', options: [
     { value: 'paris', label: '로맨틱한 파리', detail: '장밋빛 하늘 아래, 작은 산책', image: 'images/lumino-paris.jpg' },
-    { value: 'castle', label: '동화 속의 성', detail: '상상 속 나만의 판타지', image: 'images/lumino-hero.jpg' },
+    { value: 'castle', label: '동화 속의 성', detail: '상상 속 나만의 판타지', image: worldArt.hero },
     { value: 'city', label: '반짝이는 야경의 도시', detail: '별보다 눈부신 오늘 밤', image: 'images/lumino-city.jpg' }
   ] },
   { id: 'mood', title: '마음이 머무는 분위기는?', english: 'A mood that is so you.', options: [

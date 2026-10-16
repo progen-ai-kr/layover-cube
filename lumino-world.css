@@ -1,0 +1,289 @@
+/* LUMINO의 공통 시각 구성. 색·폰트는 style.css의 브랜드 토큰을 사용합니다. */
+.lumino-site {
+  background: linear-gradient(var(--world-glass),var(--world-glass)), url('images/lumino-world-paper.webp') center top / 1600px auto repeat-y;
+  color: var(--burgundy);
+}
+.lumino-site .eyebrow { background:none; border:0; border-radius:0; box-shadow:none; padding:0; color:var(--world-ink); }
+.lumino-site .section { max-width:1280px; padding-block:65px; }
+.chapter { width:min(1280px,calc(100% - 40px)); padding-block:55px; }
+.lumino-site h2 { font-size:clamp(36px,4.5vw,58px); }
+.section-intro { margin-bottom:28px; }
+.section-intro>p:not(.eyebrow):not(.script) { font-size:13px; line-height:1.9; }
+.world-crest { display:block; width:38px; color:var(--rose); margin:0 auto 12px; }
+.world-crest .icon { width:38px; height:30px; }
+.chapter-heading { position:relative; }
+.chapter-heading>.world-crest { position:absolute; top:-36px; left:0; margin:0; }
+.lumino-site .l-btn,.lumino-site.legacy-page .btn {
+  background:linear-gradient(180deg,var(--rose),var(--logo-rose));
+  box-shadow:inset 0 1px 0 var(--cream-glow),0 0 0 3px var(--cream),0 0 0 4px var(--rose-line),0 5px 12px var(--shadow-tint);
+  border-color:var(--rose); font-weight:500;
+}
+.lumino-site .l-btn.outline,.lumino-site.legacy-page .btn.ghost { background:var(--cream); }
+.lumino-site .l-btn:hover,.lumino-site.legacy-page .btn:hover { background:var(--burgundy); }
+.lumino-site .quiet-link { color:var(--world-ink); }
+
+/* 시안처럼 한 줄로 이어지는 메뉴. 상품·룩북·문의는 보조 메뉴에도 유지합니다. */
+.lumino-header { background:var(--world-glass); border-bottom:1px solid var(--rose-line); backdrop-filter:blur(12px); }
+.header-inner { min-height:66px; padding:7px 18px; gap:8px; max-width:1600px; }
+.lumino-logo { width:105px; }.lumino-logo img { height:44px; }
+.header-tools .icon-button { min-width:44px; padding:9px; }
+.main-navigation { padding:18px 24px 24px; background:var(--cream); }
+.main-navigation a { font-size:12px; min-height:44px; }
+.nav-secondary-links { display:flex; flex-wrap:wrap; gap:5px 16px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--rose-line); }
+.nav-secondary-links a { font-size:10px; }
+.header-directory { display:none; position:relative; }
+.header-directory summary { cursor:pointer; list-style:none; }
+.header-directory summary::-webkit-details-marker { display:none; }
+.header-directory>nav { position:absolute; right:0; top:52px; width:280px; display:grid; padding:25px; background:var(--paper); border:1px solid var(--rose-line); box-shadow:0 12px 30px var(--shadow-tint); }
+.header-directory>nav>.script { font-size:25px; margin-bottom:12px; }
+.header-directory a { display:flex; align-items:center; font-size:11px; min-height:46px; border-bottom:1px dashed var(--rose-line); }
+.header-directory .quiet-link { justify-self:start; font-size:11px; }
+[data-lumino-home]>.lumino-header { margin-bottom:-66px; background:color-mix(in srgb,var(--cream) 80%,transparent); }
+[data-lumino-home]>.lumino-header.is-scrolled { background:var(--world-glass); }
+
+/* 메인: 프레임 전체를 하나의 핑크 판타지 화보로 사용합니다. */
+.dream-hero { min-height:0; height:820px; background:var(--world-pink); }
+.dream-scenery { top:200px; bottom:0; height:calc(100% - 200px); object-fit:cover; object-position:74% center; }
+.hero-haze { background:linear-gradient(180deg,var(--world-blush) 0%,var(--world-blush) 22%,transparent 47%); }
+.hero-border { inset:9px; border-color:var(--cream-glow); }
+.hero-content { position:absolute; inset:96px 18px 24px; width:auto; max-width:none; margin:0; padding:0; }
+.hero-crown .icon { width:39px; height:39px; margin:0 0 5px; }
+.hero-content .brand-wordmark { font-size:clamp(78px,23vw,110px); line-height:.95!important; }
+.hero-script { font-size:25px; margin:14px 0 12px; line-height:1.15; }
+.hero-description { font-size:10px; line-height:1.7; margin:17px 0 0; color:var(--burgundy); }
+.hero-buttons { position:absolute; bottom:53px; left:0; right:0; margin:0; gap:12px; }
+.hero-buttons .l-btn { font:600 11px/1.4 var(--font-serif); letter-spacing:0; padding:12px 14px; min-height:48px; gap:8px; }
+.hero-invitation { position:absolute; left:50%; bottom:0; transform:translateX(-50%); margin:0; padding-inline:14px; font-size:11px; background:var(--world-glass); border:1px solid var(--rose-line); white-space:nowrap; }
+.hero-bottom { display:none; }
+.hero-postcard { display:none; }
+.hero-starlight { position:absolute; inset:0; pointer-events:none; color:var(--cream); }
+.hero-starlight i { position:absolute; font:normal 26px var(--font-serif); animation:world-twinkle 4s ease-in-out infinite alternate; text-shadow:0 0 12px var(--cream); }
+.hero-starlight i:nth-child(1) { left:12%; top:52%; }.hero-starlight i:nth-child(2) { left:61%; top:18%; animation-delay:1s; }.hero-starlight i:nth-child(3) { right:10%; bottom:17%; animation-delay:2s; }
+@keyframes world-twinkle { from{opacity:.25;scale:.65} to{opacity:1;scale:1.2} }
+.love-strip { padding:14px 20px; font-size:9px; background:var(--pink-paper); border-block:3px double var(--rose-line); }
+#little-journey { padding-top:65px; }
+.chapter-photo { background:var(--cream); box-shadow:0 8px 18px var(--shadow-tint); }
+.chapter-postcard-action>span { color:var(--burgundy); }
+.home-editorial { border:0; padding:45px 25px; background:var(--paper) url('images/lumino-world-paper.webp') center/100% 100%; }
+.home-editorial>div { padding:15px 10px; text-align:center; }
+.home-editorial .quiet-link { margin-inline:auto; }
+.home-editorial-photo { margin:15px; padding:10px 10px 25px; }
+.home-destinations { background:var(--world-pink); border-block:3px double var(--rose-line); }
+.home-directory>a { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; border:0; padding:50px 30px; }
+.closing-note { text-align:center; background:var(--paper) url('images/lumino-world-paper.webp') center/cover; padding:65px 35px; margin-bottom:55px; }
+.closing-note h2 { font-family:var(--font-main); font-size:clamp(23px,3vw,34px); line-height:1.6; }
+
+/* 공통 미션 안내는 여행 티켓처럼, 해야 할 행동은 바로 읽히게. */
+.chapter-mission { width:min(1280px,calc(100% - 40px)); padding:15px 18px; margin:20px auto; border:1px dashed var(--rose-line); background:var(--cream); box-shadow:0 4px 12px var(--shadow-tint); }
+.chapter-mission>div>p:last-child { font-size:12px; }
+.mission-notice-icon { border-style:double; border-width:3px; width:46px; height:46px; }
+.breadcrumb { max-width:1280px; padding-top:6px; font-size:9px; }
+
+/* 컬렉션: 옷 자체가 중심인 겹친 화보 페이지. 운영 상품은 그대로 연결합니다. */
+.lumino-site.legacy-page .world-collection { display:grid; grid-template-columns:1fr; padding:40px 25px 35px; gap:20px; background:var(--paper) url('images/lumino-world-paper.webp') center/cover; min-height:0; border-bottom:3px double var(--rose-line); }
+.world-collection-copy { text-align:center; min-width:0; }
+.world-heading-ornament { display:block; color:var(--rose); margin:15px auto 6px; }
+.world-heading-ornament .icon { width:33px; height:33px; }
+.lumino-site .world-collection h1 { font:500 clamp(48px,6vw,76px)/1 var(--font-serif); margin:5px 0 12px; }
+.lumino-site .world-collection p.script { font:27px/1.3 var(--font-script); color:var(--rose); margin:12px 0; }
+.world-collection-copy>p:not(.eyebrow):not(.script) { font-size:12px; }
+.collection-page-links { justify-content:center; gap:15px; margin-top:25px; }
+.world-fashion-collage { position:relative; height:350px; max-width:760px; width:100%; margin:auto; }
+.world-fashion-photo { display:block; position:absolute; padding:7px 7px 22px; background:var(--paper); border:1px solid var(--rose-line); box-shadow:0 9px 25px var(--shadow-tint); width:43%; left:0; top:65px; transform:rotate(-9deg); transition:transform .3s; }
+.world-fashion-photo img { width:100%; height:220px; object-fit:cover; object-position:center 25%; }
+.world-fashion-photo .script { font-size:20px; display:block; text-align:center; padding-top:9px; line-height:1.2; }
+.world-fashion-photo:nth-child(2) { left:28%; top:0; transform:rotate(3deg); z-index:2; }
+.world-fashion-photo:nth-child(3) { left:56%; top:80px; transform:rotate(11deg); }
+.world-fashion-photo:hover { z-index:3; transform:rotate(0) translateY(-5px); }
+.collection-note { padding:20px!important; background:transparent!important; border:0; color:var(--burgundy); }
+.collection-note p { font-size:12px; font-weight:400; }
+.product-list-section { margin:auto; }
+.product-list-section .section-heading { border-bottom:1px solid var(--rose-line); padding-bottom:20px; margin-bottom:15px; }
+.product-list-section .section-heading h2 { font-family:var(--font-serif); font-size:40px; }
+.product-list-section .card { padding:10px 10px 18px; background:var(--paper); border:1px solid var(--rose-line); box-shadow:0 6px 18px var(--shadow-tint); }
+.product-list-section .card-img { border:0; padding:0; background:var(--pink-paper); }
+.product-list-section .card h3 { font-size:15px; }.product-list-section .card>p { padding-inline:7px; }
+.product-list-section .card .product-detail-link { margin-left:7px; }
+.shop-toolbar { border-block:1px dashed var(--rose-line); padding:12px 0; }
+.gallery-filter { font-size:10px; }
+.gallery-filter[aria-pressed=true] { color:var(--world-ink); background:var(--cream); border:1px solid var(--rose-line); border-radius:24px; padding-inline:16px; }
+.collection-chapter { padding:65px 0; border:0; }
+.collection-item .look-photo { background:var(--paper); padding:10px 10px 20px; box-shadow:0 6px 20px var(--shadow-tint); transform:rotate(-2deg); }
+.collection-item:nth-child(2) .look-photo { transform:rotate(3deg); }.collection-item:nth-child(3) .look-photo { transform:rotate(-3deg); }
+
+/* 갤러리: 첫 화면에서 사진이 보이는 크림색 스크랩북. */
+.chapter-page:has(#gallery) { background:var(--world-pink) url('images/lumino-world-paper.webp') center top/1700px auto repeat-y; }
+.gallery-chapter { background:transparent; border:0; }
+.gallery-chapter::before { display:none; }
+.gallery-chapter>.chapter { padding-top:25px; }
+.gallery-intro { margin-bottom:20px; }
+.gallery-intro .world-crest { margin-bottom:6px; }
+.chapter-page .gallery-intro h1 { font-size:clamp(38px,5vw,65px); margin:10px 0; }
+.gallery-intro>.script { font-size:27px; margin:8px 0; }
+.gallery-intro>p:last-child { margin-top:10px; font-size:12px; }
+.gallery-chapter .chapter-mission { width:100%; margin:20px 0; }
+.gallery-chapter .gallery-filters { gap:3px; margin-bottom:25px; }
+.scrapbook-grid { gap:30px 16px; padding:10px 7px 30px; }
+.polaroid-card { padding:7px 7px 18px; border-color:var(--rose-line); box-shadow:0 9px 20px var(--shadow-tint); }
+.polaroid-card:nth-child(even) { margin-top:20px; }
+.polaroid-card img { height:170px; }.polaroid-card:nth-child(3n) img { height:205px; }
+.polaroid-caption { font-size:20px; min-height:45px; }
+.polaroid-category { font-size:7px; }
+.photo-tape { background:color-mix(in srgb,var(--rose) 24%,transparent); height:28px; box-shadow:inset 0 0 0 1px var(--rose-line); }
+
+/* OUR STORY를 열면 먼저 아틀리에와 브랜드 편지가 펼쳐집니다. */
+.story-chapter { background:transparent; border:0; }
+.story-chapter::before { display:none; }
+.story-chapter>.story-layout { gap:25px; padding-top:15px; align-items:stretch; }
+.story-photo { margin:0 8px; padding:8px 8px 20px; background:var(--paper); border:1px solid var(--rose-line); box-shadow:0 10px 30px var(--shadow-tint); transform:rotate(-2deg); }
+.story-photo>img { height:440px; width:100%; object-fit:cover; }
+.story-photo>.script { font-size:28px; margin-top:12px; }
+.story-postmark { right:15px; bottom:35px; background:var(--cream); }
+.story-letter { background:linear-gradient(color-mix(in srgb,var(--paper) 55%,transparent),color-mix(in srgb,var(--paper) 55%,transparent)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:38px 28px; box-shadow:0 7px 25px var(--shadow-tint); border:1px solid var(--rose-line); }
+.story-letter>.eyebrow { font-size:8px; text-align:center; }
+#story-title { font:500 60px/.95 var(--font-serif); text-align:center; color:var(--logo-rose); margin:17px 0 12px; letter-spacing:-.06em; }
+#story-title>small { display:block; font:22px/1.5 var(--font-serif); letter-spacing:.08em; margin-bottom:5px; }
+.story-salutation { text-align:center; font-size:26px; margin-bottom:24px; }
+.story-paragraph { margin:20px 0; }.story-paragraph h3 { font-size:23px; margin-bottom:10px; }
+.story-paragraph p { font-size:13px; line-height:1.95; color:var(--burgundy); }
+#story-end { text-align:center; margin-top:22px; }
+.ribbon-hint { font-size:11px; }
+.secret-ribbon { background:transparent; padding:14px 5px; border:0; width:100%; }
+.secret-ribbon>.icon { width:60px; height:45px; }.secret-ribbon>span:last-child { font-size:12px; }
+.legacy-page .section.story-layout { background:var(--cream); padding:35px 25px; border:1px solid var(--rose-line); box-shadow:0 8px 22px var(--shadow-tint); margin-block:30px; }
+.legacy-page .philosophy { background:var(--paper) url('images/lumino-world-paper.webp') center/cover!important; padding:55px 30px!important; border:0!important; }
+.legacy-page .audience-grid article { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:35px 25px; transform:rotate(-1deg); }
+.legacy-page .audience-grid article:nth-child(2) { transform:rotate(1deg); }
+
+/* 개인 여정·여권·상세 창도 같은 사진, 편지지와 도장의 표현을 공유합니다. */
+.journey-page .taste-chapter { padding-top:30px; }
+.journey-page .taste-paper { background:linear-gradient(var(--world-glass),var(--world-glass)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%; }
+.journey-page .journey-map { border:0; }
+.result-postcard { box-shadow:0 18px 35px color-mix(in srgb,var(--burgundy) 19%,transparent); }
+.result-heading h1 { color:var(--world-ink); }
+.journal-summary { background:var(--cream); border-block:1px dashed var(--rose-line); }
+.l-dialog:not(.intro-dialog):not(.passport-dialog):not(.completion-dialog) { background:var(--paper) url('images/lumino-world-paper.webp') center/cover; border:1px solid var(--rose-line); }
+.detail-dialog .detail-picture { padding:8px; background:var(--cream); border:1px solid var(--rose-line); box-shadow:0 8px 18px var(--shadow-tint); }
+.detail-copy { padding:18px; background:var(--world-glass); }
+.detail-copy h2 { font-size:40px; }.detail-copy p { font-size:13px; }
+.detail-hint { font-size:11px!important; }
+.search-result,.favorites-row { background:var(--cream); }
+.passport-guide-sheet { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; }
+.passport-guide-sheet .mission-row { background:color-mix(in srgb,var(--cream) 86%,transparent); padding-inline:12px; }
+.passport-guide-sheet .mission-row.is-current { background:var(--pink-paper); }
+.passport-guide-sheet>header { background:var(--world-glass); padding:12px; }
+.passport-dialog::backdrop,.completion-dialog::backdrop { background:color-mix(in srgb,var(--burgundy) 35%,transparent); backdrop-filter:blur(8px); }
+.passport-fab { right:12px; bottom:14px; }
+.passport-fab>span:last-child { background:var(--cream); }
+@media(max-width:719px) {
+  .passport-fab { width:62px; height:86px; align-items:start; bottom:14px; }
+  .passport-fab .mini-passport { width:58px; height:74px; }
+  .passport-fab>span:last-child { position:absolute; right:0; bottom:0; padding:0; border:0; box-shadow:none; background:none; font-size:0; }
+  .passport-fab>span:last-child>small { display:none; }
+  .passport-fab>span:last-child>strong { display:block; margin:0; padding:3px 8px; font:500 12px/1.5 var(--font-main); border:1px solid var(--rose-line); border-radius:15px; background:var(--cream); box-shadow:0 2px 6px var(--shadow-tint); }
+  .chapter-mission { display:grid; grid-template-columns:46px minmax(0,1fr); gap:5px 12px; }
+  .chapter-mission>div { min-width:0; }
+  .chapter-mission>.quiet-link { grid-column:2; margin-left:0; justify-self:start; font-size:11px; }
+}
+
+/* 운영 상품 상세, 룩북, 문의 페이지에도 동일한 편집 디자인을 적용합니다. */
+.lumino-site .product-hero { gap:35px; padding-top:45px; }
+.lumino-site .product-info { background:linear-gradient(var(--world-glass),var(--world-glass)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:35px 25px; border:1px solid var(--rose-line); box-shadow:0 8px 25px var(--shadow-tint); }
+.lumino-site .product-info h1 { font-size:clamp(26px,3vw,38px); }
+.lumino-site .product-info .k,.lumino-site .product-summary { color:var(--burgundy); }
+.lumino-site .product-hero-image { padding:9px; background:var(--paper); }
+.lumino-site .product-carousel-footer { background:var(--cream); }
+.lumino-site .product-story { background:var(--cream); border:1px solid var(--rose-line); padding:20px; }
+.lumino-site .portfolio-shell { background:var(--cream); border:1px solid var(--rose-line); box-shadow:0 8px 25px var(--shadow-tint); padding:35px 25px; margin-block:40px; }
+.lumino-site .lookbook-head,.lumino-site .contact-hero { background:var(--paper) url('images/lumino-world-paper.webp') center/cover!important; min-height:0; padding:45px 25px; }
+.lumino-site .lookbook-head h1,.lumino-site.legacy-page .contact-copy h1 { font-family:var(--font-main); font-size:clamp(28px,3.5vw,45px); line-height:1.45; }
+.lumino-site .lookbook-head .polaroid { background:var(--paper); border:1px solid var(--rose-line); border-radius:0; box-shadow:0 12px 28px var(--shadow-tint); padding:10px 10px 25px; }
+.lumino-site .lookbook-head .polaroid img { border-radius:0; }.lumino-site .lookbook-head .polaroid>span { font:28px var(--font-script); color:var(--rose); }
+.lumino-site .contact-copy>p:not(.eyebrow) { color:var(--burgundy); font-size:13px; }
+.lumino-site .contact-dress img { border:10px solid var(--paper); }
+.lumino-site .contact-item { background:var(--cream); border:1px solid var(--rose-line); border-radius:0; box-shadow:0 5px 14px var(--shadow-tint); padding:24px 18px; }
+.lumino-site .contact-item .contact-icon { border:1px dashed var(--rose); background:var(--pink-paper); color:var(--rose); }
+.lumino-site .contact-item .value { font-size:15px; overflow-wrap:anywhere; }
+.lumino-site .contact-item .label { color:var(--world-ink); }
+.lumino-footer { background:var(--paper) url('images/lumino-world-paper.webp') center/cover; padding:50px 30px 110px; border-top:3px double var(--rose-line); }
+.footer-top,.footer-bottom { max-width:1280px; }.footer-brand p { font-size:26px; }
+.footer-business { padding:10px; background:var(--cream-glow); }
+
+@media(min-width:720px) {
+  .chapter { width:min(1280px,calc(100% - 80px)); padding-block:65px; }
+  .header-inner { padding-inline:35px; min-height:72px; }
+  [data-lumino-home]>.lumino-header { margin-bottom:-72px; }
+  .dream-hero { height:clamp(620px,56.25vw,1000px); }
+  .dream-scenery { top:0; height:100%; object-position:center; }
+  .hero-haze { background:none; }
+  .hero-border { inset:12px; }
+  .hero-content { inset:auto; top:24%; left:10%; width:45%; max-width:690px; padding:0; margin:0; }
+  .hero-crown .icon { width:45px; height:45px; margin:0 0 7px; }
+  .hero-content .brand-wordmark { font-size:clamp(90px,10.7vw,184px); }
+  .hero-script { font-size:clamp(24px,2.7vw,44px); margin:20px 0; }
+  .hero-description { margin:24px auto 0; font-size:12px; background:var(--cream-glow); padding:4px 12px; width:max-content; max-width:100%; }
+  .hero-buttons { position:static; margin-top:27px; gap:16px; flex-wrap:nowrap; }
+  .hero-buttons .l-btn { font-size:12px; padding:13px 18px; min-height:48px; white-space:nowrap; }
+  .hero-invitation { position:static; transform:none; border:0; border-bottom:1px solid var(--rose-line); background:var(--cream-glow); margin-top:19px; font-size:11px; min-height:44px; }
+  .hero-postcard { display:block; position:absolute; right:2.5%; bottom:16%; width:100px; padding:18px 10px; background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; border:1px solid var(--rose-line); transform:rotate(8deg); }
+  .hero-postcard>span { font-size:6px; }.hero-postcard p { font-size:24px; line-height:1.2; }.hero-postcard i { font-size:20px; }
+  .hero-bottom { display:flex; bottom:14px; justify-content:center; }.hero-bottom>span { display:none; }.hero-bottom>a { background:var(--cream-glow); padding:6px 14px; font-size:8px; }
+  .home-editorial { padding:70px 7%; gap:50px; }.home-editorial-photo img { height:500px; }
+  .home-editorial>div { padding:20px; }.home-editorial h2 { font-size:clamp(34px,4vw,58px); }
+  .lumino-site.legacy-page .world-collection { grid-template-columns:.8fr 1.2fr; padding:50px 6%; gap:25px; min-height:560px; align-items:center; }
+  .world-fashion-collage { height:440px; }.world-fashion-photo img { height:280px; }
+  .world-fashion-photo { width:45%; }.world-fashion-photo:nth-child(2){left:28%}.world-fashion-photo:nth-child(3){left:56%;top:90px}
+  .world-fashion-photo .script { font-size:23px; }
+  .collection-page-links { flex-direction:column; gap:10px; }
+  .gallery-chapter>.chapter { padding-top:28px; }.gallery-intro h1 { font-size:58px; }
+  .scrapbook-grid { grid-template-columns:1.08fr .92fr 1fr; gap:38px 32px; padding-top:10px; }
+  .polaroid-card { padding:10px 10px 22px; }.polaroid-card img { height:270px; }
+  .polaroid-card:nth-child(3n) img { height:300px; }.polaroid-card:nth-child(2n) { margin-top:35px; }
+  .polaroid-caption { font-size:26px; min-height:35px; }
+  .story-chapter>.story-layout { grid-template-columns:.95fr 1.05fr; gap:30px; padding-top:22px; }
+  .story-photo>img { height:100%; min-height:720px; max-height:860px; }.story-photo { padding-bottom:55px; }
+  .story-photo>.script { position:absolute; bottom:10px; left:10px; right:10px; text-align:center; }
+  .story-letter { padding:40px 35px; }.story-paragraph h3 { font-size:25px; }.story-paragraph p { font-size:13px; }
+  .story-postmark { bottom:55px; }
+  .lumino-site .lookbook-head,.lumino-site .contact-hero { padding:55px 14%; min-height:540px; gap:50px; }
+  .lumino-site .contact-dress img { max-height:420px; }.lumino-site .lookbook-head .polaroid { max-width:360px; }
+  .lumino-site .product-info { padding:45px 35px; }
+  .lumino-footer { padding:55px 8% 45px; }
+  .passport-fab { right:20px; bottom:20px; }
+}
+@media(min-width:1024px) {
+  .header-inner { padding:6px 4%; gap:30px; }
+  .lumino-logo { width:115px; }.lumino-logo img { height:48px; }
+  .main-navigation { padding:0; gap:25px; background:none; }
+  .main-navigation a { font:600 11px/1.4 var(--font-serif); padding:14px 3px; }
+  .main-navigation a.active::after { bottom:2px; font-size:7px; }
+  .nav-secondary-links { display:none; }.header-directory { display:block; }
+  .header-tools { gap:1px; }.header-tools .icon-button { min-width:44px; }
+  .hero-content { top:24%; left:10%; width:44%; }
+  .hero-crown .icon { width:54px; height:54px; }
+  .hero-buttons .l-btn { font-size:13px; padding-inline:24px; }
+  .hero-postcard { width:125px; padding:23px 15px; }.hero-postcard p { font-size:30px; }
+  .chapter-photo>img { height:265px; }
+  .lumino-site.legacy-page .world-collection { padding:48px 7%; min-height:610px; }
+  .world-fashion-collage { height:500px; }.world-fashion-photo img { height:335px; }
+  .world-fashion-photo .script { font-size:26px; }
+  .world-fashion-photo:nth-child(1) { top:55px; }.world-fashion-photo:nth-child(2) { top:0; }.world-fashion-photo:nth-child(3) { top:90px; }
+  .collection-page-links { flex-direction:row; gap:20px; }
+  .story-letter { padding:45px 55px; }.story-paragraph p { font-size:14px; }
+  #story-title { font-size:78px; }.story-salutation { font-size:30px; }
+  .gallery-chapter .chapter-mission { padding:12px 20px; }
+  .gallery-intro>p:last-child { font-size:13px; }
+  .polaroid-card img { height:310px; }.polaroid-card:nth-child(3n) img { height:350px; }
+}
+@media(max-width:359px) {
+  .header-inner { padding-inline:12px; }.lumino-logo { width:95px; }
+  .hero-content { inset-inline:14px; top:100px; }.hero-content .brand-wordmark { font-size:77px; }.hero-script { font-size:23px; }
+  .hero-description { font-size:9px; }.hero-buttons { gap:9px; }.hero-buttons .l-btn { font-size:10px; padding-inline:10px; }
+  .world-fashion-collage { height:310px; }.world-fashion-photo img { height:190px; }
+  .world-fashion-photo .script { font-size:17px; }.world-fashion-photo { padding-bottom:14px; }
+  .story-letter { padding:35px 23px; }.story-paragraph p { font-size:12px; }
+  .polaroid-card img { height:145px; }.polaroid-card:nth-child(3n) img { height:175px; }
+  .polaroid-caption { font-size:18px; }.polaroid-category { font-size:6px; }
+}
+@media(prefers-reduced-motion:reduce) { .hero-starlight i { animation:none; }.world-fashion-photo { transition:none; } }
+.low-effects .hero-starlight i { animation:none; }

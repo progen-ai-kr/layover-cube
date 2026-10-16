@@ -13,6 +13,7 @@ import { missionMapMarkup, passportMarkup, missionNoticeMarkup, missionHref, com
 import { loadProductLooks } from './shop.js';
 import { renderTravelCard, downloadBlob } from './card.js';
 import { journalMarkup, journalSummaryMarkup, tasteResultMarkup, tastePreviewMarkup } from './journal.js';
+import { renderWorld } from './world.js';
 
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
@@ -31,6 +32,7 @@ let selectedStamp=null, focusReturn=null, passportViewKey='';
 const awardQueue=[];
 let awarding=false;
 renderChrome();
+renderWorld();
 let productLooks = store.get().productLooks;
 const allLooks = () => [...collection, ...store.get().productLooks];
 $$('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon);});
@@ -281,5 +283,5 @@ if('IntersectionObserver' in window){
   const storyEnd=$('#story-end');if(storyEnd){const read=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!$('#intro-dialog').open){store.update({storyRead:true});read.disconnect();}},{threshold:.5});read.observe(storyEnd);}
 
 }else {$$('.reveal').forEach(el=>el.classList.add('is-visible'));const end=$('#story-end');if(end)window.addEventListener('scroll',()=>{const r=end.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)store.update({storyRead:true});},{passive:true});}
-if(isHome&&!reducedMotion.matches&&!lowPower&&matchMedia('(min-width: 1024px) and (pointer: fine)').matches){let pending=false;window.addEventListener('scroll',()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{const y=Math.min(scrollY,800)*.12;$('.dream-scenery').style.transform=`translateY(${y}px) scale(1.06)`;pending=false;});},{passive:true});}
+if(isHome&&!reducedMotion.matches&&!lowPower&&matchMedia('(min-width: 1024px) and (pointer: fine)').matches){let pending=false;window.addEventListener('scroll',()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{const y=Math.min(scrollY,800)*.045;$('.dream-scenery').style.transform=`translateY(${y}px) scale(1.025)`;pending=false;});},{passive:true});}
 if(isHome&&!store.get().started)showIntro();else maybeComplete();
