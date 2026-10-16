@@ -19,7 +19,6 @@ export function createInvitation(dialog, { openDialog, onFinish, reducedMotion, 
     opening = false;
     dialog.classList.remove('intro-opening', 'intro-still');
     const sparks = Array.from({ length: 10 }, (_, i) => `<i style="--i:${i};--burst-x:${Math.cos(i * .9) * 140}px;--burst-y:${Math.sin(i * .9) * 150 - 70}px">${i % 2 ? '✦' : '♡'}</i>`).join('');
-    const ribbon = part => `<div class="invitation-ribbon ribbon-${part}" aria-hidden="true"><img src="${invitation.ribbon}" alt="" width="1254" height="836"></div>`;
     dialog.innerHTML = `
       <div class="invitation-ambient" aria-hidden="true"><img src="${invitation.scene}" alt=""></div>
       <div class="invitation-theatre">
@@ -36,12 +35,12 @@ export function createInvitation(dialog, { openDialog, onFinish, reducedMotion, 
           </div>
           <img class="invitation-pocket" src="${invitation.scene}" alt="" aria-hidden="true" width="1254" height="1254">
           <div class="invitation-address"><p>YOU ARE INVITED TO</p><h2>LUMINO</h2></div>
-          ${ribbon('left')}${ribbon('right')}${ribbon('seal')}
-          <button type="button" class="invitation-ribbon-hit" data-action="open-intro" aria-label="새틴 리본을 풀고 초대장 열기"><span class="ribbon-glint" aria-hidden="true">✦</span></button>
-          <button type="button" class="l-btn invitation-open-button" data-action="open-intro">OPEN YOUR INVITATION <span aria-hidden="true">›</span></button>
+          <div class="invitation-ribbon" aria-hidden="true"><img src="${invitation.ribbon}" alt="" width="1254" height="836"></div>
+          <button type="button" class="invitation-ribbon-hit" data-action="open-intro" aria-label="리본 초대장 열기"><span class="ribbon-glint" aria-hidden="true">✦</span></button>
+          <button type="button" class="l-btn invitation-open-button" data-action="open-intro" autofocus>OPEN YOUR INVITATION <span aria-hidden="true">›</span></button>
           <div class="invitation-sparks" aria-hidden="true">${sparks}</div>
         </div>
-        <p class="invitation-caption">리본을 풀어, 당신만의 작은 여행을 시작해보세요.</p>
+        <p class="invitation-caption">초대장을 열어, 당신만의 작은 여행을 시작해보세요.</p>
       </div>
       <p class="sr-only" role="status" id="invitation-status"></p>
       <button type="button" class="skip-intro" data-action="skip-intro">SKIP INTRO <span aria-hidden="true">→</span></button>`;
@@ -55,7 +54,7 @@ export function createInvitation(dialog, { openDialog, onFinish, reducedMotion, 
     opening = true;
     const currentRun = run;
     dialog.querySelectorAll('[data-action="open-intro"]').forEach(button => { button.disabled = true; });
-    dialog.querySelector('#invitation-status').textContent = '리본이 풀리고 초대장이 열립니다.';
+    dialog.querySelector('#invitation-status').textContent = '초대장이 열리고 있습니다.';
     await ready;
     if (currentRun !== run || !dialog.open) return;
     dialog.classList.add('intro-opening');

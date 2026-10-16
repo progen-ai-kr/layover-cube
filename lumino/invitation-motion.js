@@ -3,33 +3,24 @@ const soft = 'cubic-bezier(.22,.61,.36,1)';
 const silk = 'cubic-bezier(.45,0,.2,1)';
 export const invitationMotion = [
   {
-    selector: '.ribbon-left',
+    // 리본과 인장은 하나의 장식입니다. 분할·마스킹·비균일 늘이기 없이 옆에 내려놓습니다.
+    selector: '.invitation-ribbon',
     frames: [
-      { offset: 0, transform: 'translate(0,0) rotate(0deg) scale(1,1)', easing: silk },
-      { offset: .13, transform: 'translate(-8%,2%) rotate(-6deg) scale(1.12,.78)', easing: soft },
-      { offset: .34, transform: 'translate(-20%,32%) rotate(-18deg) scale(.9,.76)', easing: soft },
-      { offset: .58, transform: 'translate(-22%,35%) rotate(-16deg) scale(.9,.78)' },
-      { offset: 1, transform: 'translate(-22%,35%) rotate(-16deg) scale(.9,.78)' }
-    ]
-  },
-  {
-    selector: '.ribbon-right, .ribbon-seal', // 인장을 리본에서 분리해 떨어뜨리지 않습니다.
-    frames: [
-      { offset: 0, transform: 'translate(0,0) rotate(0deg) scale(1,1)', easing: silk },
-      { offset: .14, transform: 'translate(8%,3%) rotate(6deg) scale(1.12,.78)', easing: soft },
-      { offset: .36, transform: 'translate(20%,32%) rotate(18deg) scale(.9,.76)', easing: soft },
-      { offset: .59, transform: 'translate(22%,35%) rotate(16deg) scale(.9,.78)' },
-      { offset: 1, transform: 'translate(22%,35%) rotate(16deg) scale(.9,.78)' }
+      { offset: 0, transform: 'translate(0,0) rotate(0deg) rotateX(0deg) scale(1)', easing: soft },
+      { offset: .08, transform: 'translate(0,-2%) rotate(-1deg) rotateX(-6deg) scale(1.015)', easing: silk },
+      { offset: .34, transform: 'translate(11%,37%) rotate(11deg) rotateX(50deg) scale(.64)', easing: soft },
+      { offset: .46, transform: 'translate(12%,38%) rotate(10deg) rotateX(52deg) scale(.62)' },
+      { offset: 1, transform: 'translate(12%,38%) rotate(10deg) rotateX(52deg) scale(.62)' }
     ]
   },
   {
     selector: '.invitation-flap',
     frames: [
       { offset: 0, transform: 'rotateX(0deg)', zIndex: 5 },
-      { offset: .1, transform: 'rotateX(0deg)', zIndex: 5, easing: silk },
-      { offset: .23, transform: 'rotateX(-90deg)', zIndex: 5 },
-      { offset: .231, transform: 'rotateX(-90.1deg)', zIndex: 1, easing: soft },
-      { offset: .43, transform: 'rotateX(-178deg)', zIndex: 1 },
+      { offset: .29, transform: 'rotateX(0deg)', zIndex: 5, easing: silk },
+      { offset: .43, transform: 'rotateX(-90deg)', zIndex: 5 },
+      { offset: .431, transform: 'rotateX(-90.1deg)', zIndex: 1, easing: soft },
+      { offset: .6, transform: 'rotateX(-178deg)', zIndex: 1 },
       { offset: 1, transform: 'rotateX(-178deg)', zIndex: 1 }
     ]
   },
@@ -37,8 +28,8 @@ export const invitationMotion = [
     selector: '.invitation-letter',
     frames: [
       { offset: 0, transform: 'translateY(0)' },
-      { offset: .22, transform: 'translateY(0)', easing: silk },
-      { offset: .63, transform: 'translateY(-44cqw)' },
+      { offset: .43, transform: 'translateY(0)', easing: silk },
+      { offset: .76, transform: 'translateY(-44cqw)' },
       { offset: 1, transform: 'translateY(-44cqw)' }
     ]
   },

@@ -27,7 +27,7 @@ Edit target: supplied pink invitation photo. Keep the EXACT same square camera, 
 
 - `images/lumino-invitation-scene-v2.webp`: 장미·진주 배경과 비어 있는 봉투. 재생 내내 같은 사진입니다. 앞면도 이 사진을 CSS로 가려 재사용합니다.
 - `images/lumino-invitation-flap-v2.webp`: 투명 배경의 엠보싱 핑크 덮개. 실제 접힌 선을 축으로 앞·뒷면을 회전합니다.
-- `images/lumino-invitation-ribbon-v2.webp`: 투명 배경의 새틴 리본과 왕관 인장. 인장은 오른쪽 리본에 붙어 함께 이동합니다. 독립적으로 떨어뜨리거나 내려찍는 동작은 없습니다.
+- `images/lumino-invitation-ribbon-v2.webp`: 투명 배경의 새틴 리본과 왕관 인장. 이미지 전체를 한 요소로 표시하며, 리본과 인장이 함께 이동합니다. 좌우 분할 마스크나 별도 인장 레이어를 사용하지 않습니다.
 - `images/lumino-invitation-paper-v2.webp`: 글자 없는 아이보리 장미 장식 편지지. 초대장, 여권, 여행 카드에 같은 재질을 사용합니다.
 
 공통 참조: 기존 `lumino-invitation-closed.webp`, `lumino-invitation-open.webp`. 색·광원·장미·진주·실사 재질은 유지합니다.

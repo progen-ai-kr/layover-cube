@@ -12,6 +12,7 @@ import { createInvitation } from './invitation.js';
 import { missionMapMarkup, passportMarkup, missionNoticeMarkup, missionHref, completionMarkup } from './journey-ui.js';
 import { loadProductLooks } from './shop.js';
 import { renderTravelCard, downloadBlob } from './card.js';
+import { journalMarkup, journalSummaryMarkup, tasteResultMarkup, tastePreviewMarkup } from './journal.js';
 
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
@@ -83,6 +84,8 @@ function renderProgress(){
   $('.passport-fab').setAttribute('aria-label',`MY PASSPORT 열기, 스탬프 ${ids.length}/5개 수집`);
   const badge=$('.favorite-count');if(badge){badge.hidden=!state.favorites.length;badge.textContent=state.favorites.length;}
   const map=$('#chapter-map');if(map)map.innerHTML=missionMapMarkup(ids);
+  const journal=$('#journey-journal');if(journal){journal.innerHTML=journalMarkup(state);$('#journal-summary').innerHTML=journalSummaryMarkup(state);}
+  if($('#taste-result') && !$('#taste-result').hidden) renderTasteResult();
   $$('.chapter-mission').forEach(notice=>{const stamp=stamps.find(item=>item.id===notice.dataset.mission);if(stamp)notice.innerHTML=missionNoticeMarkup(stamp,ids.includes(stamp.id));});
   $$('.favorite-indicator').forEach(el=>el.classList.toggle('visible',state.favorites.includes(el.dataset.id)));
   if($('#passport-dialog').open) renderPassport();
@@ -108,14 +111,16 @@ function renderDetail(){
 function renderTaste(){
   const form=$('#taste-form');if(!form)return;
   const state=store.get(), q=questions[tasteStep];$('#taste-result').hidden=true;form.hidden=false;
+  $('#journey').classList.remove('is-complete');$('#journey').setAttribute('aria-labelledby','journey-title');
+  $('#taste-preview').innerHTML=tastePreviewMarkup(state.answers);
   $('#taste-progress').innerHTML=questions.map((_,i)=>`<span class="taste-step ${i===tasteStep?'current':''}">${i+1}</span>`).join('')+`<span>YOUR JOURNEY · 0${tasteStep+1} / 03</span>`;
-  form.innerHTML=`<fieldset><legend>${q.title}</legend><p class="taste-english">${q.english}</p><div class="taste-options">${q.options.map(o=>`<label class="taste-option">${o.image?`<img src="${o.image}" alt="" loading="lazy" width="65" height="57">`:icon(o.icon)}<span>${esc(o.label)}<small>${esc(o.detail)}</small></span><input type="radio" name="${q.id}" value="${o.value}" ${state.answers[q.id]===o.value?'checked':''} required></label>`).join('')}</div></fieldset><div class="taste-actions">${tasteStep?'<button type="button" class="quiet-link" data-action="taste-back">← 이전 질문</button>':'<span class="eyebrow">FOLLOW YOUR HEART ♡</span>'}<button type="submit" class="l-btn" ${state.answers[q.id]?'':'disabled'}>${tasteStep===2?'나의 여행 스타일 완성':'다음 질문'} →</button></div>`;
+  form.innerHTML=`<fieldset><legend>${q.title}</legend><p class="taste-english">${q.english}</p><div class="taste-options ${q.id==='destination'?'destination-options':''}">${q.options.map(o=>`<label class="taste-option">${o.image?`<img src="${o.image}" alt="" loading="lazy" width="200" height="180">`:icon(o.icon)}<span>${esc(o.label)}<small>${esc(o.detail)}</small></span><input type="radio" name="${q.id}" value="${o.value}" ${state.answers[q.id]===o.value?'checked':''} required></label>`).join('')}</div></fieldset><div class="taste-actions">${tasteStep?'<button type="button" class="quiet-link" data-action="taste-back">← 이전 질문</button>':'<span class="eyebrow">FOLLOW YOUR HEART ♡</span>'}<button type="submit" class="l-btn" ${state.answers[q.id]?'':'disabled'}>${tasteStep===2?'나의 여행 스타일 완성':'다음 질문'} →</button></div>`;
 }
 function renderTasteResult(){
   const state=store.get();if(!state.tasteComplete||!$('#taste-form'))return;
-  const destination=questions[0].options.find(o=>o.value===state.answers.destination),mood=questions[1].options.find(o=>o.value===state.answers.mood);
-  $('#taste-form').hidden=true;$('#taste-progress').innerHTML='<span>YOUR JOURNEY · COMPLETE</span>';
-  const result=$('#taste-result');result.hidden=false;result.className='taste-result';result.innerHTML=`${stampMarkup(stamps[4],true)}<h3>Your ${mood.label} Journey</h3><p>${esc(destination.label)}에서 시작되는<br>당신만의 ${esc(mood.label)} 여행을 담았어요.</p><button class="l-btn" data-action="passport">나의 여권 확인하기 ↗</button><br><button class="quiet-link" data-action="taste-edit">취향 다시 선택하기</button>`;
+  $('#journey').classList.add('is-complete');$('#journey').setAttribute('aria-labelledby','result-title');
+  $('#taste-form').hidden=true;
+  const result=$('#taste-result');result.hidden=false;result.innerHTML=tasteResultMarkup(state);
 }
 function renderStory(){const box=$('#story-copy');if(box)box.innerHTML=brand.story.map(s=>`<article class="story-paragraph"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></article>`).join('');updateRibbon();}
 function updateRibbon(){const b=$('.secret-ribbon');if(!b)return;const found=store.get().ribbonFound;b.classList.toggle('found',found);b.setAttribute('aria-label',found?'발견한 루미노의 리본 다시 보기':'편지의 숨겨진 리본 풀기');if(found)$('#ribbon-message').textContent='사랑스러운 비밀을 발견했어요. CUTE 스탬프가 여권에 담겼어요!';}
@@ -234,7 +239,7 @@ document.addEventListener('click',event=>{
   else if(action==='download-photo')downloadPhoto(id);
   else if(action==='filter'){galleryFilter=button.dataset.category;renderGallery();$(`[data-category="${galleryFilter}"]`)?.focus({preventScroll:true});}
   else if(action==='taste-back'){tasteStep=Math.max(0,tasteStep-1);renderTaste();$('#taste-form input')?.focus({preventScroll:true});}
-  else if(action==='taste-edit'){tasteStep=0;renderTaste();}
+  else if(action==='taste-edit'){tasteStep=0;renderTaste();$('#journey').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});$('#taste-form input')?.focus({preventScroll:true});}
   else if(action==='ribbon'){const r=$('#story-end')?.getBoundingClientRect();if(!store.get().storyRead&&r&&r.top<innerHeight&&r.bottom>0)store.update({storyRead:true});if(!store.get().storyRead){toast('브랜드 편지를 읽고 마지막 리본을 풀어주세요.');return;}const found=store.get().ribbonFound;store.update({ribbonFound:true});if(found)toast('이미 발견한 사랑스러운 비밀이에요!');}
   else if(action==='stamp-guide'){selectedStamp=id;renderPassport();const row=$('#mission-'+id);row?.scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'nearest'});$('button',row)?.focus({preventScroll:true});}
   else if(action==='mission'){const stamp=stamps.find(item=>item.id===id);if(stamp)goMission(stamp);}
@@ -263,7 +268,7 @@ document.addEventListener('input',event=>{
 });
 document.addEventListener('change',event=>{
   if(event.target.id==='traveler-name'){store.update({traveler:event.target.value});return;}
-  if(event.target.matches('#taste-form input[type="radio"]')){const q=questions[tasteStep];store.update({answers:{...store.get().answers,[q.id]:event.target.value}});$('#taste-form button[type="submit"]').disabled=false;}
+  if(event.target.matches('#taste-form input[type="radio"]')){const q=questions[tasteStep];store.update({answers:{...store.get().answers,[q.id]:event.target.value}});$('#taste-form button[type="submit"]').disabled=false;if(q.id==='destination')$('#taste-preview').innerHTML=tastePreviewMarkup(store.get().answers);}
 });
 $('#taste-form')?.addEventListener('submit',event=>{event.preventDefault();const q=questions[tasteStep];if(!questions[tasteStep].options.some(o=>o.value===store.get().answers[q.id]))return;if(tasteStep<2){tasteStep++;renderTaste();$('#taste-form input')?.focus({preventScroll:true});}else{store.update({tasteComplete:true});renderTasteResult();}});
 $('#main-navigation')?.addEventListener('click',event=>{if(event.target.closest('a'))menuClose();});

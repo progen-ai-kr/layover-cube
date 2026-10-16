@@ -110,7 +110,8 @@ html.low-effects *,html.low-effects *::before,html.low-effects *::after{animatio
 
 /* 같은 사진 배경 위에서 리본·덮개·편지를 연속적으로 움직입니다. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-.l-dialog.intro-dialog{width:100%;height:100dvh;max-height:100dvh;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:var(--pink-paper);overflow:hidden;isolation:isolate}
+.l-dialog.intro-dialog{width:100%;height:100dvh;max-height:100dvh;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:var(--pink-paper);overflow:clip;isolation:isolate}
+.l-dialog.intro-dialog[open]{animation:none}
 .invitation-ambient{position:absolute;inset:-35px;z-index:-1;overflow:hidden;background:var(--pink-paper)}
 .invitation-ambient img{width:100%;height:100%;object-fit:cover;filter:blur(24px);opacity:.65}
 .invitation-ambient::after{content:'';position:absolute;inset:0;background:color-mix(in srgb,var(--pink-paper) 25%,transparent)}
@@ -138,9 +139,6 @@ html.low-effects *,html.low-effects *::before,html.low-effects *::after{animatio
 .invitation-letter-copy .invitation-welcome{font-family:var(--font-main)!important;font-size:max(9px,1.2cqw)!important;margin-top:2cqw;color:var(--burgundy)}
 .invitation-ribbon{position:absolute;z-index:6;left:14%;top:42%;width:72%;aspect-ratio:1.5;pointer-events:none;transform-origin:50% 34%}
 .invitation-ribbon img{width:100%;height:100%}
-.ribbon-left{mask-image:linear-gradient(90deg,black 41%,transparent 44%)}
-.ribbon-right{mask-image:linear-gradient(90deg,transparent 56%,black 59%)}
-.ribbon-seal{clip-path:ellipse(9% 14% at 50% 34%)}
 .invitation-address{position:absolute;z-index:4;top:67.5%;left:28%;width:44%;text-align:center;pointer-events:none;color:var(--deep-ink)}
 .invitation-address p{font:500 max(8px,1.25cqw)/1.4 var(--font-serif);letter-spacing:.1em}
 .invitation-address h2{font:500 3cqw/1.05 var(--font-serif);margin-top:.3cqw;letter-spacing:-.02em}
@@ -319,3 +317,154 @@ html.low-effects *,html.low-effects *::before,html.low-effects *::after{animatio
 @media(min-width:1100px){.chapter-map{grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}.chapter-postcard header{min-height:105px;align-items:start;gap:8px}.chapter-postcard header>.stamp{width:56px;height:56px}.chapter-postcard header h3{font-size:15px}.chapter-postcard header p:not(.mission-location){font-size:11px}.chapter-photo>img{height:245px}.chapter-photo-caption{font-size:18px}.chapter-postcard-action .quiet-link{font-size:11px}.chapter-postcard+.chapter-postcard::before{content:'›';position:absolute;left:-16px;top:60%;font:30px var(--font-serif);color:var(--rose)}}
 
 .card-dialog .dialog-close{position:sticky;float:right;top:0;margin:-20px -10px -30px 0;z-index:10}
+
+/* YOUR JOURNEY: 실제 선택으로 채워지는 여행 엽서와 다섯 가지 기록 */
+.journey-page .taste-chapter{padding-top:40px;gap:35px}
+.journey-page .taste-heading h1{font-size:clamp(42px,5vw,65px);line-height:1.08;margin:16px 0}
+.journey-page .taste-heading>.script{font-size:27px;line-height:1.4}
+.journey-page .taste-heading>p:not(.eyebrow):not(.script){font-size:13px;line-height:1.9}
+.taste-preview{margin:28px 0 8px;max-width:420px;text-align:center}
+.taste-preview-photos{display:flex;align-items:center;padding:10px 5px}
+.taste-preview-photos figure{width:39%;flex-shrink:0;padding:6px 6px 10px;background:var(--paper);border:1px solid var(--rose-line);box-shadow:0 5px 15px var(--shadow-tint);transform:rotate(-8deg)}
+.taste-preview-photos figure+figure{margin-left:-9%;transform:rotate(4deg);z-index:1}
+.taste-preview-photos figure:nth-child(3){transform:rotate(10deg);z-index:0}
+.taste-preview-photos img{width:100%;height:115px;object-fit:cover}
+.taste-preview-photos figcaption{font-size:9px;margin-top:6px}
+.taste-preview-photos.has-destination{justify-content:center}
+.taste-preview-photos.has-destination figure{width:68%;transform:rotate(-4deg)}
+.taste-preview-photos.has-destination img{height:150px}
+.taste-preview>.script{display:block;font-size:24px;margin-top:12px}
+.journey-page .taste-paper{padding:26px 20px;background:linear-gradient(var(--cream-glow),var(--cream-glow)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%;box-shadow:0 12px 35px var(--shadow-tint),5px 6px 0 var(--pink-paper)}
+.journey-page .taste-progress{font-size:8px;gap:8px}
+.journey-page .taste-paper legend{font-size:20px}
+.journey-page .taste-option{min-height:82px;background:var(--paper);padding:12px;gap:10px}
+.journey-page .taste-option:has(input:checked){background:var(--pink-paper);outline:1px solid var(--rose)}
+.journey-page .taste-option:has(input:focus-visible){outline:2px solid var(--burgundy);outline-offset:3px}
+.journey-page .taste-option>span{font-size:14px}.journey-page .taste-option small{font-size:11px}
+.journey-page .taste-option img{width:80px;height:80px}
+.journey-page .taste-actions{flex-wrap:wrap}.journey-page .taste-actions .l-btn{font-size:12px}
+.journey-page .taste-actions .eyebrow{font-size:8px}
+.journey-page .taste-chapter.is-complete{display:block;padding-top:28px}
+.taste-chapter.is-complete>.taste-heading,.taste-chapter.is-complete .taste-progress{display:none}
+.journey-page .taste-chapter.is-complete>.taste-paper{background:none;border:0;box-shadow:none;padding:0}
+.result-heading{text-align:center;margin-bottom:32px}
+.result-heading h1{font-size:clamp(38px,5vw,62px);line-height:1.1;margin:12px 0 15px}
+.result-heading>p:last-child{font-size:13px;line-height:1.9}
+.result-postcard{padding:10px;background:var(--paper);border:1px solid var(--rose-line);box-shadow:0 18px 40px var(--shadow-tint);position:relative;isolation:isolate}
+.result-postcard::before{content:'';position:absolute;inset:5px -5px -7px 5px;border:1px solid var(--rose-line);background:var(--pink-paper);transform:rotate(1deg);z-index:-1}
+.result-landscape{position:relative;min-width:0;height:390px;overflow:hidden}
+.result-destination{width:100%;height:100%;object-fit:cover}
+.result-location{position:absolute;top:16px;left:16px;right:16px;background:var(--cream-glow);border:1px solid var(--rose-line);padding:11px 14px;backdrop-filter:blur(4px)}
+.result-location small{display:block;font-size:8px;letter-spacing:.15em}
+.result-location strong{display:block;font:500 18px/1.7 var(--font-main);margin-top:3px}
+.result-photo-note{position:absolute;right:15px;top:130px;background:var(--paper);padding:7px 14px;transform:rotate(7deg);font-size:24px;box-shadow:0 4px 12px var(--shadow-tint)}
+.result-keepsakes{position:absolute;inset:auto 12px 19px;display:flex;justify-content:center;align-items:end;gap:12px}
+.result-keepsake{width:46%;max-width:190px;min-width:0;display:block;text-align:center;text-decoration:none;padding:6px 6px 9px;background:var(--paper);border:1px solid var(--rose-line);box-shadow:0 5px 20px var(--shadow-tint);color:var(--burgundy);transform:rotate(-6deg);transition:transform .25s}
+.result-keepsake:nth-child(2){transform:rotate(7deg)}
+.result-keepsake:hover{transform:rotate(0) translateY(-5px)}
+.result-keepsake img{width:100%;height:130px;object-fit:cover;object-position:center 28%}
+.result-keepsake>span{display:block;font-size:7px;letter-spacing:.08em;margin-top:8px}
+.result-keepsake>small{display:block;font-size:10px;line-height:1.5;margin-top:4px;overflow-wrap:anywhere}
+.result-keepsake.is-empty{min-height:170px;padding:22px 10px;border-style:dashed;display:flex;align-items:center;flex-direction:column;justify-content:center}
+.result-keepsake.is-empty>.icon{width:30px;height:30px;margin-bottom:8px}
+.result-letter{padding:28px 20px 25px;background:linear-gradient(color-mix(in srgb,var(--paper) 50%,transparent),color-mix(in srgb,var(--paper) 50%,transparent)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%;position:relative;text-align:left}
+.result-letter-top{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.result-letter-top>span:first-child{font:20px/1.3 var(--font-serif);letter-spacing:.16em}
+.result-letter-top small{display:block;font:7px/1.6 var(--font-main);letter-spacing:.05em;margin-top:5px}
+.result-letter-top .stamp{flex-shrink:0;width:65px;height:65px}.result-letter-top .stamp .icon{width:23px;height:23px}.result-letter-top .stamp strong{font-size:9px}.result-letter-top .stamp-orbit{font-size:3px;top:8px}
+.result-recipient{font-size:29px;line-height:1.3;margin:18px 0 13px;overflow-wrap:anywhere}
+.result-letter h2{font:500 24px/1.5 var(--font-main);letter-spacing:-.04em;margin:0 0 16px}
+.result-letter-copy{font-size:13px;line-height:2;color:var(--muted-rose)}
+.result-itinerary{margin:22px 0 18px;border-top:1px solid var(--rose-line);border-bottom:1px solid var(--rose-line);padding:12px 0}
+.result-itinerary>div{display:grid;grid-template-columns:100px 1fr;gap:10px;margin:8px 0;align-items:baseline}
+.result-itinerary dt{font-size:8px;letter-spacing:.04em}
+.result-itinerary dd{font-size:13px;line-height:1.6}
+.result-signature{font-size:29px;text-align:right}
+.result-slogan{font:italic 11px/1.7 var(--font-serif);margin-top:15px;text-align:center}
+.result-actions{text-align:center;margin-top:30px}
+.result-actions>p{font-size:12px;line-height:1.9;margin-bottom:14px}
+.result-actions>div{display:flex;gap:10px 24px;align-items:center;justify-content:center;flex-wrap:wrap}
+.result-actions .l-btn{font-size:12px}
+.journey-page .journey-map{border-top:1px solid var(--rose-line)}
+.journey-page .section-intro>p:not(.eyebrow):not(.script){font-size:13px}
+.journey-journal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px 16px;text-align:left}
+.memory-record{min-width:0;position:relative;display:flex;flex-direction:column}
+.memory-record>header{display:flex;flex-direction:column;gap:5px;font-size:10px;color:var(--muted-rose)}
+.memory-record>header .eyebrow{font-size:8px;letter-spacing:.1em}
+.memory-record>h3{font:500 14px/1.6 var(--font-main);letter-spacing:-.04em;margin:7px 0 16px}
+.memory-paper-wrap{position:relative;transform:rotate(-2deg);margin-bottom:22px}
+.memory-record:nth-child(even) .memory-paper-wrap{transform:rotate(2deg)}
+.memory-photo{display:block;width:100%;padding:6px 6px 15px;background:var(--paper);border:1px solid var(--rose-line);box-shadow:0 5px 16px var(--shadow-tint);text-align:left;color:var(--burgundy);text-decoration:none;transition:translate .25s}
+button.memory-photo:hover,a.memory-photo:hover{translate:0 -5px}
+.memory-photo>img,.memory-letter-content,.memory-empty-content{height:220px;width:100%;object-fit:cover;object-position:center 28%}
+.memory-handwriting{display:block;font-size:17px;line-height:1.4;margin:10px 3px 0;min-height:42px;padding-right:15px}
+.memory-postmark{position:absolute;right:-5px;bottom:-9px;transform:rotate(10deg);pointer-events:none}
+.memory-postmark .stamp{width:46px;height:46px;background:var(--paper)}
+.memory-postmark .stamp .icon{width:16px;height:16px;margin-top:4px}.memory-postmark .stamp strong{font-size:6px}.memory-postmark .stamp-orbit{font-size:2px;top:6px;letter-spacing:.3px}.memory-postmark .stamp-stars{font-size:4px}
+.memory-letter-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;background:url('images/lumino-invitation-paper-v2.webp') center/100% 100%;padding:10px 6px;font-size:11px;line-height:1.8}
+.memory-letter-content>.script{font-size:18px;line-height:1.2}
+.memory-letter-content>.icon{width:18px;height:18px;flex-shrink:0}
+.memory-letter-content>small{font-size:6px}
+.memory-empty-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px dashed var(--rose-line);padding:15px 8px;text-align:center;background:var(--pink-paper)}
+.memory-empty-content>.icon{width:28px;height:28px;color:var(--muted-rose)}
+.memory-empty-content>strong{font:500 12px/1.7 var(--font-main)}
+.memory-empty-content>small{font-size:10px;line-height:1.8}
+.memory-record.is-empty .memory-postmark{display:none}
+.memory-description h4{font:500 14px/1.6 var(--font-main);letter-spacing:-.03em;overflow-wrap:anywhere}
+.memory-description p{font-size:11px;line-height:1.8;margin:7px 0 10px;color:var(--muted-rose)}
+.memory-record>.quiet-link{margin-top:auto;align-self:start;font-size:11px;min-height:44px;gap:5px}
+.journal-summary{margin-top:40px;padding:25px 15px;border-top:1px dashed var(--rose-line);text-align:center}
+.journal-summary>p{font-size:9px;letter-spacing:.12em}.journal-summary strong{font:30px/1.3 var(--font-serif);letter-spacing:0;margin-right:10px}
+.journal-summary>span{display:block;font-size:12px;line-height:1.8;margin:12px 0 17px}
+.journal-summary>div{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 25px}
+.journal-summary .l-btn{font-size:12px}
+@media(min-width:720px){
+ .journey-page .taste-chapter{grid-template-columns:.85fr 1.15fr;gap:40px;padding-top:55px}
+ .journey-page .taste-paper{padding:35px 28px}
+ .taste-preview-photos img{height:140px}
+ .taste-preview-photos.has-destination img{height:190px}
+ .result-postcard{display:grid;grid-template-columns:1.05fr 1fr;padding:14px;transform:rotate(-.8deg)}
+ .result-heading{margin-bottom:40px}.result-letter{padding:30px 25px}
+ .result-landscape{height:100%;min-height:570px}
+ .result-keepsakes{gap:15px;inset:auto 18px 30px}
+ .result-keepsake img{height:155px}.result-keepsake>small{font-size:11px}
+ .result-location{top:25px;left:20px;right:20px}
+ .result-photo-note{top:165px}
+ .result-recipient{font-size:32px}
+ .result-letter h2{font-size:26px}
+ .result-letter-copy{font-size:13px}
+ .result-signature{font-size:32px}
+ .journey-journal{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 25px}
+ .memory-record>h3{font-size:16px}.memory-record>header{flex-direction:row;justify-content:space-between}
+ .memory-photo>img,.memory-letter-content,.memory-empty-content{height:235px}
+ .memory-handwriting{font-size:21px}.memory-letter-content{font-size:14px;gap:8px;padding:12px 6px}
+ .memory-letter-content>.icon{width:20px;height:20px}
+ .memory-letter-content>.script{font-size:26px}.memory-letter-content>small{font-size:8px}
+ .memory-postmark .stamp{width:58px;height:58px}.memory-postmark .stamp .icon{width:20px;height:20px}.memory-postmark .stamp strong{font-size:8px}.memory-postmark .stamp-orbit{font-size:2.6px;top:7px}
+ .memory-description h4{font-size:16px}.memory-description p{font-size:12px}
+}
+@media(min-width:1100px){
+ .journey-page .taste-chapter{gap:60px}.journey-page .taste-paper{padding:40px 30px}
+ .journey-page .destination-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+ .journey-page .destination-options .taste-option{display:flex;flex-direction:column;align-items:start;padding:7px 7px 12px;min-width:0;gap:10px}
+ .journey-page .destination-options .taste-option img{width:100%;height:135px}
+ .journey-page .destination-options .taste-option>span{font-size:13px;padding:0 3px;min-height:88px}
+ .journey-page .destination-options .taste-option small{font-size:10px;margin-top:5px}
+ .journey-page .destination-options .taste-option input{margin:0 auto}
+ .result-letter{padding:36px 48px}
+ .result-letter h2{font-size:29px}.result-letter-copy{font-size:14px}
+ .result-location{right:auto;min-width:250px;top:30px;left:30px}
+ .result-photo-note{top:160px;right:30px;font-size:30px}
+ .result-keepsakes{justify-content:flex-end;right:35px;gap:20px}
+ .result-keepsake img{height:190px}
+ .result-recipient{font-size:38px;margin:20px 0 16px}
+ .result-letter-top .stamp{width:78px;height:78px}.result-letter-top .stamp .icon{width:27px;height:27px}.result-letter-top .stamp strong{font-size:11px}.result-letter-top .stamp-orbit{font-size:3.5px}
+ .result-itinerary{margin-top:25px}.result-itinerary>div{grid-template-columns:120px 1fr}
+ .result-itinerary dd{font-size:14px}
+ .journey-journal{grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
+ .memory-record>header{flex-direction:column;gap:4px}
+ .memory-photo>img,.memory-letter-content,.memory-empty-content{height:245px}
+ .memory-handwriting{font-size:20px;min-height:50px}
+ .memory-record>.quiet-link{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){.result-keepsake,.memory-photo{transition:none}}
