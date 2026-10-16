@@ -72,17 +72,20 @@
 .hero-starlight i { position:absolute; font:normal 26px var(--font-serif); animation:world-twinkle 4s ease-in-out infinite alternate; text-shadow:0 0 12px var(--cream); }
 .hero-starlight i:nth-child(1) { left:12%; top:52%; }.hero-starlight i:nth-child(2) { left:61%; top:18%; animation-delay:1s; }.hero-starlight i:nth-child(3) { right:10%; bottom:17%; animation-delay:2s; }
 @keyframes world-twinkle { from{opacity:.25;scale:.65} to{opacity:1;scale:1.2} }
-.love-strip { padding:14px 20px; font-size:9px; background:var(--pink-paper); border-block:3px double var(--rose-line); }
+/* 섹션마다 배경판을 쌓지 않고 공통 배경 위에 사진과 텍스트를 배치합니다. */
+.love-strip { padding:14px 20px; font-size:9px; background:none; border:0; }
 #little-journey { padding-top:65px; }
 .chapter-photo { background:var(--cream); box-shadow:0 8px 18px var(--shadow-tint); }
 .chapter-postcard-action>span { color:var(--burgundy); }
-.home-editorial { border:0; padding:45px 25px; background:var(--paper) url('images/lumino-world-paper.webp') center/100% 100%; }
+.home-editorial { border:0; padding:45px 25px; background:none; }
 .home-editorial>div { padding:15px 10px; text-align:center; }
 .home-editorial .quiet-link { margin-inline:auto; }
 .home-editorial-photo { margin:15px; padding:10px 10px 25px; }
-.home-destinations { background:var(--world-pink); border-block:3px double var(--rose-line); }
-.home-directory>a { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; border:0; padding:50px 30px; }
-.closing-note { text-align:center; background:var(--paper) url('images/lumino-world-paper.webp') center/cover; padding:65px 35px; margin-bottom:55px; }
+.home-destinations { background:none; border:0; }
+.lumino-site .home-directory { padding-block:35px; gap:20px; }
+.home-directory>a { background:none; border:0; padding:20px 10px; }
+.home-directory strong { font-size:clamp(32px,4vw,44px); }
+.closing-note { text-align:center; background:none; padding:55px 30px; margin-bottom:30px; }
 .closing-note h2 { font-family:var(--font-main); font-size:clamp(23px,3vw,34px); line-height:1.6; }
 
 /* 공통 미션 안내는 여행 티켓처럼, 해야 할 행동은 바로 읽히게. */
@@ -92,7 +95,7 @@
 .breadcrumb { max-width:1280px; padding-top:6px; font-size:9px; }
 
 /* 컬렉션: 옷 자체가 중심인 겹친 화보 페이지. 운영 상품은 그대로 연결합니다. */
-.lumino-site.legacy-page .world-collection { display:grid; grid-template-columns:1fr; padding:40px 25px 35px; gap:20px; background:var(--paper) url('images/lumino-world-paper.webp') center/cover; min-height:0; border-bottom:3px double var(--rose-line); }
+.lumino-site.legacy-page .world-collection { display:grid; grid-template-columns:1fr; padding:40px 25px 35px; gap:20px; background:none; min-height:0; border:0; }
 .world-collection-copy { text-align:center; min-width:0; }
 .world-heading-ornament { display:block; color:var(--rose); margin:15px auto 6px; }
 .world-heading-ornament .icon { width:33px; height:33px; }
@@ -162,8 +165,8 @@
 .ribbon-hint { font-size:11px; }
 .secret-ribbon { background:transparent; padding:14px 5px; border:0; width:100%; }
 .secret-ribbon>.icon { width:60px; height:45px; }.secret-ribbon>span:last-child { font-size:12px; }
-.legacy-page .section.story-layout { background:var(--cream); padding:35px 25px; border:1px solid var(--rose-line); box-shadow:0 8px 22px var(--shadow-tint); margin-block:30px; }
-.legacy-page .philosophy { background:var(--paper) url('images/lumino-world-paper.webp') center/cover!important; padding:55px 30px!important; border:0!important; }
+.legacy-page .section.story-layout { background:none; padding:35px 25px; border:0; box-shadow:none; margin-block:30px; }
+.legacy-page .philosophy { background:none!important; padding:55px 30px!important; border:0!important; }
 .legacy-page .audience-grid article { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:35px 25px; transform:rotate(-1deg); }
 .legacy-page .audience-grid article:nth-child(2) { transform:rotate(1deg); }
 
@@ -173,7 +176,7 @@
 .journey-page .journey-map { border:0; }
 .result-postcard { box-shadow:0 18px 35px color-mix(in srgb,var(--burgundy) 19%,transparent); }
 .result-heading h1 { color:var(--world-ink); }
-.journal-summary { background:var(--cream); border-block:1px dashed var(--rose-line); }
+.journal-summary { background:none; border:0; }
 .l-dialog:not(.intro-dialog):not(.passport-dialog):not(.completion-dialog) { background:var(--paper) url('images/lumino-world-paper.webp') center/cover; border:1px solid var(--rose-line); }
 .detail-dialog .detail-picture { padding:8px; background:var(--cream); border:1px solid var(--rose-line); box-shadow:0 8px 18px var(--shadow-tint); }
 .detail-copy { padding:18px; background:var(--world-glass); }
@@ -207,7 +210,7 @@
 .lumino-site .product-carousel-footer { background:var(--cream); }
 .lumino-site .product-story { background:var(--cream); border:1px solid var(--rose-line); padding:20px; }
 .lumino-site .portfolio-shell { background:var(--cream); border:1px solid var(--rose-line); box-shadow:0 8px 25px var(--shadow-tint); padding:35px 25px; margin-block:40px; }
-.lumino-site .lookbook-head,.lumino-site .contact-hero { background:var(--paper) url('images/lumino-world-paper.webp') center/cover!important; min-height:0; padding:45px 25px; }
+.lumino-site.legacy-page .lookbook-head,.lumino-site.legacy-page .contact-hero { background:none!important; border:0; min-height:0; padding:45px 25px; }
 .lumino-site .lookbook-head h1,.lumino-site.legacy-page .contact-copy h1 { font-family:var(--font-main); font-size:clamp(28px,3.5vw,45px); line-height:1.45; }
 .lumino-site .lookbook-head .polaroid { background:var(--paper); border:1px solid var(--rose-line); border-radius:0; box-shadow:0 12px 28px var(--shadow-tint); padding:10px 10px 25px; }
 .lumino-site .lookbook-head .polaroid img { border-radius:0; }.lumino-site .lookbook-head .polaroid>span { font:28px var(--font-script); color:var(--rose); }
@@ -217,7 +220,7 @@
 .lumino-site .contact-item .contact-icon { border:1px dashed var(--rose); background:var(--pink-paper); color:var(--rose); }
 .lumino-site .contact-item .value { font-size:15px; overflow-wrap:anywhere; }
 .lumino-site .contact-item .label { color:var(--world-ink); }
-.lumino-footer { background:var(--paper) url('images/lumino-world-paper.webp') center/cover; padding:50px 30px 110px; border-top:3px double var(--rose-line); }
+.lumino-footer { background:none; padding:50px 30px 110px; border:0; }
 .footer-top,.footer-bottom { max-width:1280px; }.footer-brand p { font-size:26px; }
 .footer-business { padding:10px; background:var(--cream-glow); }
 
@@ -257,7 +260,7 @@
   .story-photo>.script { position:absolute; bottom:10px; left:10px; right:10px; text-align:center; }
   .story-letter { padding:40px 35px; }.story-paragraph h3 { font-size:25px; }.story-paragraph p { font-size:13px; }
   .story-postmark { bottom:55px; }
-  .lumino-site .lookbook-head,.lumino-site .contact-hero { padding:55px 14%; min-height:540px; gap:50px; }
+  .lumino-site.legacy-page .lookbook-head,.lumino-site.legacy-page .contact-hero { padding:55px 14%; min-height:540px; gap:50px; }
   .lumino-site .contact-dress img { max-height:420px; }.lumino-site .lookbook-head .polaroid { max-width:360px; }
   .lumino-site .product-info { padding:45px 35px; }
   .lumino-footer { padding:55px 8% 45px; }
