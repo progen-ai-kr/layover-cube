@@ -12,10 +12,12 @@
       "price": "",
       "keywords": [],
       "images": [
-        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592579703-3e31740f.png",
-        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592567429-2da45f8d.png",
-        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1792593036181-ad11b0bd.png",
-        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1792593051331-285c04f2.png"
+        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1793331582685-eeacfc8e.png",
+        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1793331590340-116d7f7a.png",
+        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1793331549364-b1e8f55a.png",
+        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1793331556853-c7e318bf.png",
+        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1793331564754-d557b15f.png",
+        "images/products/3ac98401-e616-4084-8421-f54c983f8535/1793331575857-3259c804.png"
       ],
       "buyLabel": "대여하기",
       "buyLink": "",
@@ -23,7 +25,7 @@
       "sections": [
         {
           "type": "rich_text",
-          "body": "<p><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592673380-6f134c22.png\" alt=\"메인.png\"><br></p><p><br></p><p><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592543699-a8989473.png\" alt=\"스카이3.png\"><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592876608-350adbb4.png\" alt=\"스카이1.png\"><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592971477-255da499.png\" alt=\"스카이4.png\"><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592987765-955d3408.png\" alt=\"스카이5.png\"><br></p>"
+          "body": "<p><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592673380-6f134c22.png\" alt=\"메인.png\"><br></p><p><br></p><p><img src=\"/images/products/3ac98401-e616-4084-8421-f54c983f8535/1792592543699-a8989473.png\" alt=\"스카이3.png\"><br></p><p><br></p><p><br></p><p><br></p><p><br></p><hr><p><br></p><p data-align=\"center\"><big data-brand-size=\"18\">[ 드레스 디테일 이미지 ]</big></p><p> \\!\\[5\\.png\\]\\(/images/products/3ac98401\\-e616\\-4084\\-8421\\-f54c983f8535/1793331727379\\-89644163\\.png\\)</p><p data-align=\"center\"><span data-brand-font=\"serif\">망토를 레이어드한 모습입니다</span></p><p data-align=\"center\"><br></p><p>\\!\\[1\\.png\\]\\(/images/products/3ac98401\\-e616\\-4084\\-8421\\-f54c983f8535/1793331610920\\-1be2d82e\\.png\\)</p>"
         }
       ]
     },
