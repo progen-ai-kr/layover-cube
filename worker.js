@@ -1,3 +1,4 @@
+import { normalizeSiteImages } from './data/site-images-schema.js';
 // 브랜드 관리자 API입니다. 비밀번호 원문은 저장하지 않고, 비공개 Git 설정에는 해시만 보관합니다.
 const SESSION_COOKIE = "brand_admin_session";
 const SESSION_SECONDS = 60 * 60 * 24 * 30;
@@ -17,12 +18,16 @@ export default {
       return standaloneAdminAsset(request, env, url);
     }
 
-    if (url.pathname.startsWith("/images/products/") || url.pathname.startsWith("/images/portfolio/")) {
+    if (url.pathname.startsWith("/images/products/") || url.pathname.startsWith("/images/portfolio/") || url.pathname.startsWith("/images/site/")) {
       return repositoryImageAsset(request, env, url, () => env.ASSETS.fetch(request));
     }
 
     if (url.pathname === "/portfolio.json" && env.ADMIN_STANDALONE !== "true") {
       return repositoryJsonAsset(request, env, "portfolio.json", () => env.ASSETS.fetch(request));
+    }
+
+    if (url.pathname === "/site-images.json" && env.ADMIN_STANDALONE !== "true") {
+      return repositoryJsonAsset(request, env, "site-images.json", () => env.ASSETS.fetch(request));
     }
 
     if (!url.pathname.startsWith("/api/admin/")) {
@@ -60,6 +65,10 @@ async function standaloneAdminAsset(request, env, url) {
     url.pathname === "/admin.html" ||
     url.pathname === "/admin.css" ||
     url.pathname === "/admin.js" ||
+    url.pathname === "/admin-images.js" ||
+    url.pathname === "/admin-images.css" ||
+    url.pathname === "/data/site-image-slots.js" ||
+    url.pathname === "/data/site-images-schema.js" ||
     url.pathname === "/brand-config.js" ||
     url.pathname.startsWith("/vendor/toastui/") ||
     url.pathname.startsWith("/vendor/tui-image-editor/");
@@ -170,6 +179,24 @@ async function handleAdminApi(request, env, url) {
 
   if (path === "/api/admin/password" && request.method === "POST") {
     return changePassword(request, env, session.configFile);
+  }
+
+  // LUMINO의 디자인 이미지는 이 팀에만 저장하며 상품/룩북의 두 팀 동기화와 분리합니다.
+  if (path === "/api/admin/site-images" && request.method === "GET") {
+    const file = await readGitHubFile(env, "site-images.json", primaryRepository(env));
+    return json({ settings: normalizeSiteImages(JSON.parse(file.text)), sha: file.sha });
+  }
+  if (path === "/api/admin/site-images" && request.method === "PUT") {
+    const body = await readJson(request);
+    let settings;
+    try { settings = normalizeSiteImages(body.settings); }
+    catch (error) { return json({ error: error.message }, 400); }
+    const current = await readGitHubFile(env, "site-images.json", primaryRepository(env));
+    if (!body.expectedSha || body.expectedSha !== current.sha) {
+      return json({ error: "다른 관리자가 먼저 수정했습니다. 변경 내용을 확인한 뒤 최신 설정을 다시 불러와 주세요." }, 409);
+    }
+    const result = await writeGitHubFile(env, "site-images.json", `${JSON.stringify(settings, null, 2)}\n`, current.sha, "LUMINO 사이트 이미지 수정", primaryRepository(env));
+    return json({ ok: true, sha: result.content.sha, commitUrl: result.commit.html_url });
   }
 
   if (path === "/api/admin/catalog" && request.method === "GET") {
@@ -387,16 +414,17 @@ async function uploadImage(request, env) {
     return json({ error: "이미지는 한 장당 6MB 이하여야 합니다." }, 413);
   }
 
-  const uploadScope = request.headers.get("X-Upload-Scope") === "portfolio" ? "portfolio" : "product";
+  const requestedScope = request.headers.get("X-Upload-Scope");
+  const uploadScope = ["portfolio", "site"].includes(requestedScope) ? requestedScope : "product";
   const productId = (request.headers.get("X-Product-Id") || "common")
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "")
     .slice(0, 64) || "common";
   const unique = crypto.randomUUID().slice(0, 8);
-  const path = uploadScope === "portfolio"
+  const path = uploadScope === "site" ? `images/site/${Date.now()}-${unique}.${extensions[contentType]}` : uploadScope === "portfolio"
     ? `images/portfolio/${Date.now()}-${unique}.${extensions[contentType]}`
     : `images/products/${productId}/${Date.now()}-${unique}.${extensions[contentType]}`;
-  const repositories = githubRepositories(env);
+  const repositories = uploadScope === "site" ? [primaryRepository(env)] : githubRepositories(env);
   for (const repository of repositories.slice(1)) {
     await writeGitHubBytes(
       env,
@@ -410,7 +438,7 @@ async function uploadImage(request, env) {
     env,
     path,
     bytes,
-    uploadScope === "portfolio" ? "포트폴리오 이미지 추가" : `제품 이미지 추가: ${productId}`,
+    uploadScope === "site" ? "LUMINO 사이트 이미지 추가" : uploadScope === "portfolio" ? "포트폴리오 이미지 추가" : `제품 이미지 추가: ${productId}`,
     repositories[0]
   );
   return json({ ok: true, path });

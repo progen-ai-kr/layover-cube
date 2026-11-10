@@ -9,7 +9,9 @@
       "/api/admin/*",
       "/images/products/*",
       "/images/portfolio/*",
-      "/portfolio.json"
+      "/portfolio.json",
+      "/images/site/*",
+      "/site-images.json"
     ]
   },
   "vars": {

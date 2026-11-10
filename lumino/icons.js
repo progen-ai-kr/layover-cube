@@ -1,3 +1,4 @@
+import { customImage } from './media.js';
 const paths = {
   crown: '<path d="m4 8 4 5 4-8 4 8 4-5-2 12H6L4 8Z"/><path d="M6 17h12"/><circle cx="4" cy="6" r="1"/><circle cx="12" cy="3" r="1"/><circle cx="20" cy="6" r="1"/>',
   heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
@@ -13,4 +14,7 @@ const paths = {
   sparkle: '<path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z"/>'
 };
 export const icon = (name, className = '') => `<svg class="icon ${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.sparkle}</svg>`;
-export const stampMarkup = (stamp, earned, small = false) => `<span class="stamp ${stamp.color} ${earned ? 'earned' : 'unearned'} ${small ? 'small-stamp' : ''}"><span class="stamp-orbit">LUMINO · LITTLE JOURNEY</span>${icon(stamp.icon)}<strong>${stamp.name}</strong><span class="stamp-stars">✦ · ✦</span></span>`;
+export const stampMarkup = (stamp, earned, small = false) => `<span class="stamp ${stamp.color} ${earned ? 'earned' : 'unearned'} ${small ? 'small-stamp' : ''}"><span class="stamp-orbit">LUMINO · LITTLE JOURNEY</span>${stampIcon(stamp)}<strong>${stamp.name}</strong><span class="stamp-stars">✦ · ✦</span></span>`;
+
+// 등록된 스탬프 문양도 기존 도장 크기와 획득 상태를 유지합니다.
+export const stampIcon = stamp => customImage(`stamp-${stamp.id}`) ? `<img class="icon stamp-custom-icon" src="${customImage(`stamp-${stamp.id}`)}" alt="">` : icon(stamp.icon);

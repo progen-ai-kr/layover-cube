@@ -31,6 +31,7 @@
     uploading: 0,
   };
   let toastTimer;
+  let imageManager, imageManagerPromise;
   let detailPreviewMedia;
   let detailPreviewMediaHandler;
   let detailImageCandidate;
@@ -137,6 +138,7 @@
     elements.passwordForm.addEventListener("submit", handlePasswordChange);
     elements.passwordCancel.addEventListener("click", closePasswordDialog);
     elements.siteView.addEventListener("click", (event) => {
+      if (state.activeSection === "images") return;
       const portfolio = state.activeSection === "portfolio";
       handleSiteChoice(event, portfolio ? "portfolio.html" : "products.html", "사이트를 확인할 팀 선택");
     });
@@ -314,6 +316,8 @@
     state.portfolio = { body: "" };
     state.portfolioSha = "";
     state.currentId = "";
+    state.activeSection = "products";
+    imageManager?.reset();
     destroyToastEditor("detail");
     destroyToastEditor("portfolio");
     if (elements.passwordDialog.open) elements.passwordDialog.close();
@@ -364,17 +368,19 @@
   }
 
   function switchAdminSection(section, scroll = true) {
-    const next = section === "portfolio" ? "portfolio" : "products";
+    const next = ["portfolio", "images"].includes(section) ? section : "products";
     state.activeSection = next;
     const portfolio = next === "portfolio";
-    elements.productAdminView.hidden = portfolio;
+    elements.productAdminView.hidden = next !== "products";
     elements.portfolioAdminView.hidden = !portfolio;
+    $("#siteImagesAdminView").hidden = next !== "images";
+    if (next === "images") openSiteImages();
     elements.adminTabs.forEach((button) => {
       const active = button.dataset.adminTab === next;
       button.classList.toggle("active", active);
       button.setAttribute("aria-selected", String(active));
     });
-    elements.siteView.href = sitePageUrl(portfolio ? "portfolio.html" : "products.html");
+    elements.siteView.href = sitePageUrl(next === "images" ? "index.html" : portfolio ? "portfolio.html" : "products.html");
     elements.siteView.textContent = portfolio ? "포트폴리오 보기 ↗" : "사이트 보기 ↗";
     document.body.classList.toggle("portfolio-admin-open", portfolio);
     updateSaveState();
@@ -382,7 +388,22 @@
   }
 
   function hasUnsavedChanges() {
-    return state.dirty || state.portfolioDirty;
+    return state.dirty || state.portfolioDirty || imageManager?.isDirty() || imageManager?.isBusy();
+  }
+
+  function openSiteImages() {
+    if (imageManager) { imageManager.open();return; }
+    if (imageManagerPromise) return;
+    const root = $("#siteImagesAdminView");
+    root.textContent = "이미지 관리 화면을 준비하고 있습니다.";
+    imageManagerPromise = import("./admin-images.js").then(({ createImageManager }) => {
+      root.replaceChildren();
+      imageManager = createImageManager({ root, api, prepareImage, onChange:updateSaveState, showToast, siteUrl:sitePageUrl("index.html") });
+      if (state.activeSection === "images") imageManager.open();
+    }).catch(() => {
+      root.textContent = "화면을 불러오지 못했습니다. 사이트 이미지 메뉴를 다시 눌러주세요.";
+      imageManagerPromise = null;
+    });
   }
 
   function currentProduct() {
@@ -1664,13 +1685,16 @@
 
   function updateSaveState() {
     elements.adminTabs.forEach((button) => {
-      const dirty = button.dataset.adminTab === "products" ? state.dirty : state.portfolioDirty;
+      const dirty = button.dataset.adminTab === "images" ? imageManager?.isDirty() : button.dataset.adminTab === "products" ? state.dirty : state.portfolioDirty;
       button.classList.toggle("has-changes", dirty);
     });
-    if (state.uploading) {
+    if (state.activeSection === "images" && imageManager?.isBusy()) {
+      elements.saveState.textContent = "사이트 이미지 처리 중";
+      elements.saveState.classList.add("dirty");
+    } else if (state.uploading) {
       elements.saveState.textContent = `이미지 업로드 중 ${state.uploading}`;
       elements.saveState.classList.add("dirty");
-    } else if (state.activeSection === "products" ? state.dirty : state.portfolioDirty) {
+    } else if (state.activeSection === "images" ? imageManager?.isDirty() : state.activeSection === "products" ? state.dirty : state.portfolioDirty) {
       elements.saveState.textContent = "저장하지 않은 변경사항";
       elements.saveState.classList.add("dirty");
     } else {

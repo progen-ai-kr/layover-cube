@@ -1,3 +1,4 @@
+import { asset } from './media.js';
 // 운영 상품은 기존 catalog.js의 안전한 공개 로더를 그대로 사용합니다.
 let catalogReady;
 let productsPromise;
@@ -18,7 +19,7 @@ export function loadProductLooks() {
     return products.map(product => ({
       id: `product:${product.id}`, productId: product.id,
       title: product.name, description: product.summary || '',
-      image: api.safeImageUrl(product.images?.[0]) || 'images/lumino-hero.jpg',
+      image: api.safeImageUrl(product.images?.[0]) || asset('images/lumino-hero.jpg'),
       category: product.category || product.label || 'COLLECTION',
       href: `product.html?id=${encodeURIComponent(product.id)}`
     }));
