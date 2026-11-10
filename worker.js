@@ -51,6 +51,10 @@ async function standaloneAdminAsset(request, env, url) {
 
   if (url.pathname.startsWith("/images/")) {
     return repositoryImageAsset(request, env, url, async () => {
+      // 로고처럼 배포에 포함된 기본 이미지는 같은 Worker의 정적 자산에서 읽습니다.
+      // 공개 Worker로 다시 요청하면 Cloudflare의 Worker 간 fetch 제한(1042)에 걸릴 수 있습니다.
+      const bundledImage = await env.ASSETS.fetch(request);
+      if (bundledImage.ok) return bundledImage;
       if (!env.PUBLIC_SITE_URL) return new Response("이미지를 찾을 수 없습니다.", { status: 404 });
       try {
         const target = new URL(url.pathname + url.search, `${String(env.PUBLIC_SITE_URL).replace(/\/+$/, "")}/`);
