@@ -1,3 +1,4 @@
+import { applySiteImages } from './media.js';
 import { collection } from '../data/collection.js';
 import { gallery, galleryCategories } from '../data/gallery.js';
 import { stamps } from '../data/stamps.js';
@@ -33,6 +34,7 @@ const awardQueue=[];
 let awarding=false;
 renderChrome();
 renderWorld();
+applySiteImages();
 let productLooks = store.get().productLooks;
 const allLooks = () => [...collection, ...store.get().productLooks];
 $$('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon);});
@@ -220,7 +222,7 @@ async function shareCard(){
   catch(error){if(error.name==='AbortError')return;}
   downloadBlob(cardBlob,'my-lumino-journey.png');$('.card-status').textContent='이 브라우저에서는 이미지 공유를 지원하지 않아 PNG로 저장했어요. 저장한 사진을 SNS에 올려주세요.';
 }
-async function downloadPhoto(id){const item=gallery.find(g=>g.id===id);if(!item)return;try{const response=await fetch(item.image);if(!response.ok)throw new Error();downloadBlob(await response.blob(),`lumino-${id}.${item.image.endsWith('.webp')?'webp':'jpg'}`);toast('사진을 다운로드했어요.');}catch{toast('사진을 저장하지 못했어요. 연결 상태를 확인해주세요.');}}
+async function downloadPhoto(id){const item=gallery.find(g=>g.id===id);if(!item)return;try{const response=await fetch(item.image);if(!response.ok)throw new Error();const blob=await response.blob();const extension=({ 'image/png':'png','image/webp':'webp','image/gif':'gif','image/avif':'avif','image/jpeg':'jpg' })[blob.type] || item.image.split('.').pop();downloadBlob(blob,`lumino-${id}.${extension}`);toast('사진을 다운로드했어요.');}catch{toast('사진을 저장하지 못했어요. 연결 상태를 확인해주세요.');}}
 
 store.subscribe((state,awarded)=>{renderProgress();updateRibbon();if(awarded.length){awardQueue.push(...awarded);drainAwards();}});
 window.addEventListener('storage',event=>{if(event.key!==STORAGE_KEY)return;try{store.sync(JSON.parse(event.newValue));renderGallery();if(store.get().tasteComplete)renderTasteResult();else renderTaste();if($('#card-dialog').open)openCard();}catch{/* 잘못된 외부 저장 값은 무시합니다. */}});

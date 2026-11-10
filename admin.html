@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="vendor/tui-image-editor/tui-color-picker.min.css?v=20260825" />
   <link rel="stylesheet" href="vendor/tui-image-editor/tui-image-editor.min.css?v=20260825" />
   <link rel="stylesheet" href="admin.css?v=20260826-rich-editor-2" />
+  <link rel="stylesheet" href="admin-images.css?v=20261110" />
 </head>
 <body>
   <div id="loadingView" class="center-view">
@@ -43,6 +44,7 @@
         <nav class="admin-tabs" aria-label="관리 메뉴">
           <button class="admin-tab active" type="button" data-admin-tab="products" aria-selected="true">제품 관리</button>
           <button class="admin-tab" type="button" data-admin-tab="portfolio" aria-selected="false">포트폴리오</button>
+          <button class="admin-tab" type="button" data-admin-tab="images" aria-selected="false">사이트 이미지</button>
         </nav>
       </div>
       <div class="header-actions">
@@ -208,6 +210,7 @@
       </main>
     </div>
 
+    <main id="siteImagesAdminView" class="site-images-admin" hidden></main>
     <main id="portfolioAdminView" class="portfolio-admin-view" hidden>
       <form id="portfolioForm" class="portfolio-form">
         <div class="editor-toolbar portfolio-toolbar">
@@ -310,6 +313,6 @@
   <script src="vendor/toastui/ko-kr.js"></script>
   <script src="vendor/tui-image-editor/tui-color-picker.min.js?v=20260825"></script>
   <script src="vendor/tui-image-editor/tui-image-editor.min.js?v=20260825"></script>
-  <script src="admin.js?v=20260826-buy-popup-1" defer></script>
+  <script src="admin.js?v=20261110-site-images" defer></script>
 </body>
 </html>

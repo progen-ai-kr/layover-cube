@@ -1,3 +1,4 @@
+import { customImage } from './media.js';
 import { collection } from '../data/collection.js';
 import { gallery } from '../data/gallery.js';
 import { questions } from '../data/taste.js';
@@ -50,11 +51,13 @@ export async function renderTravelCard(canvas, state) {
   const get = key => css.getPropertyValue(key).trim();
   const colors = { cream:get('--cream'), burgundy:get('--burgundy'), rose:get('--rose'), pink:get('--pink'), gold:get('--gold'), blue:get('--blue-ink'), goldInk:get('--gold-ink'), shadow:get('--shadow-tint') };
   const stampImages = stamps.map(s => {
+    if (customImage(`stamp-${s.id}`)) return loadImage(customImage(`stamp-${s.id}`));
     const color = s.color === 'blue' ? colors.blue : s.color === 'gold' ? colors.goldInk : colors.rose;
     const svg = icon(s.icon).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" ').replaceAll('currentColor', color);
     return loadImage('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg));
   });
   const [background, outfitImage, galleryImage, paper, ...symbols] = await Promise.all([loadImage(destination.image), loadImage(look.image), loadImage(photo.image), loadImage(invitation.paper), ...stampImages]);
+  const logo = customImage('lumino-logo') ? await loadImage(customImage('lumino-logo')) : null;
   canvas.width = 1600;canvas.height = 1000;
   const ctx = canvas.getContext('2d');
   // 큰 화보 엽서 + 손편지 + 선택한 의상의 폴라로이드. 모든 사진은 방문자의 선택입니다.
@@ -63,7 +66,9 @@ export async function renderTravelCard(canvas, state) {
   ctx.save();ctx.globalAlpha=.25;cover(ctx,background,20,20,1560,960);ctx.restore();
   ctx.strokeStyle=colors.gold;ctx.lineWidth=2;ctx.strokeRect(26,26,1548,948);
   ctx.strokeStyle=colors.burgundy;ctx.lineWidth=1;ctx.strokeRect(34,34,1532,932);
-  ctx.textAlign='left';drawLabel(ctx,'LUMINO',70,94,450,59,colors.burgundy,'"Lumino Serif", serif');
+  ctx.textAlign='left';
+  if (logo) { const scale=Math.min(280/logo.width,80/logo.height);ctx.drawImage(logo,70,42,logo.width*scale,logo.height*scale); }
+  else drawLabel(ctx,'LUMINO',70,94,450,59,colors.burgundy,'"Lumino Serif", serif');
   drawLabel(ctx,'A Sparkling Little Journey — A Cozy and Lovely World.',390,82,1050,31,colors.burgundy,'"Lumino Script", cursive');
 
   // 여행지 사진은 엽서 가장자리에, 저장한 갤러리 사진은 가장 넓은 영역에 담습니다.

@@ -13,7 +13,7 @@
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background:linear-gradient(var(--world-glass),var(--world-glass)),url('images/lumino-world-paper.webp') center/cover no-repeat;
+  background:linear-gradient(var(--world-glass),var(--world-glass)),var(--site-image-lumino-world-paper, url('images/lumino-world-paper.webp')) center/cover no-repeat;
 }
 .lumino-site .eyebrow { background:none; border:0; border-radius:0; box-shadow:none; padding:0; color:var(--world-ink); }
 .lumino-site .section { max-width:1280px; padding-block:65px; }
@@ -127,7 +127,7 @@
 .collection-item:nth-child(2) .look-photo { transform:rotate(3deg); }.collection-item:nth-child(3) .look-photo { transform:rotate(-3deg); }
 
 /* 갤러리: 첫 화면에서 사진이 보이는 크림색 스크랩북. */
-.chapter-page:has(#gallery)::before { background:linear-gradient(var(--cream-glow),var(--cream-glow)),url('images/lumino-world-paper.webp') center/cover no-repeat; }
+.chapter-page:has(#gallery)::before { background:linear-gradient(var(--cream-glow),var(--cream-glow)),var(--site-image-lumino-world-paper, url('images/lumino-world-paper.webp')) center/cover no-repeat; }
 .gallery-chapter { background:transparent; border:0; }
 .gallery-chapter::before { display:none; }
 .gallery-chapter>.chapter { padding-top:25px; }
@@ -154,7 +154,7 @@
 .story-photo>img { height:440px; width:100%; object-fit:cover; }
 .story-photo>.script { font-size:28px; margin-top:12px; }
 .story-postmark { right:15px; bottom:35px; background:var(--cream); }
-.story-letter { background:linear-gradient(color-mix(in srgb,var(--paper) 55%,transparent),color-mix(in srgb,var(--paper) 55%,transparent)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:38px 28px; box-shadow:0 7px 25px var(--shadow-tint); border:1px solid var(--rose-line); }
+.story-letter { background:linear-gradient(color-mix(in srgb,var(--paper) 55%,transparent),color-mix(in srgb,var(--paper) 55%,transparent)),var(--site-image-lumino-invitation-paper-v2, url('images/lumino-invitation-paper-v2.webp')) center/100% 100%; padding:38px 28px; box-shadow:0 7px 25px var(--shadow-tint); border:1px solid var(--rose-line); }
 .story-letter>.eyebrow { font-size:8px; text-align:center; }
 #story-title { font:500 60px/.95 var(--font-serif); text-align:center; color:var(--logo-rose); margin:17px 0 12px; letter-spacing:-.06em; }
 #story-title>small { display:block; font:22px/1.5 var(--font-serif); letter-spacing:.08em; margin-bottom:5px; }
@@ -167,17 +167,17 @@
 .secret-ribbon>.icon { width:60px; height:45px; }.secret-ribbon>span:last-child { font-size:12px; }
 .legacy-page .section.story-layout { background:none; padding:35px 25px; border:0; box-shadow:none; margin-block:30px; }
 .legacy-page .philosophy { background:none!important; padding:55px 30px!important; border:0!important; }
-.legacy-page .audience-grid article { background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:35px 25px; transform:rotate(-1deg); }
+.legacy-page .audience-grid article { background:var(--paper) var(--site-image-lumino-invitation-paper-v2, url('images/lumino-invitation-paper-v2.webp')) center/100% 100%; padding:35px 25px; transform:rotate(-1deg); }
 .legacy-page .audience-grid article:nth-child(2) { transform:rotate(1deg); }
 
 /* 개인 여정·여권·상세 창도 같은 사진, 편지지와 도장의 표현을 공유합니다. */
 .journey-page .taste-chapter { padding-top:30px; }
-.journey-page .taste-paper { background:linear-gradient(var(--world-glass),var(--world-glass)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%; }
+.journey-page .taste-paper { background:linear-gradient(var(--world-glass),var(--world-glass)),var(--site-image-lumino-invitation-paper-v2, url('images/lumino-invitation-paper-v2.webp')) center/100% 100%; }
 .journey-page .journey-map { border:0; }
 .result-postcard { box-shadow:0 18px 35px color-mix(in srgb,var(--burgundy) 19%,transparent); }
 .result-heading h1 { color:var(--world-ink); }
 .journal-summary { background:none; border:0; }
-.l-dialog:not(.intro-dialog):not(.passport-dialog):not(.completion-dialog) { background:var(--paper) url('images/lumino-world-paper.webp') center/cover; border:1px solid var(--rose-line); }
+.l-dialog:not(.intro-dialog):not(.passport-dialog):not(.completion-dialog) { background:var(--paper) var(--site-image-lumino-world-paper, url('images/lumino-world-paper.webp')) center/cover; border:1px solid var(--rose-line); }
 .detail-dialog .detail-picture { padding:8px; background:var(--cream); border:1px solid var(--rose-line); box-shadow:0 8px 18px var(--shadow-tint); }
 .detail-copy { padding:18px; background:var(--world-glass); }
 .detail-copy h2 { font-size:40px; }.detail-copy p { font-size:13px; }
@@ -249,7 +249,7 @@
 
 /* 운영 상품 상세, 룩북, 문의 페이지에도 동일한 편집 디자인을 적용합니다. */
 .lumino-site .product-hero { gap:35px; padding-top:45px; }
-.lumino-site .product-info { background:linear-gradient(var(--world-glass),var(--world-glass)),url('images/lumino-invitation-paper-v2.webp') center/100% 100%; padding:35px 25px; border:1px solid var(--rose-line); box-shadow:0 8px 25px var(--shadow-tint); }
+.lumino-site .product-info { background:linear-gradient(var(--world-glass),var(--world-glass)),var(--site-image-lumino-invitation-paper-v2, url('images/lumino-invitation-paper-v2.webp')) center/100% 100%; padding:35px 25px; border:1px solid var(--rose-line); box-shadow:0 8px 25px var(--shadow-tint); }
 .lumino-site .product-info h1 { font-size:clamp(26px,3vw,38px); }
 .lumino-site .product-info .k,.lumino-site .product-summary { color:var(--burgundy); }
 .lumino-site .product-hero-image { padding:9px; background:var(--paper); }
@@ -286,7 +286,7 @@
   .hero-buttons { position:static; margin-top:27px; gap:16px; flex-wrap:nowrap; }
   .hero-buttons .l-btn { font-size:12px; padding:13px 18px; min-height:48px; white-space:nowrap; }
   .hero-invitation { position:static; transform:none; border:0; border-bottom:1px solid var(--rose-line); background:var(--cream-glow); margin-top:19px; font-size:11px; min-height:44px; }
-  .hero-postcard { display:block; position:absolute; right:2.5%; bottom:16%; width:100px; padding:18px 10px; background:var(--paper) url('images/lumino-invitation-paper-v2.webp') center/100% 100%; border:1px solid var(--rose-line); transform:rotate(8deg); }
+  .hero-postcard { display:block; position:absolute; right:2.5%; bottom:16%; width:100px; padding:18px 10px; background:var(--paper) var(--site-image-lumino-invitation-paper-v2, url('images/lumino-invitation-paper-v2.webp')) center/100% 100%; border:1px solid var(--rose-line); transform:rotate(8deg); }
   .hero-postcard>span { font-size:6px; }.hero-postcard p { font-size:24px; line-height:1.2; }.hero-postcard i { font-size:20px; }
   .hero-bottom { display:flex; bottom:14px; justify-content:center; }.hero-bottom>span { display:none; }.hero-bottom>a { background:var(--cream-glow); padding:6px 14px; font-size:8px; }
   .home-editorial { padding:70px 7%; gap:50px; }.home-editorial-photo img { height:500px; }
