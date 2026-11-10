@@ -4,6 +4,25 @@ import { createHmac } from 'node:crypto';
 import worker from '../worker.js';
 import { normalizeSiteImages } from '../data/site-images-schema.js';
 
+test('독립 관리자에서 기본 SVG 로고와 아이콘을 공개 Worker 재요청 없이 표시한다', async () => {
+  const originalFetch = globalThis.fetch;
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg>';
+  let externalCalls = 0;
+  globalThis.fetch = async () => { externalCalls++;return new Response('error code: 1042', {status:404}); };
+  const env = { ADMIN_STANDALONE:'true', PUBLIC_SITE_URL:'https://public.test', ASSETS:{ fetch:async request => new Response(request.method === 'HEAD' ? null : svg, {headers:{'Content-Type':'image/svg+xml'}}) } };
+  try {
+    for (const path of ['/images/lumino-logo.svg','/images/favicon.svg']) {
+      const response = await worker.fetch(new Request('https://admin.test'+path), env);
+      assert.equal(response.status,200);
+      assert.equal(response.headers.get('Content-Type'),'image/svg+xml');
+      assert.equal(await response.text(),svg);
+      const head = await worker.fetch(new Request('https://admin.test'+path,{method:'HEAD'}),env);
+      assert.equal(head.status,200);assert.equal(await head.text(),'');
+    }
+    assert.equal(externalCalls,0);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
 test('사이트 이미지 설정에는 등록된 슬롯과 같은 사이트의 업로드 경로만 저장한다', () => {
   assert.deepEqual(normalizeSiteImages({ version:1, images:{} }), { version:1, images:{} });
   for (const path of ['javascript:alert(1)', 'https://outside.test/a.png', 'images/site/../admin-config.json', 'images/site/a.svg', 'images/site/a.png" onerror="alert(1)']) {
